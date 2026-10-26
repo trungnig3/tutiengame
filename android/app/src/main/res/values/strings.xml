@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Phàm Trần Tiên Lộ</string>
+    <string name="title_activity_main">Phàm Trần Tiên Lộ</string>
+    <string name="package_name">com.phamtrantienlo.game</string>
+    <string name="custom_url_scheme">com.phamtrantienlo.game</string>
+</resources>

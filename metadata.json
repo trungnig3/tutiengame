@@ -1,0 +1,6 @@
+{
+  "name": "Phàm Trần Tiên Lộ – Con Đường Nghịch Mệnh",
+  "description": "Game nhập vai tu tiên phương Đông (Cultivation Action RPG) với thế giới mở, cốt truyện có chiều sâu, hệ thống cảnh giới, công pháp, luyện đan và chiến đấu thời gian thực.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

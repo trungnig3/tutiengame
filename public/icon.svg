@@ -1,0 +1,146 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <radialGradient id="bgGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#1e1b4b" />
+      <stop offset="70%" stop-color="#09090b" />
+      <stop offset="100%" stop-color="#030712" />
+    </radialGradient>
+    <linearGradient id="goldGleam" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fde047" />
+      <stop offset="50%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#b45309" />
+    </linearGradient>
+    <linearGradient id="cyanBlade" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="40%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#0284c7" />
+    </linearGradient>
+    <radialGradient id="yinYangGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.3" />
+      <stop offset="100%" stop-color="#38bdf8" stop-opacity="0" />
+    </radialGradient>
+
+    <!-- Vector Bagua Trigram Templates (Pure vector shapes, no system font dependency!) -->
+    <g id="barSolid">
+      <rect x="-18" y="0" width="36" height="5" rx="2.5" fill="#fbbf24" />
+    </g>
+    <g id="barBroken">
+      <rect x="-18" y="0" width="15" height="5" rx="2.5" fill="#fbbf24" />
+      <rect x="3" y="0" width="15" height="5" rx="2.5" fill="#fbbf24" />
+    </g>
+
+    <!-- 1. Qian ☰ (Top: 0deg) -->
+    <g id="trigramQian">
+      <use href="#barSolid" y="-9" />
+      <use href="#barSolid" y="0" />
+      <use href="#barSolid" y="9" />
+    </g>
+    <!-- 2. Dui ☱ (45deg) -->
+    <g id="trigramDui">
+      <use href="#barBroken" y="-9" />
+      <use href="#barSolid" y="0" />
+      <use href="#barSolid" y="9" />
+    </g>
+    <!-- 3. Li ☲ (90deg) -->
+    <g id="trigramLi">
+      <use href="#barSolid" y="-9" />
+      <use href="#barBroken" y="0" />
+      <use href="#barSolid" y="9" />
+    </g>
+    <!-- 4. Zhen ☳ (135deg) -->
+    <g id="trigramZhen">
+      <use href="#barBroken" y="-9" />
+      <use href="#barBroken" y="0" />
+      <use href="#barSolid" y="9" />
+    </g>
+    <!-- 5. Kun ☷ (180deg) -->
+    <g id="trigramKun">
+      <use href="#barBroken" y="-9" />
+      <use href="#barBroken" y="0" />
+      <use href="#barBroken" y="9" />
+    </g>
+    <!-- 6. Gen ☶ (225deg) -->
+    <g id="trigramGen">
+      <use href="#barSolid" y="-9" />
+      <use href="#barBroken" y="0" />
+      <use href="#barBroken" y="9" />
+    </g>
+    <!-- 7. Kan ☵ (270deg) -->
+    <g id="trigramKan">
+      <use href="#barBroken" y="-9" />
+      <use href="#barSolid" y="0" />
+      <use href="#barBroken" y="9" />
+    </g>
+    <!-- 8. Xun ☴ (315deg) -->
+    <g id="trigramXun">
+      <use href="#barSolid" y="-9" />
+      <use href="#barSolid" y="0" />
+      <use href="#barBroken" y="9" />
+    </g>
+  </defs>
+
+  <!-- Background -->
+  <rect width="512" height="512" rx="112" fill="url(#bgGlow)" />
+  <circle cx="256" cy="256" r="220" fill="url(#yinYangGlow)" />
+  <circle cx="256" cy="256" r="210" fill="none" stroke="url(#goldGleam)" stroke-width="4" stroke-dasharray="16 8" opacity="0.85" />
+  <circle cx="256" cy="256" r="195" fill="none" stroke="#38bdf8" stroke-width="2" opacity="0.5" />
+
+  <!-- Bagua Trigrams Ring (Pure Vector Lines) -->
+  <g transform="translate(256, 256)">
+    <!-- Qian (Top) -->
+    <use href="#trigramQian" transform="translate(0, -182)" />
+    <!-- Dui (Top Right) -->
+    <use href="#trigramDui" transform="rotate(45) translate(0, -182) rotate(-45)" />
+    <!-- Li (Right) -->
+    <use href="#trigramLi" transform="rotate(90) translate(0, -182) rotate(-90)" />
+    <!-- Zhen (Bottom Right) -->
+    <use href="#trigramZhen" transform="rotate(135) translate(0, -182) rotate(-135)" />
+    <!-- Kun (Bottom) -->
+    <use href="#trigramKun" transform="translate(0, 182)" />
+    <!-- Gen (Bottom Left) -->
+    <use href="#trigramGen" transform="rotate(225) translate(0, -182) rotate(-225)" />
+    <!-- Kan (Left) -->
+    <use href="#trigramKan" transform="rotate(270) translate(0, -182) rotate(-270)" />
+    <!-- Xun (Top Left) -->
+    <use href="#trigramXun" transform="rotate(315) translate(0, -182) rotate(-315)" />
+  </g>
+
+  <!-- Central Daoist Taiji Yin-Yang Disk -->
+  <g transform="translate(256, 256) scale(0.68)">
+    <circle cx="0" cy="0" r="100" fill="#09090b" stroke="url(#goldGleam)" stroke-width="4" />
+    <!-- Yang white half -->
+    <path d="M 0,-100 A 100,100 0 0,1 0,100 A 50,50 0 0,1 0,0 A 50,50 0 0,0 0,-100 Z" fill="#f8fafc" />
+    <!-- Small dots -->
+    <circle cx="0" cy="-50" r="16" fill="#09090b" />
+    <circle cx="0" cy="50" r="16" fill="#f8fafc" />
+  </g>
+
+  <!-- Ascending Flying Celestial Sword (Thanh Phong Kiếm) -->
+  <g transform="translate(256, 256) rotate(-35)">
+    <!-- Light Trail / Sword Aura -->
+    <polygon points="-12,120 12,120 4,-160 -4,-160" fill="url(#cyanBlade)" opacity="0.4" />
+    
+    <!-- Blade Body -->
+    <polygon points="-8,100 8,100 0,-175" fill="url(#cyanBlade)" />
+    <!-- Spine -->
+    <line x1="0" y1="100" x2="0" y2="-175" stroke="#ffffff" stroke-width="2.5" />
+
+    <!-- Crossguard (Long Nữu Kim Hộ) -->
+    <rect x="-32" y="96" width="64" height="12" rx="4" fill="url(#goldGleam)" />
+    <circle cx="0" cy="102" r="6" fill="#0284c7" />
+
+    <!-- Grip -->
+    <rect x="-6" y="108" width="12" height="34" rx="2" fill="#78350f" />
+    <!-- Pommel -->
+    <circle cx="0" cy="146" r="10" fill="url(#goldGleam)" />
+
+    <!-- Flowing Red Silk Tassel (Kiếm Tuệ) -->
+    <path d="M 0,154 Q 16,170 12,195 Q 6,215 18,235" fill="none" stroke="#dc2626" stroke-width="4" stroke-linecap="round" />
+  </g>
+
+  <!-- Title Monogram Banner with System Fonts -->
+  <g transform="translate(256, 480)">
+    <rect x="-145" y="-18" width="290" height="28" rx="14" fill="#09090b" opacity="0.85" stroke="url(#goldGleam)" stroke-width="1.5" />
+    <text x="0" y="2" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif" font-weight="900" font-size="15" fill="#fde047" text-anchor="middle" letter-spacing="2">PHÀM TRẦN TIÊN LỘ</text>
+  </g>
+</svg>

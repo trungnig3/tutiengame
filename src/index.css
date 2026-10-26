@@ -1,0 +1,71 @@
+@import "tailwindcss";
+
+@layer base {
+  html, body {
+    overscroll-behavior: none;
+    -webkit-touch-callout: none;
+  }
+
+  body {
+    font-family: 'Noto Serif', serif;
+    background-color: #0c0a09;
+    color: #e7e5e4;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  h1, h2, h3, .font-title {
+    font-family: 'Cinzel', 'Noto Serif', serif;
+    letter-spacing: 0.05em;
+  }
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(28, 25, 23, 0.8);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(180, 83, 9, 0.5);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(217, 119, 6, 0.8);
+}
+
+/* Ink wash / Spirit Qi animations */
+@keyframes qiPulse {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(56, 189, 248, 0.2), inset 0 0 10px rgba(56, 189, 248, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(56, 189, 248, 0.5), inset 0 0 15px rgba(56, 189, 248, 0.25);
+  }
+}
+
+.qi-glow {
+  animation: qiPulse 3s infinite ease-in-out;
+}
+
+@keyframes goldPulse {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(234, 179, 8, 0.25);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(234, 179, 8, 0.6);
+  }
+}
+
+.gold-glow {
+  animation: goldPulse 2.5s infinite ease-in-out;
+}
+
+/* Ancient scroll style */
+.scroll-panel {
+  background: linear-gradient(180deg, rgba(28, 25, 23, 0.95) 0%, rgba(12, 10, 9, 0.97) 100%);
+  border: 1px solid rgba(217, 119, 6, 0.35);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(180, 83, 9, 0.05);
+}
