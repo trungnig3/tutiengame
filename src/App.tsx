@@ -73,8 +73,10 @@ export default function App() {
   const [isTouchControlsVisible, setIsTouchControlsVisible] = useState<boolean>(false);
   const [isInteractionNear, setIsInteractionNear] = useState<boolean>(false);
   const [isMobileInstallOpen, setIsMobileInstallOpen] = useState<boolean>(false);
+  const [isPortrait, setIsPortrait] = useState<boolean>(false);
+  const [showRotateNotice, setShowRotateNotice] = useState<boolean>(true);
 
-  // Auto-detect mobile touch support on mount
+  // Auto-detect mobile touch support and orientation
   useEffect(() => {
     if (typeof window === 'undefined') return;
     const hasTouch = 'ontouchstart' in window || (navigator && navigator.maxTouchPoints > 0) || window.innerWidth <= 840;
@@ -82,6 +84,18 @@ export default function App() {
     if (hasTouch) {
       inputManager.setDeviceMode('touch');
     }
+
+    const checkOrientation = () => {
+      const portrait = window.innerHeight > window.innerWidth && window.innerWidth <= 840;
+      setIsPortrait(portrait);
+    };
+    checkOrientation();
+    window.addEventListener('resize', checkOrientation);
+    window.addEventListener('orientationchange', checkOrientation);
+    return () => {
+      window.removeEventListener('resize', checkOrientation);
+      window.removeEventListener('orientationchange', checkOrientation);
+    };
   }, []);
 
   const handleToggleTouchControls = useCallback(() => {
@@ -827,6 +841,23 @@ export default function App() {
               onClose={() => setChapterRewardModal(null)}
             />
           )}
+        </div>
+      )}
+
+      {/* Floating Landscape Recommendation Banner on Mobile */}
+      {isPlaying && isPortrait && showRotateNotice && (
+        <div className="absolute top-14 left-1/2 -translate-x-1/2 z-50 pointer-events-auto bg-stone-900/95 border border-amber-500/80 rounded-xl px-3.5 py-2 shadow-2xl backdrop-blur-md flex items-center gap-2 max-w-[90vw]">
+          <span className="text-base animate-spin">🔄</span>
+          <span className="text-xs text-amber-200 font-medium">
+            Hãy <b>xoay ngang điện thoại</b> để có tầm nhìn rộng và thao tác thoải mái nhất!
+          </span>
+          <button
+            onClick={() => setShowRotateNotice(false)}
+            className="text-stone-400 hover:text-white text-xs px-1.5 py-0.5 rounded bg-stone-800 shrink-0 cursor-pointer"
+            title="Đóng thông báo"
+          >
+            ✕
+          </button>
         </div>
       )}
 

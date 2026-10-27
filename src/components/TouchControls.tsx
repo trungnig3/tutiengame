@@ -120,7 +120,7 @@ export const TouchControls: React.FC<TouchControlsProps> = ({
   return (
     <div className="absolute inset-0 pointer-events-none select-none z-30 touch-none overflow-hidden">
       {/* === LEFT THUMB: VIRTUAL MOVEMENT JOYSTICK === */}
-      <div className="absolute left-6 bottom-6 pointer-events-auto">
+      <div className="absolute left-3 bottom-3 sm:left-6 sm:bottom-6 pointer-events-auto scale-80 sm:scale-90 md:scale-100 origin-bottom-left">
         <div
           ref={joystickBaseRef}
           onPointerDown={handleJoystickPointerDown}
@@ -158,7 +158,7 @@ export const TouchControls: React.FC<TouchControlsProps> = ({
       </div>
 
       {/* === RIGHT THUMB: ACTION CLUSTER (BÁT QUÁI TÁC CHIẾN CỤM) === */}
-      <div className="absolute right-6 bottom-6 pointer-events-auto flex items-end justify-end">
+      <div className="absolute right-3 bottom-3 sm:right-6 sm:bottom-6 pointer-events-auto flex items-end justify-end scale-80 sm:scale-90 md:scale-100 origin-bottom-right">
         <div className="relative w-64 h-64 touch-none" style={{ touchAction: 'none' }}>
           
           {/* 1. PRIMARY BASIC ATTACK (LMB) - Center-Right Hub */}

@@ -2886,8 +2886,8 @@ export const GameCanvas: React.FC<GameCanvasProps> = ({
         <span>2D Thủy Mặc Cổ Phong</span>
       </div>
 
-      {/* Floating 3-Step Combo Indicator - Elevated cleanly above Skill Bar (bottom-28) */}
-      <div className="absolute bottom-28 md:bottom-32 left-1/2 -translate-x-1/2 z-20 pointer-events-none flex items-center gap-2 px-4 py-1.5 rounded-full bg-stone-950/90 border border-amber-500/50 backdrop-blur-md shadow-2xl text-xs font-semibold text-amber-300">
+      {/* Floating 3-Step Combo Indicator - Visible on desktop, hidden on mobile touch screens */}
+      <div className="absolute top-16 md:bottom-32 left-1/2 -translate-x-1/2 z-20 pointer-events-none hidden md:flex items-center gap-2 px-4 py-1.5 rounded-full bg-stone-950/90 border border-amber-500/50 backdrop-blur-md shadow-2xl text-xs font-semibold text-amber-300">
         <span className="text-amber-400/90 tracking-wide font-serif">Tam Thức Kiếm Quyết:</span>
         <span
           className={`px-2.5 py-0.5 rounded-full transition-all ${
