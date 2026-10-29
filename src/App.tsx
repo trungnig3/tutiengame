@@ -536,6 +536,7 @@ export default function App() {
               onInteractionNearChange={setIsInteractionNear}
               onBossDefeated={setBossLootData}
               onToggle2DMode={() => setRenderMode('2d')}
+              touchControlsEnabled={isTouchControlsVisible}
             />
           ) : (
             <div className="relative w-full h-full">
@@ -570,6 +571,7 @@ export default function App() {
                 }}
                 onInteractionNearChange={setIsInteractionNear}
                 onBossDefeated={setBossLootData}
+                touchControlsEnabled={isTouchControlsVisible}
               />
             </div>
           )}

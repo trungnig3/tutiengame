@@ -139,188 +139,182 @@ export const HUD: React.FC<HUDProps> = ({
             </div>
           </div>
 
-          {/* Top-Right: Map Info, Game Time, Spirit Stones & System Buttons */}
-          <div className="pointer-events-auto flex items-center gap-1.5 sm:gap-2 shrink-0">
-            {/* Game Calendar / Canh Giờ */}
-            <div className="bg-stone-900/90 border border-amber-600/40 rounded-lg px-2 py-1 backdrop-blur-md shadow-lg text-right hidden lg:block">
-              <div className="text-[11px] font-bold text-amber-300 flex items-center gap-1 justify-end">
-                <Clock className="w-3.5 h-3.5 text-amber-400" />
-                {formatGameTime(player.gameTime)}
-              </div>
-              <div className="text-[9px] text-stone-400">Thời Gian Tiên Giới</div>
-            </div>
-
-            {/* Location */}
-            <div
-              className={`bg-stone-900/90 border rounded-lg px-2 sm:px-3 py-1 sm:py-1.5 backdrop-blur-md shadow-lg text-right ${
-                player.currentMapId === 'map_hac_phong_bi_canh' || player.currentMapId === 'map_ancient_ruins'
-                  ? 'border-purple-500/70 shadow-purple-950/50'
-                  : 'border-amber-600/40'
-              }`}
-            >
-              <div className="text-[10px] sm:text-xs font-bold text-amber-200 flex items-center gap-1 justify-end">
-                <MapIcon className="w-3 h-3 text-amber-400" />
-                <span className="truncate max-w-[80px] sm:max-w-none">{currentMap.name}</span>
-              </div>
-              <div className="text-[8px] sm:text-[10px] text-rose-400 font-medium hidden sm:block">{currentMap.dangerLevel}</div>
-            </div>
-
-            {/* Spirit Stones */}
-            <div className="bg-stone-900/90 border border-amber-600/40 rounded-lg px-2 sm:px-2.5 py-1 sm:py-1.5 backdrop-blur-md shadow-lg flex items-center gap-1">
-              <span className="text-amber-400 font-bold text-xs sm:text-sm">💎 {player.spiritStones}</span>
-            </div>
-
-            {/* 3D / 2D Render Mode Toggle */}
-            {onToggleRenderMode && (
-              <button
-                onClick={onToggleRenderMode}
-                className={`px-2 py-1 rounded-lg border hidden sm:flex items-center gap-1 text-[11px] font-semibold transition-colors shadow-lg cursor-pointer ${
-                  renderMode === '3d'
-                    ? 'bg-amber-950/85 border-amber-500 text-amber-200'
-                    : 'bg-stone-900/90 border-amber-600/40 text-stone-300 hover:text-amber-200 hover:bg-stone-800'
-                }`}
-                title="Chuyển đổi giữa 3D Tiên Cảnh (2.5D) và 2D Cổ Phong"
-              >
-                <Sparkles className="w-3 h-3 text-amber-400" />
-                <span>{renderMode === '3d' ? '3D' : '2D'}</span>
-              </button>
-            )}
-
-            {/* Touch Controls Toggle button */}
-            <button
-              onClick={onToggleTouchControls}
-              className={`p-1.5 sm:p-2 rounded-lg border transition-colors shadow-lg cursor-pointer ${
-                touchControlsEnabled
-                  ? 'bg-amber-950/80 border-amber-500 text-amber-300'
-                  : 'bg-stone-900/90 border-amber-600/40 text-stone-400 hover:text-amber-200 hover:bg-stone-800'
-              }`}
-              title="Bật/Tắt Cần Gạt Ảo & Phím Cảm Ứng Di Động"
-            >
-              <Smartphone className="w-4 h-4 sm:w-5 sm:h-5" />
-            </button>
-
-            {/* Audio toggle */}
-            <button
-              onClick={onToggleMusic}
-              className="p-1.5 sm:p-2 rounded-lg bg-stone-900/90 border border-amber-600/40 text-amber-200 hover:bg-stone-800 transition-colors shadow-lg cursor-pointer"
-              title="Bật/Tắt Âm Nhạc Cổ Phong"
-            >
-              {musicEnabled ? <Volume2 className="w-4 h-4 sm:w-5 sm:h-5" /> : <VolumeX className="w-4 h-4 sm:w-5 sm:h-5 text-stone-500" />}
-            </button>
-
-            {/* Menu button */}
-            <button
-              onClick={onOpenMenu}
-              className="p-1.5 sm:p-2 rounded-lg bg-stone-900/90 border border-amber-600/40 text-amber-200 hover:bg-stone-800 transition-colors shadow-lg cursor-pointer"
-              title="Cài đặt & Lưu Game"
-            >
-              <Menu className="w-4 h-4 sm:w-5 sm:h-5" />
-            </button>
-          </div>
-        </div>
-
-        {/* Mobile Quick Action Buttons Bar (Sleek row when touch mode is active) */}
-        {touchControlsEnabled && (
-          <div className="pointer-events-auto flex items-center gap-1.5 overflow-x-auto py-1 px-2 bg-stone-950/85 border border-amber-600/40 rounded-xl backdrop-blur-md shadow-xl self-end">
-            <button 
-              onClick={onOpenInventory} 
-              className="flex items-center gap-1 px-2 py-1 rounded-lg bg-stone-800/90 text-[10px] font-bold text-amber-300 border border-amber-600/40 active:scale-95 transition"
-            >
-              <span>🎒</span>
-              <span>Túi</span>
-            </button>
-            <button 
-              onClick={onOpenCharacter} 
-              className="flex items-center gap-1 px-2 py-1 rounded-lg bg-stone-800/90 text-[10px] font-bold text-amber-300 border border-amber-600/40 active:scale-95 transition"
-            >
-              <span>👤</span>
-              <span>Nhân Vật</span>
-            </button>
-            <button 
-              onClick={onOpenCultivation} 
-              className="flex items-center gap-1 px-2 py-1 rounded-lg bg-stone-800/90 text-[10px] font-bold text-cyan-300 border border-cyan-600/40 active:scale-95 transition"
-            >
-              <span>☯️</span>
-              <span>Tu Vi</span>
-            </button>
-            <button 
-              onClick={onOpenQuests} 
-              className="flex items-center gap-1 px-2 py-1 rounded-lg bg-stone-800/90 text-[10px] font-bold text-emerald-300 border border-emerald-600/40 active:scale-95 transition"
-            >
-              <span>📜</span>
-              <span>Nhiệm Vụ</span>
-            </button>
-            <button 
-              onClick={onOpenMap} 
-              className="flex items-center gap-1 px-2 py-1 rounded-lg bg-stone-800/90 text-[10px] font-bold text-purple-300 border border-purple-600/40 active:scale-95 transition"
-            >
-              <span>🗺️</span>
-              <span>Bản Đồ</span>
-            </button>
-            <button 
-              onClick={onOpenAlchemy} 
-              className="flex items-center gap-1 px-2 py-1 rounded-lg bg-stone-800/90 text-[10px] font-bold text-rose-300 border border-rose-600/40 active:scale-95 transition"
-            >
-              <span>🏺</span>
-              <span>Đan</span>
-            </button>
-            <button 
-              onClick={onOpenAchievements} 
-              className="flex items-center gap-1 px-2 py-1 rounded-lg bg-stone-800/90 text-[10px] font-bold text-yellow-300 border border-yellow-600/40 active:scale-95 transition"
-            >
-              <span>🏆</span>
-              <span>Thành Tựu</span>
-            </button>
-          </div>
-        )}
-      </div>
-
-      {/* === MIDDLE RIGHT: ACTIVE QUEST TRACKER (Collapsible so it doesn't block screen) === */}
-      {activeMainQuest && (
-        <div className="self-end pointer-events-auto mt-1 max-w-[260px] sm:max-w-xs bg-stone-900/90 border border-amber-600/40 rounded-lg p-2 sm:p-2.5 backdrop-blur-md shadow-xl text-xs space-y-1">
-          <div 
-            className="flex items-center justify-between border-b border-amber-800/40 pb-1 cursor-pointer"
-            onClick={() => setIsQuestCollapsed(prev => !prev)}
-            title="Nhấn để thu gọn / mở rộng nhiệm vụ"
-          >
-            <span className="font-bold text-amber-300 flex items-center gap-1 text-[11px] sm:text-xs">
-              <Scroll className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-amber-400" />
-              Nhiệm Vụ (Ch. {activeMainQuest.chapter})
-            </span>
-            <div className="flex items-center gap-1">
-              <span className="text-[9px] text-stone-400 hidden sm:inline">[J]</span>
-              {isQuestCollapsed ? <ChevronDown className="w-3.5 h-3.5 text-amber-400" /> : <ChevronUp className="w-3.5 h-3.5 text-amber-400" />}
-            </div>
-          </div>
-
-          {!isQuestCollapsed ? (
-            <>
-              <div className="font-semibold text-stone-200 text-[11px] sm:text-xs truncate">{activeMainQuest.title}</div>
-              <div className="space-y-1 text-stone-300 text-[10px] sm:text-[11px]">
-                {activeMainQuest.objectives.map(obj => (
-                  <div key={obj.id} className="flex items-center gap-1.5">
-                    <span className={obj.completed ? 'text-emerald-400' : 'text-stone-500'}>
-                      {obj.completed ? '✓' : '○'}
-                    </span>
-                    <span className={`truncate ${obj.completed ? 'line-through text-stone-500' : ''}`}>
-                      {obj.text}
-                    </span>
-                    {obj.targetCount > 1 && (
-                      <span className="text-amber-400 ml-auto font-mono shrink-0">
-                        ({obj.currentCount}/{obj.targetCount})
-                      </span>
-                    )}
+              {/* Top-Right: Map Info, Game Time, Spirit Stones & System Buttons */}
+              <div className="pointer-events-auto flex items-center gap-1 sm:gap-1.5 shrink-0 flex-wrap justify-end">
+                {/* Mobile Fast Feature Buttons - Only when touchControlsEnabled */}
+                {touchControlsEnabled && (
+                  <div className="flex items-center gap-0.5 sm:gap-1 bg-stone-950/80 border border-amber-600/40 rounded-lg p-0.5 backdrop-blur-md shadow-lg">
+                    <button
+                      onClick={onOpenInventory}
+                      className="px-1.5 py-1 rounded bg-stone-800/90 hover:bg-stone-700 text-[10px] sm:text-xs font-bold text-amber-300 border border-amber-600/30 active:scale-95 transition flex items-center gap-1"
+                      title="Túi Đồ Trữ Vật"
+                    >
+                      <span>🎒</span>
+                      <span className="hidden sm:inline">Túi</span>
+                    </button>
+                    <button
+                      onClick={onOpenQuests}
+                      className="px-1.5 py-1 rounded bg-stone-800/90 hover:bg-stone-700 text-[10px] sm:text-xs font-bold text-emerald-300 border border-emerald-600/30 active:scale-95 transition flex items-center gap-1"
+                      title="Nhiệm Vụ"
+                    >
+                      <span>📜</span>
+                      <span className="hidden sm:inline">NV</span>
+                    </button>
+                    <button
+                      onClick={onOpenCultivation}
+                      className="px-1.5 py-1 rounded bg-stone-800/90 hover:bg-stone-700 text-[10px] sm:text-xs font-bold text-cyan-300 border border-cyan-600/30 active:scale-95 transition flex items-center gap-1"
+                      title="Tu Vi & Công Pháp"
+                    >
+                      <span>☯️</span>
+                      <span className="hidden sm:inline">Tu Vi</span>
+                    </button>
+                    <button
+                      onClick={onOpenMap}
+                      className="px-1.5 py-1 rounded bg-stone-800/90 hover:bg-stone-700 text-[10px] sm:text-xs font-bold text-purple-300 border border-purple-600/30 active:scale-95 transition flex items-center gap-1"
+                      title="Bản Đồ"
+                    >
+                      <span>🗺️</span>
+                    </button>
                   </div>
-                ))}
+                )}
+
+                {/* Location */}
+                <div
+                  className={`bg-stone-900/90 border rounded-lg px-2 sm:px-2.5 py-1 backdrop-blur-md shadow-lg text-right ${
+                    player.currentMapId === 'map_hac_phong_bi_canh' || player.currentMapId === 'map_ancient_ruins'
+                      ? 'border-purple-500/70 shadow-purple-950/50'
+                      : 'border-amber-600/40'
+                  }`}
+                >
+                  <div className="text-[10px] sm:text-xs font-bold text-amber-200 flex items-center gap-1 justify-end">
+                    <MapIcon className="w-3 h-3 text-amber-400 shrink-0" />
+                    <span className="truncate max-w-[70px] sm:max-w-none">{currentMap.name}</span>
+                  </div>
+                </div>
+
+                {/* Spirit Stones */}
+                <div className="bg-stone-900/90 border border-amber-600/40 rounded-lg px-2 py-1 backdrop-blur-md shadow-lg flex items-center gap-1">
+                  <span className="text-amber-400 font-bold text-xs sm:text-sm">💎 {player.spiritStones}</span>
+                </div>
+
+                {/* 3D / 2D Render Mode Toggle */}
+                {onToggleRenderMode && (
+                  <button
+                    onClick={onToggleRenderMode}
+                    className={`px-1.5 sm:px-2 py-1 rounded-lg border flex items-center gap-1 text-[10px] sm:text-[11px] font-semibold transition-colors shadow-lg cursor-pointer ${
+                      renderMode === '3d'
+                        ? 'bg-amber-950/85 border-amber-500 text-amber-200'
+                        : 'bg-stone-900/90 border-amber-600/40 text-stone-300 hover:text-amber-200 hover:bg-stone-800'
+                    }`}
+                    title="Chuyển đổi giữa 3D Tiên Cảnh (2.5D) và 2D Cổ Phong"
+                  >
+                    <Sparkles className="w-3 h-3 text-amber-400" />
+                    <span>{renderMode === '3d' ? '3D' : '2D'}</span>
+                  </button>
+                )}
+
+                {/* Touch Controls Toggle button */}
+                <button
+                  onClick={onToggleTouchControls}
+                  className={`p-1.5 rounded-lg border transition-colors shadow-lg cursor-pointer ${
+                    touchControlsEnabled
+                      ? 'bg-amber-950/80 border-amber-500 text-amber-300'
+                      : 'bg-stone-900/90 border-amber-600/40 text-stone-400 hover:text-amber-200 hover:bg-stone-800'
+                  }`}
+                  title="Bật/Tắt Cần Gạt Ảo & Phím Cảm Ứng Di Động"
+                >
+                  <Smartphone className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                </button>
+
+                {/* Audio toggle */}
+                <button
+                  onClick={onToggleMusic}
+                  className="p-1.5 rounded-lg bg-stone-900/90 border border-amber-600/40 text-amber-200 hover:bg-stone-800 transition-colors shadow-lg cursor-pointer"
+                  title="Bật/Tắt Âm Nhạc Cổ Phong"
+                >
+                  {musicEnabled ? <Volume2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> : <VolumeX className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-stone-500" />}
+                </button>
+
+                {/* Menu button */}
+                <button
+                  onClick={onOpenMenu}
+                  className="p-1.5 rounded-lg bg-stone-900/90 border border-amber-600/40 text-amber-200 hover:bg-stone-800 transition-colors shadow-lg cursor-pointer"
+                  title="Cài đặt & Lưu Game"
+                >
+                  <Menu className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                </button>
               </div>
-            </>
-          ) : (
-            <div className="text-[10px] text-amber-300/80 truncate">
-              {activeMainQuest.title}: {activeMainQuest.objectives[0]?.text}
+            </div>
+
+            {/* Mobile Touch Mode: Compact Quest Tracker directly under player avatar (leaving right side completely empty) */}
+            {touchControlsEnabled && activeMainQuest && (
+              <div 
+                onClick={onOpenQuests}
+                className="pointer-events-auto max-w-[210px] bg-stone-950/90 border border-amber-600/50 rounded-lg p-1.5 backdrop-blur-md shadow-xl text-left cursor-pointer active:scale-95 transition space-y-0.5"
+                title="Nhấn để mở chi tiết Nhiệm Vụ"
+              >
+                <div className="flex items-center justify-between text-amber-300 font-bold text-[10px]">
+                  <span className="flex items-center gap-1 truncate">
+                    <Scroll className="w-3 h-3 text-amber-400 shrink-0" />
+                    <span className="truncate">NV: {activeMainQuest.title}</span>
+                  </span>
+                  <span className="text-[9px] text-amber-400/90 font-mono shrink-0 ml-1">
+                    ({activeMainQuest.objectives[0]?.currentCount || 0}/{activeMainQuest.objectives[0]?.targetCount || 1})
+                  </span>
+                </div>
+                <div className="text-[9px] text-stone-300 truncate">
+                  {activeMainQuest.objectives[0]?.text}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* === MIDDLE RIGHT: ACTIVE QUEST TRACKER (DESKTOP MODE ONLY - Collapsible) === */}
+          {!touchControlsEnabled && activeMainQuest && (
+            <div className="self-end pointer-events-auto mt-1 max-w-[260px] sm:max-w-xs bg-stone-900/90 border border-amber-600/40 rounded-lg p-2 sm:p-2.5 backdrop-blur-md shadow-xl text-xs space-y-1">
+              <div 
+                className="flex items-center justify-between border-b border-amber-800/40 pb-1 cursor-pointer"
+                onClick={() => setIsQuestCollapsed(prev => !prev)}
+                title="Nhấn để thu gọn / mở rộng nhiệm vụ"
+              >
+                <span className="font-bold text-amber-300 flex items-center gap-1 text-[11px] sm:text-xs">
+                  <Scroll className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-amber-400" />
+                  Nhiệm Vụ (Ch. {activeMainQuest.chapter})
+                </span>
+                <div className="flex items-center gap-1">
+                  <span className="text-[9px] text-stone-400 hidden sm:inline">[J]</span>
+                  {isQuestCollapsed ? <ChevronDown className="w-3.5 h-3.5 text-amber-400" /> : <ChevronUp className="w-3.5 h-3.5 text-amber-400" />}
+                </div>
+              </div>
+
+              {!isQuestCollapsed ? (
+                <>
+                  <div className="font-semibold text-stone-200 text-[11px] sm:text-xs truncate">{activeMainQuest.title}</div>
+                  <div className="space-y-1 text-stone-300 text-[10px] sm:text-[11px]">
+                    {activeMainQuest.objectives.map(obj => (
+                      <div key={obj.id} className="flex items-center gap-1.5">
+                        <span className={obj.completed ? 'text-emerald-400' : 'text-stone-500'}>
+                          {obj.completed ? '✓' : '○'}
+                        </span>
+                        <span className={`truncate ${obj.completed ? 'line-through text-stone-500' : ''}`}>
+                          {obj.text}
+                        </span>
+                        {obj.targetCount > 1 && (
+                          <span className="text-amber-400 ml-auto font-mono shrink-0">
+                            ({obj.currentCount}/{obj.targetCount})
+                          </span>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </>
+              ) : (
+                <div className="text-[10px] text-amber-300/80 truncate">
+                  {activeMainQuest.title}: {activeMainQuest.objectives[0]?.text}
+                </div>
+              )}
             </div>
           )}
-        </div>
-      )}
 
       {/* === BOTTOM ROW: DESKTOP HOTBAR & COMBAT SKILLS (HIDDEN WHEN TOUCH CONTROLS ACTIVE) === */}
       {!touchControlsEnabled && (

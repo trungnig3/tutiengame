@@ -49,6 +49,7 @@ interface GameCanvasProps {
   onOpenAchievements?: () => void;
   onInteractionNearChange?: (isNear: boolean) => void;
   onBossDefeated?: (bossLoot: BossLootData) => void;
+  touchControlsEnabled?: boolean;
 }
 
 interface AfterImage {
@@ -127,6 +128,7 @@ export const GameCanvas: React.FC<GameCanvasProps> = ({
   onOpenAchievements,
   onInteractionNearChange,
   onBossDefeated,
+  touchControlsEnabled = false,
 }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const keysRef = useRef<Record<string, boolean>>({});
@@ -2880,45 +2882,49 @@ export const GameCanvas: React.FC<GameCanvasProps> = ({
         style={{ touchAction: 'none' }}
       />
 
-      {/* 2D Thủy Mặc Mode Indicator (docked safely under portrait) */}
-      <div className="absolute top-28 left-3 z-10 pointer-events-none hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-stone-900/80 border border-amber-600/35 backdrop-blur-sm text-[11px] font-medium text-amber-200/90 shadow">
-        <span className="text-amber-400">🖌️</span>
-        <span>2D Thủy Mặc Cổ Phong</span>
-      </div>
+      {/* 2D Thủy Mặc Mode Indicator (Only on desktop large screens, hidden on touch controls) */}
+      {!touchControlsEnabled && (
+        <div className="absolute top-28 left-3 z-10 pointer-events-none hidden lg:flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-stone-900/80 border border-amber-600/35 backdrop-blur-sm text-[11px] font-medium text-amber-200/90 shadow">
+          <span className="text-amber-400">🖌️</span>
+          <span>2D Thủy Mặc Cổ Phong</span>
+        </div>
+      )}
 
-      {/* Floating 3-Step Combo Indicator - Visible on desktop, hidden on mobile touch screens */}
-      <div className="absolute top-16 md:bottom-32 left-1/2 -translate-x-1/2 z-20 pointer-events-none hidden md:flex items-center gap-2 px-4 py-1.5 rounded-full bg-stone-950/90 border border-amber-500/50 backdrop-blur-md shadow-2xl text-xs font-semibold text-amber-300">
-        <span className="text-amber-400/90 tracking-wide font-serif">Tam Thức Kiếm Quyết:</span>
-        <span
-          className={`px-2.5 py-0.5 rounded-full transition-all ${
-            activeComboStep === 1
-              ? 'bg-amber-500/30 text-amber-200 border border-amber-400/70 font-bold shadow-[0_0_8px_rgba(245,158,11,0.4)]'
-              : 'text-stone-500 border border-transparent'
-          }`}
-        >
-          1. Hoành Tảo
-        </span>
-        <span className="text-stone-600">→</span>
-        <span
-          className={`px-2.5 py-0.5 rounded-full transition-all ${
-            activeComboStep === 2
-              ? 'bg-emerald-500/30 text-emerald-200 border border-emerald-400/70 font-bold shadow-[0_0_8px_rgba(52,211,153,0.4)]'
-              : 'text-stone-500 border border-transparent'
-          }`}
-        >
-          2. Nghịch Phong
-        </span>
-        <span className="text-stone-600">→</span>
-        <span
-          className={`px-2.5 py-0.5 rounded-full transition-all ${
-            activeComboStep === 3
-              ? 'bg-yellow-500/40 text-yellow-100 border border-yellow-300/80 font-bold shadow-[0_0_12px_rgba(250,204,21,0.5)]'
-              : 'text-stone-500 border border-transparent'
-          }`}
-        >
-          3. Tuyệt Trảm
-        </span>
-      </div>
+      {/* Floating 3-Step Combo Indicator - Visible only on desktop keyboard/mouse, hidden on mobile touch screens */}
+      {!touchControlsEnabled && (
+        <div className="absolute bottom-32 left-1/2 -translate-x-1/2 z-20 pointer-events-none hidden lg:flex items-center gap-2 px-4 py-1.5 rounded-full bg-stone-950/90 border border-amber-500/50 backdrop-blur-md shadow-2xl text-xs font-semibold text-amber-300">
+          <span className="text-amber-400/90 tracking-wide font-serif">Tam Thức Kiếm Quyết:</span>
+          <span
+            className={`px-2.5 py-0.5 rounded-full transition-all ${
+              activeComboStep === 1
+                ? 'bg-amber-500/30 text-amber-200 border border-amber-400/70 font-bold shadow-[0_0_8px_rgba(245,158,11,0.4)]'
+                : 'text-stone-500 border border-transparent'
+            }`}
+          >
+            1. Hoành Tảo
+          </span>
+          <span className="text-stone-600">→</span>
+          <span
+            className={`px-2.5 py-0.5 rounded-full transition-all ${
+              activeComboStep === 2
+                ? 'bg-emerald-500/30 text-emerald-200 border border-emerald-400/70 font-bold shadow-[0_0_8px_rgba(52,211,153,0.4)]'
+                : 'text-stone-500 border border-transparent'
+            }`}
+          >
+            2. Nghịch Phong
+          </span>
+          <span className="text-stone-600">→</span>
+          <span
+            className={`px-2.5 py-0.5 rounded-full transition-all ${
+              activeComboStep === 3
+                ? 'bg-yellow-500/40 text-yellow-100 border border-yellow-300/80 font-bold shadow-[0_0_12px_rgba(250,204,21,0.5)]'
+                : 'text-stone-500 border border-transparent'
+            }`}
+          >
+            3. Tuyệt Trảm
+          </span>
+        </div>
+      )}
     </div>
   );
 };

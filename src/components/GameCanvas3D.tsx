@@ -29,6 +29,7 @@ interface GameCanvas3DProps {
   onInteractionNearChange?: (isNear: boolean) => void;
   onBossDefeated?: (loot: BossLootData) => void;
   onToggle2DMode: () => void;
+  touchControlsEnabled?: boolean;
 }
 
 export function GameCanvas3D({
@@ -50,6 +51,7 @@ export function GameCanvas3D({
   onInteractionNearChange,
   onBossDefeated,
   onToggle2DMode,
+  touchControlsEnabled = false,
 }: GameCanvas3DProps) {
   const mountRef = useRef<HTMLDivElement | null>(null);
   const sceneManagerRef = useRef<SceneManager3D | null>(null);
@@ -666,49 +668,53 @@ export function GameCanvas3D({
       {/* 3D WebGL Canvas Container */}
       <div ref={mountRef} className="absolute inset-0 w-full h-full bg-[#0c1926]" />
 
-      {/* Subtle 3D Performance Badge - docked safely beneath Player Portrait (zero HUD collision) */}
-      <div className="absolute top-28 left-3 z-10 pointer-events-none hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-stone-900/80 border border-amber-600/35 backdrop-blur-sm text-[11px] font-medium text-amber-200/90 shadow">
-        <Sparkles className="w-3 h-3 text-amber-400" />
-        <span>3D Tiên Cảnh (2.5D)</span>
-        <span className="text-stone-400 text-[10px] ml-1 flex items-center gap-1">
-          <Activity className="w-2.5 h-2.5 text-emerald-400" />
-          {fps} FPS
-        </span>
-      </div>
+      {/* Subtle 3D Performance Badge - visible only on large desktop screens */}
+      {!touchControlsEnabled && (
+        <div className="absolute top-28 left-3 z-10 pointer-events-none hidden lg:flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-stone-900/80 border border-amber-600/35 backdrop-blur-sm text-[11px] font-medium text-amber-200/90 shadow">
+          <Sparkles className="w-3 h-3 text-amber-400" />
+          <span>3D Tiên Cảnh (2.5D)</span>
+          <span className="text-stone-400 text-[10px] ml-1 flex items-center gap-1">
+            <Activity className="w-2.5 h-2.5 text-emerald-400" />
+            {fps} FPS
+          </span>
+        </div>
+      )}
 
-      {/* Bottom Center Combo Indicator - Visible on desktop, hidden on mobile touch screens */}
-      <div className="absolute top-16 md:bottom-32 left-1/2 -translate-x-1/2 z-20 pointer-events-none hidden md:flex items-center gap-2 px-4 py-1.5 rounded-full bg-stone-950/90 border border-amber-500/50 backdrop-blur-md shadow-2xl text-xs font-semibold text-amber-300">
-        <span className="text-amber-400/90 tracking-wide font-serif">Tam Thức Kiếm Quyết:</span>
-        <span
-          className={`px-2.5 py-0.5 rounded-full transition-all ${
-            activeComboStep === 1
-              ? 'bg-amber-500/30 text-amber-200 border border-amber-400/70 font-bold shadow-[0_0_8px_rgba(245,158,11,0.4)]'
-              : 'text-stone-500 border border-transparent'
-          }`}
-        >
-          1. Hoành Tảo
-        </span>
-        <span className="text-stone-600">→</span>
-        <span
-          className={`px-2.5 py-0.5 rounded-full transition-all ${
-            activeComboStep === 2
-              ? 'bg-emerald-500/30 text-emerald-200 border border-emerald-400/70 font-bold shadow-[0_0_8px_rgba(52,211,153,0.4)]'
-              : 'text-stone-500 border border-transparent'
-          }`}
-        >
-          2. Nghịch Phong
-        </span>
-        <span className="text-stone-600">→</span>
-        <span
-          className={`px-2.5 py-0.5 rounded-full transition-all ${
-            activeComboStep === 3
-              ? 'bg-yellow-500/40 text-yellow-100 border border-yellow-300/80 font-bold shadow-[0_0_12px_rgba(250,204,21,0.5)]'
-              : 'text-stone-500 border border-transparent'
-          }`}
-        >
-          3. Tuyệt Trảm
-        </span>
-      </div>
+      {/* Bottom Center Combo Indicator - Visible only on desktop large screens */}
+      {!touchControlsEnabled && (
+        <div className="absolute bottom-32 left-1/2 -translate-x-1/2 z-20 pointer-events-none hidden lg:flex items-center gap-2 px-4 py-1.5 rounded-full bg-stone-950/90 border border-amber-500/50 backdrop-blur-md shadow-2xl text-xs font-semibold text-amber-300">
+          <span className="text-amber-400/90 tracking-wide font-serif">Tam Thức Kiếm Quyết:</span>
+          <span
+            className={`px-2.5 py-0.5 rounded-full transition-all ${
+              activeComboStep === 1
+                ? 'bg-amber-500/30 text-amber-200 border border-amber-400/70 font-bold shadow-[0_0_8px_rgba(245,158,11,0.4)]'
+                : 'text-stone-500 border border-transparent'
+            }`}
+          >
+            1. Hoành Tảo
+          </span>
+          <span className="text-stone-600">→</span>
+          <span
+            className={`px-2.5 py-0.5 rounded-full transition-all ${
+              activeComboStep === 2
+                ? 'bg-emerald-500/30 text-emerald-200 border border-emerald-400/70 font-bold shadow-[0_0_8px_rgba(52,211,153,0.4)]'
+                : 'text-stone-500 border border-transparent'
+            }`}
+          >
+            2. Nghịch Phong
+          </span>
+          <span className="text-stone-600">→</span>
+          <span
+            className={`px-2.5 py-0.5 rounded-full transition-all ${
+              activeComboStep === 3
+                ? 'bg-yellow-500/40 text-yellow-100 border border-yellow-300/80 font-bold shadow-[0_0_12px_rgba(250,204,21,0.5)]'
+                : 'text-stone-500 border border-transparent'
+            }`}
+          >
+            3. Tuyệt Trảm
+          </span>
+        </div>
+      )}
     </div>
   );
 }
