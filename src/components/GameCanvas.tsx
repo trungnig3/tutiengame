@@ -404,21 +404,33 @@ export const GameCanvas: React.FC<GameCanvasProps> = ({
       }
     });
 
-    // Mouse aiming & mouse clicks on Canvas
-    const handleMouseMove = (e: MouseEvent) => {
+    // Pointer & Mouse aiming on Canvas (Unified for Desktop Mouse & Mobile Touch)
+    const updatePointerCoords = (clientX: number, clientY: number) => {
       if (!canvasRef.current) return;
       const rect = canvasRef.current.getBoundingClientRect();
-      const mouseX = e.clientX - rect.left;
-      const mouseY = e.clientY - rect.top;
-      mouseRef.current.x = mouseX;
-      mouseRef.current.y = mouseY;
+      const pointerX = clientX - rect.left;
+      const pointerY = clientY - rect.top;
+      mouseRef.current.x = pointerX;
+      mouseRef.current.y = pointerY;
       const viewW = rect.width;
       const viewH = rect.height;
-      const worldX = mouseX + cameraRef.current.x - viewW / 2;
-      const worldY = mouseY + cameraRef.current.y - viewH / 2;
+      const worldX = pointerX + cameraRef.current.x - viewW / 2;
+      const worldY = pointerY + cameraRef.current.y - viewH / 2;
       mouseRef.current.worldX = worldX;
       mouseRef.current.worldY = worldY;
-      inputManager.setMousePosition(mouseX, mouseY, worldX, worldY);
+      inputManager.setMousePosition(pointerX, pointerY, worldX, worldY);
+    };
+
+    const handleMouseMove = (e: MouseEvent) => {
+      updatePointerCoords(e.clientX, e.clientY);
+    };
+
+    const handlePointerMove = (e: PointerEvent) => {
+      updatePointerCoords(e.clientX, e.clientY);
+    };
+
+    const handlePointerDown = (e: PointerEvent) => {
+      updatePointerCoords(e.clientX, e.clientY);
     };
 
     const handleMouseDown = (e: MouseEvent) => {
@@ -436,6 +448,8 @@ export const GameCanvas: React.FC<GameCanvasProps> = ({
     };
 
     window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('pointermove', handlePointerMove, { passive: true });
+    window.addEventListener('pointerdown', handlePointerDown, { passive: true });
     window.addEventListener('mousedown', handleMouseDown);
     window.addEventListener('contextmenu', handleContextMenu);
 
@@ -444,6 +458,8 @@ export const GameCanvas: React.FC<GameCanvasProps> = ({
       unsubscribeMenu();
       inputManager.detachListeners();
       window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('pointermove', handlePointerMove);
+      window.removeEventListener('pointerdown', handlePointerDown);
       window.removeEventListener('mousedown', handleMouseDown);
       window.removeEventListener('contextmenu', handleContextMenu);
     };

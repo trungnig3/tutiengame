@@ -75,30 +75,31 @@ export const CharacterModal: React.FC<CharacterModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-sm p-4">
-      <div className="relative w-full max-w-2xl bg-stone-900 border-2 border-amber-600/70 rounded-xl shadow-2xl p-6 text-stone-100 overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-2 sm:p-4">
+      <div className="relative w-full max-w-2xl max-h-[92vh] sm:max-h-[90vh] flex flex-col bg-stone-900 border-2 border-amber-600/70 rounded-xl shadow-2xl p-3 sm:p-6 text-stone-100 overflow-hidden">
         {/* Ancient ornament header */}
-        <div className="flex justify-between items-center border-b border-amber-800/60 pb-3 mb-5">
+        <div className="flex justify-between items-center border-b border-amber-800/60 pb-2.5 sm:pb-3 mb-3 sm:mb-4 shrink-0">
           <div className="flex items-center gap-2">
-            <span className="text-2xl">🥋</span>
+            <span className="text-xl sm:text-2xl">🥋</span>
             <div>
-              <h2 className="text-lg font-bold text-amber-300 font-title">
+              <h2 className="text-base sm:text-lg font-bold text-amber-300 font-title">
                 Nhân Vật & Đột Phá Cảnh Giới
               </h2>
-              <p className="text-xs text-stone-400">Xem chỉ số đạo thể, linh căn và xung kích thiên đạo bình cảnh</p>
+              <p className="text-[10px] sm:text-xs text-stone-400">Xem chỉ số đạo thể, linh căn và xung kích thiên đạo bình cảnh</p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg text-stone-400 hover:text-amber-300 hover:bg-stone-800 transition"
+            className="p-1.5 rounded-lg text-stone-400 hover:text-amber-300 hover:bg-stone-800 transition cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          {/* LEFT: CHARACTER STATS & SPIRITUAL ROOTS */}
-          <div className="space-y-4 bg-stone-950/70 border border-stone-800 p-4 rounded-lg">
+        <div className="flex-1 overflow-y-auto overscroll-contain pr-1">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
+            {/* LEFT: CHARACTER STATS & SPIRITUAL ROOTS */}
+            <div className="space-y-4 bg-stone-950/70 border border-stone-800 p-3 sm:p-4 rounded-lg">
             <div className="flex items-center gap-3">
               <div className="w-14 h-14 rounded-full border-2 border-amber-500 bg-stone-900 flex items-center justify-center text-3xl shadow">
                 🧘‍♂️
@@ -293,5 +294,6 @@ export const CharacterModal: React.FC<CharacterModalProps> = ({
         </div>
       </div>
     </div>
-  );
+  </div>
+);
 };

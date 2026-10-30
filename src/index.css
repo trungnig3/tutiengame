@@ -1,9 +1,21 @@
 @import "tailwindcss";
 
 @layer base {
+  :root {
+    --sat: env(safe-area-inset-top, 0px);
+    --sar: env(safe-area-inset-right, 0px);
+    --sab: env(safe-area-inset-bottom, 0px);
+    --sal: env(safe-area-inset-left, 0px);
+  }
+
   html, body {
     overscroll-behavior: none;
+    overscroll-behavior-y: none;
     -webkit-touch-callout: none;
+    touch-action: manipulation;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
   }
 
   body {
@@ -12,6 +24,10 @@
     color: #e7e5e4;
     user-select: none;
     -webkit-user-select: none;
+    padding-top: var(--sat);
+    padding-right: var(--sar);
+    padding-bottom: var(--sab);
+    padding-left: var(--sal);
   }
 
   h1, h2, h3, .font-title {

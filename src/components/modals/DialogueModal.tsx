@@ -296,8 +296,8 @@ export const DialogueModal: React.FC<DialogueModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/60 backdrop-blur-xs p-6 pb-12 select-none">
-      <div className="relative w-full max-w-3xl bg-stone-900/95 border-2 border-amber-600/70 rounded-2xl shadow-2xl p-6 text-stone-100 flex flex-col gap-4">
+    <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/60 backdrop-blur-xs p-2 pb-3 sm:p-6 sm:pb-8 select-none">
+      <div className="relative w-full max-w-3xl max-h-[92vh] sm:max-h-[90vh] overflow-y-auto bg-stone-900/95 border-2 border-amber-600/70 rounded-2xl shadow-2xl p-3 sm:p-5 text-stone-100 flex flex-col gap-2.5 sm:gap-4">
         {/* Header: NPC Avatar & Title */}
         <div className="flex justify-between items-start border-b border-amber-800/50 pb-3">
           <div className="flex items-center gap-3.5">

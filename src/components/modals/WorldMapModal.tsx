@@ -49,31 +49,32 @@ export const WorldMapModal: React.FC<WorldMapModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-sm p-4">
-      <div className="relative w-full max-w-3xl bg-stone-900 border-2 border-amber-600/70 rounded-xl shadow-2xl p-6 text-stone-100 overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-2 sm:p-4">
+      <div className="relative w-full max-w-3xl max-h-[92vh] sm:max-h-[90vh] flex flex-col bg-stone-900 border-2 border-amber-600/70 rounded-xl shadow-2xl p-3 sm:p-6 text-stone-100 overflow-hidden">
         {/* Header */}
-        <div className="flex justify-between items-center border-b border-amber-800/60 pb-3 mb-5">
+        <div className="flex justify-between items-center border-b border-amber-800/60 pb-2.5 sm:pb-3 mb-3 sm:mb-4 shrink-0">
           <div className="flex items-center gap-2">
-            <Compass className="w-6 h-6 text-purple-400" />
+            <Compass className="w-5 h-5 sm:w-6 sm:h-6 text-purple-400" />
             <div>
-              <h2 className="text-lg font-bold text-amber-300 font-title">
+              <h2 className="text-base sm:text-lg font-bold text-amber-300 font-title">
                 Sơn Hà Đồ – Thế Giới Tu Tiên
               </h2>
-              <p className="text-xs text-stone-400">
+              <p className="text-[10px] sm:text-xs text-stone-400">
                 Toàn cảnh địa vực phàm trần quốc Đại Lương và các vùng cấm địa linh mạch
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg text-stone-400 hover:text-amber-300 hover:bg-stone-800 transition"
+            className="p-1.5 rounded-lg text-stone-400 hover:text-amber-300 hover:bg-stone-800 transition cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Map cards grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
+        <div className="flex-1 overflow-y-auto overscroll-contain pr-1">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-3.5">
           {mapsList.map(map => {
             const isCurrent = player.currentMapId === map.id;
             const isDiscovered = player.discoveredMaps.includes(map.id);
@@ -138,5 +139,6 @@ export const WorldMapModal: React.FC<WorldMapModalProps> = ({
         </div>
       </div>
     </div>
-  );
+  </div>
+);
 };

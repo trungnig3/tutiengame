@@ -32,6 +32,13 @@ class SoundManager {
     }
   }
 
+  public unlockAudio() {
+    this.initContext();
+    if (this.ctx && this.ctx.state === 'suspended') {
+      this.ctx.resume().catch(() => {});
+    }
+  }
+
   // === AMBIENT BGM (PENTATONIC GUQIN / FLUTE) ===
   public startMusic(theme: string = 'peaceful') {
     if (!this.musicEnabled) return;

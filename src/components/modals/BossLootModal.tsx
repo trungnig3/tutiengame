@@ -28,8 +28,8 @@ export function BossLootModal({ loot, player, onClaimAll, onClose }: BossLootMod
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-fade-in select-none">
-      <div className="relative w-full max-w-2xl bg-gradient-to-b from-stone-900 via-stone-950 to-black border-2 border-amber-600/60 rounded-2xl shadow-2xl shadow-amber-950/50 p-6 space-y-6 overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/85 backdrop-blur-md animate-fade-in select-none">
+      <div className="relative w-full max-w-2xl max-h-[92vh] sm:max-h-[90vh] flex flex-col bg-gradient-to-b from-stone-900 via-stone-950 to-black border-2 border-amber-600/60 rounded-2xl shadow-2xl shadow-amber-950/50 p-3 sm:p-6 space-y-3 sm:space-y-4 overflow-hidden">
         {/* Glow backdrop */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-36 bg-amber-500/15 blur-3xl pointer-events-none" />
 
@@ -73,13 +73,13 @@ export function BossLootModal({ loot, player, onClaimAll, onClose }: BossLootMod
         </div>
 
         {/* Items List */}
-        <div className="space-y-2">
-          <div className="flex items-center justify-between text-xs text-stone-400 font-semibold px-1">
+        <div className="flex-1 min-h-0 flex flex-col space-y-1.5">
+          <div className="flex items-center justify-between text-xs text-stone-400 font-semibold px-1 shrink-0">
             <span>Danh sách bảo vật rơi ({loot.items.length} món)</span>
-            <span className="text-amber-500/80">Linh căn hiện tại: {player.spiritualRoot?.name}</span>
+            <span className="text-amber-500/80">Linh căn: {player.spiritualRoot?.name}</span>
           </div>
 
-          <div className="max-h-64 overflow-y-auto space-y-2 pr-1 custom-scrollbar">
+          <div className="flex-1 overflow-y-auto space-y-2 pr-1 custom-scrollbar">
             {loot.items.map((slot, idx) => {
               const it = slot.item;
               const isManual = it.type === 'manual' || it.manualArtId;

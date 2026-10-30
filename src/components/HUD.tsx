@@ -141,46 +141,44 @@ export const HUD: React.FC<HUDProps> = ({
 
               {/* Top-Right: Map Info, Game Time, Spirit Stones & System Buttons */}
               <div className="pointer-events-auto flex items-center gap-1 sm:gap-1.5 shrink-0 flex-wrap justify-end">
-                {/* Mobile Fast Feature Buttons - Only when touchControlsEnabled */}
-                {touchControlsEnabled && (
-                  <div className="flex items-center gap-0.5 sm:gap-1 bg-stone-950/80 border border-amber-600/40 rounded-lg p-0.5 backdrop-blur-md shadow-lg">
-                    <button
-                      onClick={onOpenInventory}
-                      className="px-1.5 py-1 rounded bg-stone-800/90 hover:bg-stone-700 text-[10px] sm:text-xs font-bold text-amber-300 border border-amber-600/30 active:scale-95 transition flex items-center gap-1"
-                      title="Túi Đồ Trữ Vật"
-                    >
-                      <span>🎒</span>
-                      <span className="hidden sm:inline">Túi</span>
-                    </button>
-                    <button
-                      onClick={onOpenQuests}
-                      className="px-1.5 py-1 rounded bg-stone-800/90 hover:bg-stone-700 text-[10px] sm:text-xs font-bold text-emerald-300 border border-emerald-600/30 active:scale-95 transition flex items-center gap-1"
-                      title="Nhiệm Vụ"
-                    >
-                      <span>📜</span>
-                      <span className="hidden sm:inline">NV</span>
-                    </button>
-                    <button
-                      onClick={onOpenCultivation}
-                      className="px-1.5 py-1 rounded bg-stone-800/90 hover:bg-stone-700 text-[10px] sm:text-xs font-bold text-cyan-300 border border-cyan-600/30 active:scale-95 transition flex items-center gap-1"
-                      title="Tu Vi & Công Pháp"
-                    >
-                      <span>☯️</span>
-                      <span className="hidden sm:inline">Tu Vi</span>
-                    </button>
-                    <button
-                      onClick={onOpenMap}
-                      className="px-1.5 py-1 rounded bg-stone-800/90 hover:bg-stone-700 text-[10px] sm:text-xs font-bold text-purple-300 border border-purple-600/30 active:scale-95 transition flex items-center gap-1"
-                      title="Bản Đồ"
-                    >
-                      <span>🗺️</span>
-                    </button>
-                  </div>
-                )}
+                {/* Fast Feature Buttons - Always shown on Touch or Mobile */}
+                <div className="flex items-center gap-0.5 sm:gap-1 bg-stone-950/80 border border-amber-600/40 rounded-lg p-0.5 backdrop-blur-md shadow-lg">
+                  <button
+                    onClick={onOpenInventory}
+                    className="px-1.5 py-1 rounded bg-stone-800/90 hover:bg-stone-700 text-[10px] sm:text-xs font-bold text-amber-300 border border-amber-600/30 active:scale-95 transition flex items-center gap-1 cursor-pointer"
+                    title="Túi Đồ Trữ Vật"
+                  >
+                    <span>🎒</span>
+                    <span className="hidden sm:inline">Túi</span>
+                  </button>
+                  <button
+                    onClick={onOpenQuests}
+                    className="px-1.5 py-1 rounded bg-stone-800/90 hover:bg-stone-700 text-[10px] sm:text-xs font-bold text-emerald-300 border border-emerald-600/30 active:scale-95 transition flex items-center gap-1 cursor-pointer"
+                    title="Nhiệm Vụ"
+                  >
+                    <span>📜</span>
+                    <span className="hidden sm:inline">NV</span>
+                  </button>
+                  <button
+                    onClick={onOpenCultivation}
+                    className="px-1.5 py-1 rounded bg-stone-800/90 hover:bg-stone-700 text-[10px] sm:text-xs font-bold text-cyan-300 border border-cyan-600/30 active:scale-95 transition flex items-center gap-1 cursor-pointer"
+                    title="Tu Vi & Công Pháp"
+                  >
+                    <span>☯️</span>
+                    <span className="hidden sm:inline">Tu Vi</span>
+                  </button>
+                  <button
+                    onClick={onOpenMap}
+                    className="px-1.5 py-1 rounded bg-stone-800/90 hover:bg-stone-700 text-[10px] sm:text-xs font-bold text-purple-300 border border-purple-600/30 active:scale-95 transition flex items-center gap-1 cursor-pointer"
+                    title="Bản Đồ"
+                  >
+                    <span>🗺️</span>
+                  </button>
+                </div>
 
                 {/* Location */}
                 <div
-                  className={`bg-stone-900/90 border rounded-lg px-2 sm:px-2.5 py-1 backdrop-blur-md shadow-lg text-right ${
+                  className={`bg-stone-900/90 border rounded-lg px-2 sm:px-2.5 py-1 backdrop-blur-md shadow-lg text-right hidden xs:block ${
                     player.currentMapId === 'map_hac_phong_bi_canh' || player.currentMapId === 'map_ancient_ruins'
                       ? 'border-purple-500/70 shadow-purple-950/50'
                       : 'border-amber-600/40'
@@ -246,11 +244,11 @@ export const HUD: React.FC<HUDProps> = ({
               </div>
             </div>
 
-            {/* Mobile Touch Mode: Compact Quest Tracker directly under player avatar (leaving right side completely empty) */}
-            {touchControlsEnabled && activeMainQuest && (
+            {/* Mobile / Compact Mode: Quest Tracker under player stats panel */}
+            {activeMainQuest && (
               <div 
+                className="pointer-events-auto max-w-[210px] bg-stone-950/90 border border-amber-600/50 rounded-lg p-1.5 backdrop-blur-md shadow-xl text-left cursor-pointer active:scale-95 transition space-y-0.5 lg:hidden"
                 onClick={onOpenQuests}
-                className="pointer-events-auto max-w-[210px] bg-stone-950/90 border border-amber-600/50 rounded-lg p-1.5 backdrop-blur-md shadow-xl text-left cursor-pointer active:scale-95 transition space-y-0.5"
                 title="Nhấn để mở chi tiết Nhiệm Vụ"
               >
                 <div className="flex items-center justify-between text-amber-300 font-bold text-[10px]">
@@ -269,9 +267,9 @@ export const HUD: React.FC<HUDProps> = ({
             )}
           </div>
 
-          {/* === MIDDLE RIGHT: ACTIVE QUEST TRACKER (DESKTOP MODE ONLY - Collapsible) === */}
+          {/* === DESKTOP ONLY: ACTIVE QUEST TRACKER (Hidden on touch & mobile screens) === */}
           {!touchControlsEnabled && activeMainQuest && (
-            <div className="self-end pointer-events-auto mt-1 max-w-[260px] sm:max-w-xs bg-stone-900/90 border border-amber-600/40 rounded-lg p-2 sm:p-2.5 backdrop-blur-md shadow-xl text-xs space-y-1">
+            <div className="self-end pointer-events-auto mt-1 max-w-[260px] sm:max-w-xs bg-stone-900/90 border border-amber-600/40 rounded-lg p-2 sm:p-2.5 backdrop-blur-md shadow-xl text-xs space-y-1 hidden lg:block">
               <div 
                 className="flex items-center justify-between border-b border-amber-800/40 pb-1 cursor-pointer"
                 onClick={() => setIsQuestCollapsed(prev => !prev)}
@@ -316,9 +314,9 @@ export const HUD: React.FC<HUDProps> = ({
             </div>
           )}
 
-      {/* === BOTTOM ROW: DESKTOP HOTBAR & COMBAT SKILLS (HIDDEN WHEN TOUCH CONTROLS ACTIVE) === */}
+      {/* === BOTTOM ROW: DESKTOP HOTBAR & COMBAT SKILLS (ONLY ON LARGE DESKTOP SCREENS, NEVER ON MOBILE) === */}
       {!touchControlsEnabled && (
-        <div className="hidden md:flex flex-col items-center gap-2">
+        <div className="hidden lg:flex flex-col items-center gap-2">
           {/* Navigation Hotbar Buttons */}
           <div className="pointer-events-auto flex items-center gap-2 bg-stone-900/90 border border-amber-600/40 rounded-full px-4 py-1.5 backdrop-blur-md shadow-2xl">
             <button 

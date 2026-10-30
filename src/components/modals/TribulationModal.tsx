@@ -459,24 +459,24 @@ export const TribulationModal: React.FC<TribulationModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-4">
-      <div className="relative w-full max-w-3xl bg-stone-950 border-2 border-amber-600/80 rounded-2xl shadow-2xl text-stone-100 overflow-hidden flex flex-col">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-2 sm:p-4">
+      <div className="relative w-full max-w-3xl max-h-[92vh] sm:max-h-[90vh] bg-stone-950 border-2 border-amber-600/80 rounded-2xl shadow-2xl text-stone-100 overflow-hidden flex flex-col">
         {/* Ancient Header */}
-        <div className="flex justify-between items-center p-4 border-b border-amber-800/60 bg-gradient-to-r from-stone-950 via-purple-950/40 to-stone-950">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-purple-950 border border-purple-500/50 flex items-center justify-center text-2xl shadow-lg">
+        <div className="flex justify-between items-center p-3 sm:p-4 border-b border-amber-800/60 bg-gradient-to-r from-stone-950 via-purple-950/40 to-stone-950 shrink-0">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-purple-950 border border-purple-500/50 flex items-center justify-center text-xl sm:text-2xl shadow-lg">
               ⚡
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h3 className="text-base font-bold text-amber-300 font-title tracking-wider">
+                <h3 className="text-sm sm:text-base font-bold text-amber-300 font-title tracking-wider">
                   {config.name}
                 </h3>
-                <span className="text-[10px] bg-purple-950/80 text-purple-300 px-2 py-0.5 rounded border border-purple-700/60 font-semibold uppercase">
+                <span className="text-[9px] sm:text-[10px] bg-purple-950/80 text-purple-300 px-1.5 sm:px-2 py-0.5 rounded border border-purple-700/60 font-semibold uppercase">
                   Đại Cảnh Giới
                 </span>
               </div>
-              <p className="text-xs text-stone-400">
+              <p className="text-[10px] sm:text-xs text-stone-400">
                 Mục tiêu tấn thăng: <strong className="text-cyan-300">{targetRealm.fullName}</strong>
               </p>
             </div>
@@ -486,7 +486,7 @@ export const TribulationModal: React.FC<TribulationModalProps> = ({
             {phase === 'intro' && (
               <button
                 onClick={onClose}
-                className="px-3 py-1 rounded-lg border border-stone-800 hover:border-amber-700 text-stone-400 hover:text-amber-200 text-xs transition"
+                className="px-2.5 sm:px-3 py-1 rounded-lg border border-stone-800 hover:border-amber-700 text-stone-400 hover:text-amber-200 text-xs transition cursor-pointer"
               >
                 Hủy Bỏ
               </button>
@@ -496,7 +496,7 @@ export const TribulationModal: React.FC<TribulationModalProps> = ({
 
         {/* Phase 1: Intro & Preparation Details */}
         {phase === 'intro' && (
-          <div className="p-6 space-y-5">
+          <div className="p-3 sm:p-6 space-y-4 sm:space-y-5 flex-1 overflow-y-auto overscroll-contain">
             <div className="p-4 rounded-xl bg-stone-900/90 border border-amber-900/50 space-y-2">
               <h4 className="text-sm font-bold text-amber-300 flex items-center gap-2">
                 <AlertTriangle className="w-4 h-4 text-amber-400" />

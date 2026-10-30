@@ -76,23 +76,41 @@ export default function App() {
   const [isPortrait, setIsPortrait] = useState<boolean>(false);
   const [showRotateNotice, setShowRotateNotice] = useState<boolean>(true);
 
-  // Auto-detect mobile touch support and orientation
+  // Auto-detect mobile touch support, orientation, and unlock web audio
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    const hasTouch = 'ontouchstart' in window || (navigator && navigator.maxTouchPoints > 0) || window.innerWidth <= 840;
-    setIsTouchControlsVisible(hasTouch);
-    if (hasTouch) {
+
+    const isMobile =
+      'ontouchstart' in window ||
+      (navigator && navigator.maxTouchPoints > 0) ||
+      /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent) ||
+      window.innerWidth <= 1024;
+
+    setIsTouchControlsVisible(isMobile);
+    if (isMobile) {
       inputManager.setDeviceMode('touch');
     }
 
     const checkOrientation = () => {
-      const portrait = window.innerHeight > window.innerWidth && window.innerWidth <= 840;
+      const portrait = window.innerHeight > window.innerWidth;
       setIsPortrait(portrait);
     };
     checkOrientation();
+
+    // Unlock Web Audio API on first mobile interaction
+    const unlockAudio = () => {
+      soundManager.unlockAudio();
+      window.removeEventListener('pointerdown', unlockAudio);
+      window.removeEventListener('touchstart', unlockAudio);
+    };
+    window.addEventListener('pointerdown', unlockAudio, { once: true, passive: true });
+    window.addEventListener('touchstart', unlockAudio, { once: true, passive: true });
+
     window.addEventListener('resize', checkOrientation);
     window.addEventListener('orientationchange', checkOrientation);
     return () => {
+      window.removeEventListener('pointerdown', unlockAudio);
+      window.removeEventListener('touchstart', unlockAudio);
       window.removeEventListener('resize', checkOrientation);
       window.removeEventListener('orientationchange', checkOrientation);
     };

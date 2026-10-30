@@ -48,27 +48,28 @@ export function ChapterRewardModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-fade-in select-none">
-      <div className="relative w-full max-w-2xl bg-gradient-to-b from-stone-900 via-stone-950 to-black border-2 border-yellow-500/70 rounded-2xl shadow-2xl shadow-yellow-950/50 p-6 space-y-6 overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/85 backdrop-blur-md animate-fade-in select-none">
+      <div className="relative w-full max-w-2xl max-h-[92vh] sm:max-h-[90vh] flex flex-col bg-gradient-to-b from-stone-900 via-stone-950 to-black border-2 border-yellow-500/70 rounded-2xl shadow-2xl shadow-yellow-950/50 p-3 sm:p-6 space-y-3 sm:space-y-4 overflow-hidden">
         {/* Divine Aura */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-32 bg-yellow-500/10 blur-3xl pointer-events-none" />
 
         {/* Header */}
-        <div className="relative text-center space-y-2">
+        <div className="relative text-center space-y-1 sm:space-y-2 shrink-0">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-yellow-500/50 bg-yellow-950/60 text-yellow-300 text-xs tracking-widest font-semibold uppercase">
             <Award className="w-3.5 h-3.5 text-yellow-400" />
             Viên Mãn Đạo Quả Chương {chapterNumber}
           </div>
-          <h2 className="text-2xl md:text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 via-amber-300 to-yellow-500 font-title tracking-wider">
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 via-amber-300 to-yellow-500 font-title tracking-wider">
             KHEN THƯỞNG ĐẠO QUẢ CUỐI CHƯƠNG
           </h2>
           <p className="text-stone-300 text-xs md:text-sm font-medium">
-            Đạo hữu đã vượt qua bao sóng gió tại <span className="text-amber-400 font-bold">{chapterTitle}</span>. Hãy chọn một phần thưởng tương xứng với cơ duyên của mình!
+            Đạo hữu đã vượt qua bao sóng gió tại <span className="text-amber-400 font-bold">{chapterTitle}</span>. Hãy chọn một phần thưởng tương xứng!
           </p>
         </div>
 
         {/* 3 Choices */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <div className="flex-1 overflow-y-auto overscroll-contain pr-1">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
           {/* Option 1: Tailored Manual */}
           <div
             onClick={() => setSelectedReward('manual')}
@@ -148,9 +149,10 @@ export function ChapterRewardModal({
             </div>
           </div>
         </div>
+      </div>
 
-        {/* Action Button */}
-        <div className="pt-2">
+      {/* Action Button */}
+      <div className="pt-2 shrink-0">
           <button
             onClick={handleConfirm}
             className="w-full py-3.5 rounded-xl bg-gradient-to-r from-yellow-500 via-amber-400 to-yellow-600 hover:from-yellow-400 hover:to-amber-300 text-stone-950 font-black text-sm tracking-wide transition shadow-xl hover:scale-101 active:scale-99 cursor-pointer flex items-center justify-center gap-2"

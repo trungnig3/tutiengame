@@ -14,14 +14,14 @@ export const DeathModal: React.FC<DeathModalProps> = ({
   onLoadAutoSave,
 }) => {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-md p-4 select-none">
-      <div className="relative w-full max-w-md bg-stone-950 border-2 border-red-700/80 rounded-2xl shadow-2xl p-8 text-center text-stone-100 space-y-5">
-        <div className="w-20 h-20 mx-auto rounded-full bg-red-950/80 border-2 border-red-600 flex items-center justify-center text-4xl shadow-inner animate-pulse">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-md p-2 sm:p-4 select-none">
+      <div className="relative w-full max-w-md max-h-[92vh] overflow-y-auto bg-stone-950 border-2 border-red-700/80 rounded-2xl shadow-2xl p-4 sm:p-6 text-center text-stone-100 space-y-3 sm:space-y-4">
+        <div className="w-14 h-14 sm:w-18 sm:h-18 mx-auto rounded-full bg-red-950/80 border-2 border-red-600 flex items-center justify-center text-3xl sm:text-4xl shadow-inner animate-pulse">
           💀
         </div>
 
-        <div className="space-y-2">
-          <h2 className="text-2xl font-black text-red-500 font-title tracking-widest">
+        <div className="space-y-1.5">
+          <h2 className="text-xl sm:text-2xl font-black text-red-500 font-title tracking-widest">
             THÂN TIÊU ĐẠO VẪN
           </h2>
           <p className="text-xs text-stone-400 italic leading-relaxed">
