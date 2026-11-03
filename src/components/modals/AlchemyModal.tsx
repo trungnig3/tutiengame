@@ -319,11 +319,11 @@ export const AlchemyModal: React.FC<AlchemyModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4 select-none">
-      <div className="relative w-full max-w-3xl bg-stone-900 border-2 border-amber-600/80 rounded-2xl shadow-2xl p-6 text-stone-100 overflow-hidden flex flex-col max-h-[92vh]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-2 sm:p-4 select-none">
+      <div className="relative w-full max-w-3xl bg-stone-900 border-2 border-amber-600/80 rounded-2xl shadow-2xl p-3 sm:p-5 text-stone-100 overflow-hidden flex flex-col max-h-[94vh]">
         
         {/* Header */}
-        <div className="flex justify-between items-center border-b border-amber-800/60 pb-3 mb-4">
+        <div className="flex justify-between items-center border-b border-amber-800/60 pb-2.5 sm:pb-3 mb-2.5 sm:mb-4 shrink-0">
           <div className="flex items-center gap-3">
             <div className="p-2.5 rounded-xl bg-rose-950/60 border border-rose-500/50 shadow-inner">
               <Flame className="w-6 h-6 text-rose-500 animate-pulse" />

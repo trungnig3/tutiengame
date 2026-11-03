@@ -177,9 +177,9 @@ export const AchievementsModal: React.FC<AchievementsModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-2 sm:p-4 select-none">
-      <div className="relative w-full max-w-5xl h-[92vh] bg-stone-900 border-2 border-amber-600/70 rounded-2xl shadow-2xl flex flex-col text-stone-100 overflow-hidden">
+      <div className="relative w-full max-w-5xl max-h-[94vh] bg-stone-900 border-2 border-amber-600/70 rounded-2xl shadow-2xl flex flex-col text-stone-100 overflow-hidden">
         {/* Ancient ornament header */}
-        <div className="flex justify-between items-center px-6 py-4 border-b border-amber-800/60 bg-gradient-to-r from-stone-950 via-stone-900 to-stone-950">
+        <div className="flex justify-between items-center px-3 sm:px-6 py-2.5 sm:py-3 border-b border-amber-800/60 bg-gradient-to-r from-stone-950 via-stone-900 to-stone-950 shrink-0">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-amber-950/80 border border-amber-500/60 flex items-center justify-center text-xl shadow-inner">
               🏆

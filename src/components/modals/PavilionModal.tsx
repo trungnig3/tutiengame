@@ -120,10 +120,10 @@ export const PavilionModal: React.FC<PavilionModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 select-none">
-      <div className="relative w-full max-w-4xl bg-stone-900 border-2 border-amber-600/70 rounded-2xl shadow-2xl p-6 text-stone-100 flex flex-col gap-4 max-h-[92vh] overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-2 sm:p-4 select-none">
+      <div className="relative w-full max-w-4xl bg-stone-900 border-2 border-amber-600/70 rounded-2xl shadow-2xl p-3 sm:p-5 text-stone-100 flex flex-col gap-3 sm:gap-4 max-h-[94vh] overflow-hidden">
         {/* Header */}
-        <div className="flex justify-between items-center border-b border-amber-800/60 pb-3">
+        <div className="flex justify-between items-center border-b border-amber-800/60 pb-2.5 sm:pb-3 shrink-0">
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-xl bg-sky-950 border border-sky-400 flex items-center justify-center text-2xl shadow-inner">
               📖

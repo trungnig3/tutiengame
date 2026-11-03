@@ -36,10 +36,23 @@ jobs:
         working-directory: ./android
         run: |
           chmod +x gradlew
-          ./gradlew assembleDebug
+          ./gradlew assembleDebug --no-daemon --stacktrace
+
+      - name: Verify APK Generated
+        run: |
+          echo "=== VERIFYING GENERATED APK ==="
+          APK_PATH="android/app/build/outputs/apk/debug/app-debug.apk"
+          if [ ! -f "$APK_PATH" ]; then
+            echo "::error::APK file was not generated at expected path: $APK_PATH"
+            find android/app/build/outputs -name "*.apk" || true
+            exit 1
+          fi
+          echo "APK file generated successfully:"
+          ls -lh "$APK_PATH"
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: app-debug-apk
+          name: phamtrantienlo-debug-apk
           path: android/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error

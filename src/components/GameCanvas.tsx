@@ -2232,8 +2232,17 @@ export const GameCanvas: React.FC<GameCanvasProps> = ({
 
       const halfW = viewW / 2;
       const halfH = viewH / 2;
-      cameraRef.current.x = Math.max(halfW, Math.min(currentMap.width - halfW, cameraRef.current.x));
-      cameraRef.current.y = Math.max(halfH, Math.min(currentMap.height - halfH, cameraRef.current.y));
+      if (currentMap.width <= viewW) {
+        cameraRef.current.x = currentMap.width / 2;
+      } else {
+        cameraRef.current.x = Math.max(halfW, Math.min(currentMap.width - halfW, cameraRef.current.x));
+      }
+
+      if (currentMap.height <= viewH) {
+        cameraRef.current.y = currentMap.height / 2;
+      } else {
+        cameraRef.current.y = Math.max(halfH, Math.min(currentMap.height - halfH, cameraRef.current.y));
+      }
 
       // ==========================================
       // RENDERING PIPELINE — PREMIUM 2.5D XIANXIA DEPTH SORTED
@@ -2383,7 +2392,7 @@ export const GameCanvas: React.FC<GameCanvasProps> = ({
     return () => cancelAnimationFrame(animationFrameId);
   }, [currentMap, onUpdatePlayer]);
 
-  // Resize handler with High-DPI support
+  // Resize handler with High-DPI support, orientation & fullscreen change support
   useEffect(() => {
     const handleResize = () => {
       if (canvasRef.current) {
@@ -2395,11 +2404,29 @@ export const GameCanvas: React.FC<GameCanvasProps> = ({
         canvasRef.current.height = Math.floor(h * dpr);
         canvasRef.current.style.width = `${w}px`;
         canvasRef.current.style.height = `${h}px`;
+
+        if (animPosRef.current && Number.isFinite(animPosRef.current.x)) {
+          cameraRef.current.x = animPosRef.current.x;
+          cameraRef.current.y = animPosRef.current.y;
+        }
       }
     };
+
     handleResize();
+    const timer1 = setTimeout(handleResize, 100);
+    const timer2 = setTimeout(handleResize, 350);
+
     window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener('orientationchange', handleResize);
+    window.addEventListener('fullscreenchange', handleResize);
+
+    return () => {
+      clearTimeout(timer1);
+      clearTimeout(timer2);
+      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('orientationchange', handleResize);
+      window.removeEventListener('fullscreenchange', handleResize);
+    };
   }, []);
 
   // ==========================================

@@ -97,6 +97,13 @@ export default function App() {
     };
     checkOrientation();
 
+    // Lock landscape on platforms supporting Screen Orientation API
+    if (typeof screen !== 'undefined' && screen.orientation && typeof screen.orientation.lock === 'function') {
+      try {
+        screen.orientation.lock('landscape').catch(() => {});
+      } catch (err) {}
+    }
+
     // Unlock Web Audio API on first mobile interaction
     const unlockAudio = () => {
       soundManager.unlockAudio();
