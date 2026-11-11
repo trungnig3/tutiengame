@@ -28,6 +28,7 @@ import {
   renderAdvancedFlyingSwords,
   renderAoEZones,
 } from '../engine/proceduralRenderer';
+import { lamMacSpriteRenderer } from '../engine/pixelArt/LamMacSpriteRenderer';
 import { checkArtCompatibility } from '../data/spiritualRoots';
 import { BossLootData } from './modals/BossLootModal';
 
@@ -344,6 +345,7 @@ export const GameCanvas: React.FC<GameCanvasProps> = ({
 
   // Input listeners: Register unified inputManager and canvas mouse listeners
   useEffect(() => {
+    lamMacSpriteRenderer.preloadAll();
     inputManager.attachListeners();
 
     // Subscribe to unified combat & interaction actions
@@ -351,7 +353,10 @@ export const GameCanvas: React.FC<GameCanvasProps> = ({
       if (isPausedRef.current || playerRef.current.hp <= 0) return;
       switch (action) {
         case 'attack':
-          triggerBasicAttack();
+          triggerBasicAttack(1);
+          break;
+        case 'attack_2':
+          triggerBasicAttack(2);
           break;
         case 'dodge':
           triggerDash();
@@ -466,7 +471,7 @@ export const GameCanvas: React.FC<GameCanvasProps> = ({
   }, [onOpenInventory, onOpenCharacter, onOpenCultivation, onOpenQuests, onOpenMap, onOpenMenu, onOpenWarRoom, onOpenAchievements]);
 
   // COMBAT: Basic Attack — Combo 3 Đòn Kiếm Pháp (LMB / 3-Step Dynamic Sword Combo)
-  const triggerBasicAttack = () => {
+  const triggerBasicAttack = (forceStep?: 1 | 2 | 3) => {
     const p = playerRef.current;
     if (attackAnimRef.current.active) {
       if (attackAnimRef.current.progress >= 0.45) {
@@ -481,7 +486,9 @@ export const GameCanvas: React.FC<GameCanvasProps> = ({
 
     // Determine combo step with 0.75s combo window
     let nextStep: 1 | 2 | 3 = 1;
-    if (comboStateRef.current.comboWindowTimer > 0) {
+    if (forceStep !== undefined) {
+      nextStep = forceStep;
+    } else if (comboStateRef.current.comboWindowTimer > 0) {
       if (comboStateRef.current.currentStep === 1) nextStep = 2;
       else if (comboStateRef.current.currentStep === 2) nextStep = 3;
       else nextStep = 1;
@@ -572,22 +579,58 @@ export const GameCanvas: React.FC<GameCanvasProps> = ({
     if (p.dodgeCooldown > 0 || p.mp < 12 || p.hp <= 0) return;
 
     const angle = inputManager.getAimAngle(p.x, p.y, p.facing, enemiesRef.current);
-    const dashDist = 150;
+    const maxDashDist = 150;
+    const cosA = Math.cos(angle);
+    const sinA = Math.sin(angle);
 
-    let targetX = p.x + Math.cos(angle) * dashDist;
-    let targetY = p.y + Math.sin(angle) * dashDist;
+    // Hitbox bounds for player: width 32 (hw 16), height 40 (hh 20) + 2px safety buffer
+    const hw = 18;
+    const hh = 22;
 
-    // Check if dash passes through a wall, stop at wall edge
-    for (const obs of currentMap.obstacles) {
-      if (obs.type === 'building' || obs.type === 'rock' || obs.type === 'wall') {
-        if (lineIntersectsRect(p.x, p.y, targetX, targetY, obs.x, obs.y, obs.width, obs.height)) {
-          targetX = p.x + Math.cos(angle) * 45;
-          targetY = p.y + Math.sin(angle) * 45;
-          break;
+    const isCollidingAt = (cx: number, cy: number): boolean => {
+      // Map boundaries check
+      if (cx - hw < 10 || cx + hw > currentMap.width - 10 ||
+          cy - hh < 10 || cy + hh > currentMap.height - 10) {
+        return true;
+      }
+      for (const obs of currentMap.obstacles) {
+        if (obs.type === 'building' || obs.type === 'rock' || obs.type === 'wall') {
+          if (cx + hw > obs.x && cx - hw < obs.x + obs.width &&
+              cy + hh > obs.y && cy - hh < obs.y + obs.height) {
+            return true;
+          }
         }
+      }
+      return false;
+    };
+
+    // Swept collision: step along angle in 3px increments to find earliest contact
+    let safeDist = 0;
+    const step = 3;
+    for (let d = step; d <= maxDashDist; d += step) {
+      const tx = p.x + cosA * d;
+      const ty = p.y + sinA * d;
+      if (isCollidingAt(tx, ty)) {
+        // Obstacle encountered: binary search between safeDist and d for exact edge
+        let low = safeDist;
+        let high = d;
+        for (let iter = 0; iter < 4; iter++) {
+          const mid = (low + high) * 0.5;
+          if (isCollidingAt(p.x + cosA * mid, p.y + sinA * mid)) {
+            high = mid;
+          } else {
+            low = mid;
+          }
+        }
+        safeDist = Math.max(0, low - 3); // 3px safety margin away from obstacle edge
+        break;
+      } else {
+        safeDist = d;
       }
     }
 
+    let targetX = p.x + cosA * safeDist;
+    let targetY = p.y + sinA * safeDist;
     targetX = Math.max(30, Math.min(currentMap.width - 30, targetX));
     targetY = Math.max(30, Math.min(currentMap.height - 30, targetY));
 
@@ -652,6 +695,8 @@ export const GameCanvas: React.FC<GameCanvasProps> = ({
 
     localPosRef.current.x = targetX;
     localPosRef.current.y = targetY;
+    animPosRef.current.x = targetX;
+    animPosRef.current.y = targetY;
 
     onUpdatePlayer(prev => ({
       ...prev,
@@ -1226,7 +1271,7 @@ export const GameCanvas: React.FC<GameCanvasProps> = ({
     let lastTime = performance.now();
 
     const loop = (currentTime: number) => {
-      const dt = Math.min((currentTime - lastTime) / 1000, 0.1);
+      const dt = Math.max(0.001, Math.min((currentTime - lastTime) / 1000, 0.05));
       lastTime = currentTime;
 
       const canvas = canvasRef.current;
@@ -1366,9 +1411,10 @@ export const GameCanvas: React.FC<GameCanvasProps> = ({
       localPosRef.current.y = newY;
       if (isMoving) localPosRef.current.facing = facing;
 
-      // 60 FPS Subpixel Motion Smoothing (Anti-jitter interpolation)
-      animPosRef.current.x += (localPosRef.current.x - animPosRef.current.x) * 0.35;
-      animPosRef.current.y += (localPosRef.current.y - animPosRef.current.y) * 0.35;
+      // Frame-rate independent exponential motion smoothing
+      const smoothAlpha = 1 - Math.exp(-24 * dt);
+      animPosRef.current.x += (localPosRef.current.x - animPosRef.current.x) * smoothAlpha;
+      animPosRef.current.y += (localPosRef.current.y - animPosRef.current.y) * smoothAlpha;
       if (Math.abs(localPosRef.current.x - animPosRef.current.x) < 0.05) animPosRef.current.x = localPosRef.current.x;
       if (Math.abs(localPosRef.current.y - animPosRef.current.y) < 0.05) animPosRef.current.y = localPosRef.current.y;
 
@@ -1815,6 +1861,102 @@ export const GameCanvas: React.FC<GameCanvasProps> = ({
           }
         }
 
+        // Active Boss Charge Attack multi-frame glide & continuous collision
+        if (enemy.state === 'attacking' && enemy.chargeState) {
+          const cs = enemy.chargeState;
+          cs.elapsed += dt;
+          const progress = Math.min(1, cs.elapsed / cs.duration);
+          const totalDx = cs.targetX - cs.startX;
+          const totalDy = cs.targetY - cs.startY;
+          const totalDist = Math.hypot(totalDx, totalDy);
+          const dirX = totalDist > 0 ? totalDx / totalDist : 0;
+          const dirY = totalDist > 0 ? totalDy / totalDist : 0;
+          const stepDist = cs.speed * dt;
+
+          let nextEx = enemy.x + dirX * stepDist;
+          let nextEy = enemy.y + dirY * stepDist;
+          let hitObstacle = false;
+
+          // Continuous obstacle collision check with safe radius
+          const rad = enemy.radius || 24;
+          for (const obs of currentMap.obstacles) {
+            if (obs.type === 'building' || obs.type === 'rock' || obs.type === 'wall') {
+              if (nextEx + rad > obs.x && nextEx - rad < obs.x + obs.width &&
+                  nextEy + rad > obs.y && nextEy - rad < obs.y + obs.height) {
+                hitObstacle = true;
+                if (dirX > 0 && enemy.x + rad <= obs.x) nextEx = obs.x - rad - 2;
+                else if (dirX < 0 && enemy.x - rad >= obs.x + obs.width) nextEx = obs.x + obs.width + rad + 2;
+                if (dirY > 0 && enemy.y + rad <= obs.y) nextEy = obs.y - rad - 2;
+                else if (dirY < 0 && enemy.y - rad >= obs.y + obs.height) nextEy = obs.y + obs.height + rad + 2;
+                break;
+              }
+            }
+          }
+
+          // Map boundary clamp
+          nextEx = Math.max(rad, Math.min(currentMap.width - rad, nextEx));
+          nextEy = Math.max(rad, Math.min(currentMap.height - rad, nextEy));
+
+          enemy.x = nextEx;
+          enemy.y = nextEy;
+
+          // Check hit against player along the charge path
+          if (!cs.hasHitPlayer) {
+            const distToP = Math.hypot(p.x - enemy.x, p.y - enemy.y);
+            if (distToP <= rad + 22) {
+              if (p.isDodging || (p.invulnerableTimer || 0) > 0) {
+                addFloatingText(p.x, p.y - 30, 'Né tránh Xung Kích!', '#38bdf8', 14);
+              } else {
+                cs.hasHitPlayer = true;
+                let incomingDmg = Math.max(1, Math.floor(enemy.atk * 1.2 - p.def * 0.4));
+                soundManager.playHit();
+                addFloatingText(p.x, p.y - 25, `Xung Kích! -${incomingDmg}`, '#ef4444', 17);
+                onUpdatePlayer(prev => ({
+                  ...prev,
+                  hp: Math.max(0, prev.hp - incomingDmg),
+                  invulnerableTimer: 0.5,
+                  hurtFlashTimer: 0.2,
+                }));
+              }
+            }
+          }
+
+          // Spawn ground charge dust particles
+          if (Math.random() < 0.4) {
+            particlesRef.current.push({
+              x: enemy.x + (Math.random() - 0.5) * 16,
+              y: enemy.y + (enemy.height ? enemy.height * 0.35 : 12),
+              vx: -dirX * 30 + (Math.random() - 0.5) * 20,
+              vy: -dirY * 30 + (Math.random() - 0.5) * 20,
+              life: 0.25,
+              maxLife: 0.25,
+              color: '#78716c',
+              size: 4,
+              shape: 'smoke',
+            });
+          }
+
+          // When charge reaches destination or strikes obstacle, end charge and enter punish window
+          if (progress >= 1 || hitObstacle) {
+            if (hitObstacle) {
+              screenShakeRef.current = Math.max(screenShakeRef.current, 6.0);
+              soundManager.playHit();
+              addFloatingText(enemy.x, enemy.y - 30, 'Đụng vật cản!', '#f59e0b', 14);
+            }
+            const hitPlayer = cs.hasHitPlayer;
+            enemy.chargeState = undefined;
+            enemy.state = 'chase';
+            enemy.bossPunishTimer = 1.2;
+            if (hitPlayer) {
+              addFloatingText(enemy.x, enemy.y - 45, '⚡ SƠ HỞ! TRỪNG PHẠT +35%', '#38bdf8', 16);
+            } else {
+              addFloatingText(enemy.x, enemy.y - 45, '⚡ HÚC TRƯỢT! TRỪNG PHẠT +35%', '#38bdf8', 16);
+            }
+          }
+
+          return; // Skip other AI states while actively charging
+        }
+
         // Boss Phase 2 Enrage check
         if (enemy.isBoss && enemy.hp < enemy.maxHp * 0.5 && (!enemy.bossPhase || enemy.bossPhase === 1)) {
           enemy.bossPhase = 2;
@@ -1981,34 +2123,26 @@ export const GameCanvas: React.FC<GameCanvasProps> = ({
                 enemy.bossPunishTimer = 1.4;
                 addFloatingText(enemy.x, enemy.y - 45, '⚡ SƠ HỞ! TRỪNG PHẠT +35%', '#38bdf8', 16);
               } else if (enemy.bossAttackPattern === 'charge') {
-                // 2. Charge Attack
+                // 2. Multi-frame Charge Attack initialization
                 soundManager.playSlash();
-                screenShakeRef.current = 7;
+                screenShakeRef.current = 5;
                 const chargeAngle = Math.atan2(
                   (enemy.chargeTarget?.y || p.y) - enemy.y,
                   (enemy.chargeTarget?.x || p.x) - enemy.x
                 );
-                enemy.x += Math.cos(chargeAngle) * 160;
-                enemy.y += Math.sin(chargeAngle) * 160;
-                const newDist = Math.hypot(p.x - enemy.x, p.y - enemy.y);
-                if (newDist <= 65) {
-                  if (p.isDodging || (p.invulnerableTimer || 0) > 0) {
-                    addFloatingText(p.x, p.y - 30, 'Né tránh Xung Kích!', '#38bdf8', 14);
-                  } else {
-                    let incomingDmg = Math.max(1, Math.floor(enemy.atk * 1.2 - p.def * 0.4));
-                    soundManager.playHit();
-                    addFloatingText(p.x, p.y - 25, `Xung Kích! -${incomingDmg}`, '#ef4444', 17);
-                    onUpdatePlayer(prev => ({
-                      ...prev,
-                      hp: Math.max(0, prev.hp - incomingDmg),
-                      invulnerableTimer: 0.5,
-                      hurtFlashTimer: 0.2,
-                    }));
-                  }
-                }
-                // Enter Punish Window
-                enemy.bossPunishTimer = 1.2;
-                addFloatingText(enemy.x, enemy.y - 45, '⚡ HÚC TRƯỢT! TRỪNG PHẠT +35%', '#38bdf8', 16);
+                const chargeDistance = 160;
+                const chargeDuration = 0.35; // 350ms multi-frame glide (~460 px/sec)
+                enemy.state = 'attacking';
+                enemy.chargeState = {
+                  startX: enemy.x,
+                  startY: enemy.y,
+                  targetX: enemy.x + Math.cos(chargeAngle) * chargeDistance,
+                  targetY: enemy.y + Math.sin(chargeAngle) * chargeDistance,
+                  duration: chargeDuration,
+                  elapsed: 0,
+                  speed: chargeDistance / chargeDuration,
+                  hasHitPlayer: false,
+                };
               } else if (enemy.bossAttackPattern === 'roar') {
                 // 3. Roar Wave: fires 3 ma khí projectiles in cone
                 soundManager.playRoar();
@@ -2339,7 +2473,7 @@ export const GameCanvas: React.FC<GameCanvasProps> = ({
             ctx.restore();
           });
 
-          renderPlayer(ctx, renderP, currentTime);
+          renderPlayer(ctx, renderP, currentTime, dt);
 
           if (attackAnimRef.current.active) {
             renderAttackArc(ctx, renderP, attackAnimRef.current);
@@ -2748,12 +2882,22 @@ export const GameCanvas: React.FC<GameCanvasProps> = ({
     });
   };
 
-  const renderPlayer = (ctx: CanvasRenderingContext2D, p: PlayerStats, time: number) => {
+  const renderPlayer = (ctx: CanvasRenderingContext2D, p: PlayerStats, time: number, dt: number = 0.016) => {
     const isCultivating = stationaryIdleTimerRef.current > 3.0 && !p.isDodging && !attackAnimRef.current.active && !castingAnimRef.current.active && p.hp > 0;
     const walkTimer = walkAnimTimerRef.current;
     const isWalking = walkTimer > 0;
-    const idleBob = (!isWalking && !isCultivating) ? Math.sin(time / 280) * 1.5 : 0;
-    renderXianxiaPlayer(ctx, p, time, walkTimer, isWalking, isCultivating, idleBob, attackAnimRef.current, castingAnimRef.current);
+
+    // Phase 2.0: Lâm Mặc Premium HD Pixel Art Sprite Renderer
+    lamMacSpriteRenderer.render(
+      ctx,
+      p,
+      dt,
+      time,
+      walkTimer,
+      isWalking,
+      attackAnimRef.current,
+      castingAnimRef.current
+    );
   };
 
   const renderAttackArc = (

@@ -19,11 +19,12 @@ export const TouchControls: React.FC<TouchControlsProps> = ({
   isInteractionAvailable = false,
   disabled = false,
 }) => {
-  // Joystick state
+  // Joystick state (active flag only changes on touch start/end, never on pointermove)
   const [joystickActive, setJoystickActive] = useState<boolean>(false);
-  const [stickPos, setStickPos] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
   const joystickBaseRef = useRef<HTMLDivElement | null>(null);
-  const activePointerId = useRef<number | null>(null);
+  const stickNubRef = useRef<HTMLDivElement | null>(null);
+  const joystickPointerId = useRef<number | null>(null);
+  const attackPointerId = useRef<number | null>(null);
   const joystickCenterRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
   const attackIntervalRef = useRef<any>(null);
 
@@ -31,16 +32,18 @@ export const TouchControls: React.FC<TouchControlsProps> = ({
 
   // Helper to reset joystick position and stop movement
   const resetJoystick = useCallback(() => {
-    if (activePointerId.current !== null && joystickBaseRef.current) {
+    if (joystickPointerId.current !== null && joystickBaseRef.current) {
       try {
-        if (joystickBaseRef.current.hasPointerCapture(activePointerId.current)) {
-          joystickBaseRef.current.releasePointerCapture(activePointerId.current);
+        if (joystickBaseRef.current.hasPointerCapture(joystickPointerId.current)) {
+          joystickBaseRef.current.releasePointerCapture(joystickPointerId.current);
         }
       } catch (err) {}
     }
-    activePointerId.current = null;
+    joystickPointerId.current = null;
     setJoystickActive(false);
-    setStickPos({ x: 0, y: 0 });
+    if (stickNubRef.current) {
+      stickNubRef.current.style.transform = 'translate3d(0px, 0px, 0)';
+    }
     inputManager.setTouchMove(0, 0);
   }, []);
 
@@ -52,28 +55,42 @@ export const TouchControls: React.FC<TouchControlsProps> = ({
     }
   }, []);
 
-  // Global safety handlers: window blur, pointerup, pointercancel
+  // Global safety handlers: window blur, pointerup, pointercancel, visibilitychange
   useEffect(() => {
     const handleGlobalPointerUp = (e: PointerEvent) => {
-      if (activePointerId.current === e.pointerId) {
+      if (joystickPointerId.current === e.pointerId) {
         resetJoystick();
       }
-      stopAttackLoop();
+      if (attackPointerId.current === e.pointerId) {
+        attackPointerId.current = null;
+        stopAttackLoop();
+      }
     };
 
     const handleWindowBlur = () => {
       resetJoystick();
+      attackPointerId.current = null;
       stopAttackLoop();
+    };
+
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        resetJoystick();
+        attackPointerId.current = null;
+        stopAttackLoop();
+      }
     };
 
     window.addEventListener('pointerup', handleGlobalPointerUp);
     window.addEventListener('pointercancel', handleGlobalPointerUp);
     window.addEventListener('blur', handleWindowBlur);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
 
     return () => {
       window.removeEventListener('pointerup', handleGlobalPointerUp);
       window.removeEventListener('pointercancel', handleGlobalPointerUp);
       window.removeEventListener('blur', handleWindowBlur);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
       resetJoystick();
       stopAttackLoop();
     };
@@ -83,6 +100,7 @@ export const TouchControls: React.FC<TouchControlsProps> = ({
   useEffect(() => {
     if (disabled) {
       resetJoystick();
+      attackPointerId.current = null;
       stopAttackLoop();
     }
   }, [disabled, resetJoystick, stopAttackLoop]);
@@ -94,7 +112,9 @@ export const TouchControls: React.FC<TouchControlsProps> = ({
     const dist = Math.hypot(dx, dy);
 
     if (dist <= 0) {
-      setStickPos({ x: 0, y: 0 });
+      if (stickNubRef.current) {
+        stickNubRef.current.style.transform = 'translate3d(0px, 0px, 0)';
+      }
       inputManager.setTouchMove(0, 0);
       return;
     }
@@ -104,20 +124,23 @@ export const TouchControls: React.FC<TouchControlsProps> = ({
     const stickX = Math.cos(angle) * clampedDist;
     const stickY = Math.sin(angle) * clampedDist;
 
-    setStickPos({ x: stickX, y: stickY });
+    // Direct DOM manipulation - zero React re-renders during high frequency touch move
+    if (stickNubRef.current) {
+      stickNubRef.current.style.transform = `translate3d(${stickX}px, ${stickY}px, 0)`;
+    }
     // Normalize vector to [-1, 1]
     inputManager.setTouchMove(stickX / MAX_RADIUS, stickY / MAX_RADIUS);
   };
 
   const handleJoystickPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
-    if (disabled || activePointerId.current !== null) return;
+    if (disabled || joystickPointerId.current !== null) return;
     e.preventDefault();
     e.stopPropagation();
 
     const base = joystickBaseRef.current;
     if (!base) return;
 
-    activePointerId.current = e.pointerId;
+    joystickPointerId.current = e.pointerId;
     try {
       base.setPointerCapture(e.pointerId);
     } catch (err) {}
@@ -132,7 +155,7 @@ export const TouchControls: React.FC<TouchControlsProps> = ({
   };
 
   const handleJoystickPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
-    if (disabled || activePointerId.current !== e.pointerId) return;
+    if (disabled || joystickPointerId.current !== e.pointerId) return;
     e.preventDefault();
     e.stopPropagation();
 
@@ -140,17 +163,22 @@ export const TouchControls: React.FC<TouchControlsProps> = ({
   };
 
   const handleJoystickPointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
-    if (activePointerId.current !== e.pointerId) return;
+    if (joystickPointerId.current !== e.pointerId) return;
     e.preventDefault();
     e.stopPropagation();
     resetJoystick();
   };
 
-  // Continuous Attack Hold Support
+  // Continuous Attack Hold Support with dedicated pointer isolation
   const handleAttackPointerDown = (e: React.PointerEvent) => {
     e.preventDefault();
     e.stopPropagation();
     if (disabled || player.hp <= 0) return;
+
+    attackPointerId.current = e.pointerId;
+    try {
+      e.currentTarget.setPointerCapture(e.pointerId);
+    } catch (err) {}
 
     if (navigator.vibrate) {
       try { navigator.vibrate(10); } catch (err) {}
@@ -167,7 +195,15 @@ export const TouchControls: React.FC<TouchControlsProps> = ({
   const handleAttackPointerUp = (e: React.PointerEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    stopAttackLoop();
+    if (attackPointerId.current === e.pointerId) {
+      try {
+        if (e.currentTarget.hasPointerCapture(e.pointerId)) {
+          e.currentTarget.releasePointerCapture(e.pointerId);
+        }
+      } catch (err) {}
+      attackPointerId.current = null;
+      stopAttackLoop();
+    }
   };
 
   // Single action triggers (Dodge, Skills, Interact)
@@ -217,13 +253,14 @@ export const TouchControls: React.FC<TouchControlsProps> = ({
 
           {/* Inner stick nub */}
           <div
-            className={`w-14 h-14 rounded-full border-2 flex items-center justify-center transition-transform duration-75 shadow-lg pointer-events-none ${
+            ref={stickNubRef}
+            className={`w-14 h-14 rounded-full border-2 flex items-center justify-center shadow-lg pointer-events-none ${
               joystickActive
-                ? 'bg-gradient-to-br from-amber-500 to-yellow-600 border-amber-200 shadow-amber-600/40 text-stone-950 scale-105'
-                : 'bg-stone-800 border-stone-600 text-stone-400'
+                ? 'bg-gradient-to-br from-amber-500 to-yellow-600 border-amber-200 shadow-amber-600/40 text-stone-950 scale-105 transition-none'
+                : 'bg-stone-800 border-stone-600 text-stone-400 transition-transform duration-150'
             }`}
             style={{
-              transform: `translate(${stickPos.x}px, ${stickPos.y}px)`,
+              transform: 'translate3d(0px, 0px, 0)',
               touchAction: 'none',
             }}
           >

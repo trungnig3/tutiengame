@@ -1,0 +1,551 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PhamTranTienLo_AssetManifest",
+  "version": "1.0.0",
+  "meta": {
+    "gameTitle": "Phàm Trần Tiên Lộ",
+    "artStandard": "Premium HD Pixel Art - Chinese Xianxia ARPG",
+    "baseTileSize": 32,
+    "pixelScaleFactor": 3,
+    "cameraPerspective": "3/4 Top-Down Oblique (60deg)",
+    "textureFormat": "image/png",
+    "imageSmoothing": false
+  },
+  "loadingGroups": [
+    {
+      "id": "boot",
+      "description": "Essential assets required before title and splash screen render",
+      "preload": true
+    },
+    {
+      "id": "common_ui",
+      "description": "HUD, dialogue boxes, modal 9-slice frames, and item icons",
+      "preload": true
+    },
+    {
+      "id": "test_scene",
+      "description": "Assets strictly required for the Pixel Art Visual Sandbox Scene",
+      "preload": false
+    },
+    {
+      "id": "biome_thanh_khe",
+      "description": "Thanh Khê Thôn & Linh Khê Sơn outdoor maps",
+      "preload": false
+    },
+    {
+      "id": "biome_thanh_van_tong",
+      "description": "Thanh Vân Tông grand mountain sect plazas and pavilions",
+      "preload": false
+    },
+    {
+      "id": "combat_vfx",
+      "description": "Elemental sword slashes, spell circles, and impact sparks",
+      "preload": true
+    }
+  ],
+  "atlases": [
+    {
+      "id": "atlas_entities_core",
+      "src": "/assets/pixel/atlases/entities_core.png",
+      "width": 1024,
+      "height": 1024,
+      "loadingGroup": "test_scene"
+    },
+    {
+      "id": "atlas_environment_thanh_khe",
+      "src": "/assets/pixel/atlases/environment_thanh_khe.png",
+      "width": 1024,
+      "height": 1024,
+      "loadingGroup": "biome_thanh_khe"
+    },
+    {
+      "id": "atlas_combat_vfx",
+      "src": "/assets/pixel/atlases/combat_vfx.png",
+      "width": 512,
+      "height": 512,
+      "loadingGroup": "combat_vfx"
+    },
+    {
+      "id": "atlas_ui_pixel",
+      "src": "/assets/pixel/atlases/ui_pixel.png",
+      "width": 512,
+      "height": 512,
+      "loadingGroup": "common_ui"
+    }
+  ],
+  "spritesheets": {
+    "player_cultivator_lam_mac": {
+      "id": "player_cultivator_lam_mac",
+      "name": "Lâm Mặc (Kiếm Tu)",
+      "category": "characters",
+      "loadingGroup": "boot",
+      "src": "/assets/pixel-art/characters/lam_mac/lam_mac_idle.png",
+      "preview": "/assets/pixel-art/characters/lam_mac/lam_mac_preview.png",
+      "compositeSheet": "/assets/pixel/characters/player_cultivator_lam_mac.png",
+      "directionalSheets": {
+        "idle": "/assets/pixel-art/characters/lam_mac/lam_mac_idle.png",
+        "walk": "/assets/pixel-art/characters/lam_mac/lam_mac_walk.png",
+        "run": "/assets/pixel-art/characters/lam_mac/lam_mac_run.png",
+        "attack1": "/assets/pixel-art/characters/lam_mac/lam_mac_attack_1.png",
+        "attack2": "/assets/pixel-art/characters/lam_mac/lam_mac_attack_2.png",
+        "attack3": "/assets/pixel-art/characters/lam_mac/lam_mac_attack_3.png",
+        "dodge": "/assets/pixel-art/characters/lam_mac/lam_mac_dodge.png",
+        "skill": "/assets/pixel-art/characters/lam_mac/lam_mac_skill.png",
+        "hit": "/assets/pixel-art/characters/lam_mac/lam_mac_hit.png",
+        "death": "/assets/pixel-art/characters/lam_mac/lam_mac_death.png"
+      },
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "logicalWidth": 32,
+      "logicalHeight": 48,
+      "pivot": { "x": 0.5, "y": 0.875 },
+      "hitbox": { "type": "circle", "radius": 14, "offsetX": 0, "offsetY": -4 },
+      "directions": ["down", "left", "right", "up"],
+      "directionOrder": ["down", "left", "right", "up"],
+      "allowFlipX": true,
+      "animations": {
+        "idle": {
+          "fps": 6,
+          "loop": true,
+          "frameCount": 6,
+          "row": 0,
+          "frames": [0, 1, 2, 3, 4, 5]
+        },
+        "walk": {
+          "fps": 10,
+          "loop": true,
+          "frameCount": 8,
+          "row": 1,
+          "frames": [0, 1, 2, 3, 4, 5, 6, 7]
+        },
+        "run": {
+          "fps": 12,
+          "loop": true,
+          "frameCount": 8,
+          "row": 2,
+          "frames": [0, 1, 2, 3, 4, 5, 6, 7]
+        },
+        "attack1": {
+          "fps": 14,
+          "loop": false,
+          "frameCount": 5,
+          "row": 3,
+          "frames": [0, 1, 2, 3, 4],
+          "hitFrame": 2
+        },
+        "attack2": {
+          "fps": 14,
+          "loop": false,
+          "frameCount": 5,
+          "row": 4,
+          "frames": [0, 1, 2, 3, 4],
+          "hitFrame": 2
+        },
+        "attack3": {
+          "fps": 15,
+          "loop": false,
+          "frameCount": 6,
+          "row": 5,
+          "frames": [0, 1, 2, 3, 4, 5],
+          "hitFrame": 3
+        },
+        "dodge": {
+          "fps": 16,
+          "loop": false,
+          "frameCount": 4,
+          "row": 6,
+          "frames": [0, 1, 2, 3]
+        },
+        "skill": {
+          "fps": 12,
+          "loop": false,
+          "frameCount": 8,
+          "row": 7,
+          "frames": [0, 1, 2, 3, 4, 5, 6, 7],
+          "castFrame": 4
+        },
+        "hit": {
+          "fps": 12,
+          "loop": false,
+          "frameCount": 3,
+          "row": 8,
+          "frames": [0, 1, 2]
+        },
+        "death": {
+          "fps": 8,
+          "loop": false,
+          "holdLastFrame": true,
+          "frameCount": 8,
+          "row": 9,
+          "frames": [0, 1, 2, 3, 4, 5, 6, 7]
+        }
+      },
+      "metadata": "/assets/pixel-art/characters/lam_mac/lam_mac_metadata.json",
+      "separatedVfx": {
+        "swordSlashWind": "/assets/pixel-art/vfx/vfx_sword_slash_wind.png",
+        "swordThrustGolden": "/assets/pixel-art/vfx/vfx_sword_thrust_golden.png",
+        "groundSlamShockwave": "/assets/pixel-art/vfx/vfx_ground_slam_shockwave.png",
+        "dodgePhantomTrail": "/assets/pixel-art/vfx/vfx_dodge_phantom_trail.png",
+        "celestialSwordAura": "/assets/pixel-art/vfx/vfx_celestial_sword_aura.png"
+      }
+    },
+    "enemy_spirit_wolf": {
+      "id": "enemy_spirit_wolf",
+      "name": "Thanh Khê Dã Lang",
+      "category": "enemies",
+      "loadingGroup": "test_scene",
+      "src": "/assets/pixel/enemies/enemy_spirit_wolf.png",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "logicalWidth": 44,
+      "logicalHeight": 32,
+      "pivot": { "x": 0.5, "y": 0.85 },
+      "hitbox": { "type": "circle", "radius": 15, "offsetX": 0, "offsetY": -4 },
+      "directions": ["down", "right"],
+      "allowFlipX": true,
+      "animations": {
+        "idle": { "fps": 5, "loop": true, "frameCount": 4, "frames": [0, 1, 2, 3] },
+        "walk": { "fps": 10, "loop": true, "frameCount": 6, "frames": [0, 1, 2, 3, 4, 5] },
+        "attack": { "fps": 12, "loop": false, "frameCount": 6, "frames": [0, 1, 2, 3, 4, 5], "hitFrame": 3 },
+        "hit": { "fps": 10, "loop": false, "frameCount": 2, "frames": [0, 1] },
+        "death": { "fps": 10, "loop": false, "holdLastFrame": true, "frameCount": 6, "frames": [0, 1, 2, 3, 4, 5] }
+      }
+    },
+    "enemy_iron_boar": {
+      "id": "enemy_iron_boar",
+      "name": "Thiết Bì Dã Trư",
+      "category": "enemies",
+      "loadingGroup": "test_scene",
+      "src": "/assets/pixel/enemies/enemy_iron_boar.png",
+      "frameWidth": 64,
+      "frameHeight": 48,
+      "logicalWidth": 52,
+      "logicalHeight": 36,
+      "pivot": { "x": 0.5, "y": 0.85 },
+      "hitbox": { "type": "circle", "radius": 18, "offsetX": 0, "offsetY": -4 },
+      "directions": ["down", "right"],
+      "allowFlipX": true,
+      "animations": {
+        "idle": { "fps": 5, "loop": true, "frameCount": 4, "frames": [0, 1, 2, 3] },
+        "walk": { "fps": 8, "loop": true, "frameCount": 6, "frames": [0, 1, 2, 3, 4, 5] },
+        "attack": { "fps": 12, "loop": false, "frameCount": 6, "frames": [0, 1, 2, 3, 4, 5], "hitFrame": 3 },
+        "hit": { "fps": 10, "loop": false, "frameCount": 2, "frames": [0, 1] },
+        "death": { "fps": 10, "loop": false, "holdLastFrame": true, "frameCount": 6, "frames": [0, 1, 2, 3, 4, 5] }
+      }
+    },
+    "enemy_dark_cultist": {
+      "id": "enemy_dark_cultist",
+      "name": "Hắc Sát Ma Đồ",
+      "category": "enemies",
+      "loadingGroup": "test_scene",
+      "src": "/assets/pixel/enemies/enemy_dark_cultist.png",
+      "frameWidth": 48,
+      "frameHeight": 64,
+      "logicalWidth": 32,
+      "logicalHeight": 48,
+      "pivot": { "x": 0.5, "y": 0.875 },
+      "hitbox": { "type": "circle", "radius": 16, "offsetX": 0, "offsetY": -4 },
+      "directions": ["down", "right"],
+      "allowFlipX": true,
+      "animations": {
+        "idle": { "fps": 5, "loop": true, "frameCount": 4, "frames": [0, 1, 2, 3] },
+        "walk": { "fps": 8, "loop": true, "frameCount": 6, "frames": [0, 1, 2, 3, 4, 5] },
+        "attack": { "fps": 10, "loop": false, "frameCount": 6, "frames": [0, 1, 2, 3, 4, 5], "castFrame": 3 },
+        "hit": { "fps": 10, "loop": false, "frameCount": 2, "frames": [0, 1] },
+        "death": { "fps": 10, "loop": false, "holdLastFrame": true, "frameCount": 6, "frames": [0, 1, 2, 3, 4, 5] }
+      }
+    },
+    "boss_white_ape": {
+      "id": "boss_white_ape",
+      "name": "Bạch Mao Viên Hầu",
+      "category": "bosses",
+      "loadingGroup": "test_scene",
+      "src": "/assets/pixel/bosses/boss_white_ape.png",
+      "frameWidth": 128,
+      "frameHeight": 128,
+      "logicalWidth": 80,
+      "logicalHeight": 96,
+      "pivot": { "x": 0.5, "y": 0.90 },
+      "hitbox": { "type": "circle", "radius": 36, "offsetX": 0, "offsetY": -8 },
+      "directions": ["down", "right"],
+      "allowFlipX": true,
+      "animations": {
+        "idle": { "fps": 6, "loop": true, "frameCount": 6, "frames": [0, 1, 2, 3, 4, 5] },
+        "walk": { "fps": 8, "loop": true, "frameCount": 8, "frames": [0, 1, 2, 3, 4, 5, 6, 7] },
+        "charge": { "fps": 14, "loop": true, "frameCount": 6, "frames": [0, 1, 2, 3, 4, 5] },
+        "attack": { "fps": 12, "loop": false, "frameCount": 8, "frames": [0, 1, 2, 3, 4, 5, 6, 7], "hitFrame": 4 },
+        "special": { "fps": 10, "loop": false, "frameCount": 10, "frames": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], "shockwaveFrame": 5 },
+        "hit": { "fps": 8, "loop": true, "frameCount": 4, "frames": [0, 1, 2, 3] },
+        "death": { "fps": 8, "loop": false, "holdLastFrame": true, "frameCount": 12, "frames": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11] }
+      }
+    },
+    "npc_elder_ly_duc": {
+      "id": "npc_elder_ly_duc",
+      "name": "Lý Đức (Trưởng Thôn)",
+      "category": "npcs",
+      "loadingGroup": "test_scene",
+      "src": "/assets/pixel/characters/npc_village_chief_ly_duc.png",
+      "frameWidth": 48,
+      "frameHeight": 64,
+      "logicalWidth": 32,
+      "logicalHeight": 46,
+      "pivot": { "x": 0.5, "y": 0.875 },
+      "hitbox": { "type": "circle", "radius": 14, "offsetX": 0, "offsetY": -4 },
+      "directions": ["down"],
+      "allowFlipX": false,
+      "animations": {
+        "idle": { "fps": 4, "loop": true, "frameCount": 4, "frames": [0, 1, 2, 3] }
+      }
+    }
+  },
+  "tilesets": {
+    "thanh_khe_ground": {
+      "id": "thanh_khe_ground",
+      "name": "Thanh Khê Thôn Ground & Paths",
+      "category": "environment_tiles",
+      "loadingGroup": "biome_thanh_khe",
+      "src": "/assets/pixel/environment/ground_tileset.png",
+      "tileSize": 32,
+      "tiles": {
+        "dirt_base": { "x": 0, "y": 0, "w": 32, "h": 32 },
+        "grass_plain": { "x": 32, "y": 0, "w": 32, "h": 32 },
+        "grass_clump_variant_1": { "x": 64, "y": 0, "w": 32, "h": 32 },
+        "grass_clump_variant_2": { "x": 96, "y": 0, "w": 32, "h": 32 },
+        "stone_cobblestone": { "x": 128, "y": 0, "w": 32, "h": 32 },
+        "cliff_top": { "x": 160, "y": 0, "w": 32, "h": 32 },
+        "cliff_wall": { "x": 192, "y": 0, "w": 32, "h": 32 }
+      }
+    },
+    "animated_water_stream": {
+      "id": "animated_water_stream",
+      "name": "Thanh Khê Clear Stream",
+      "category": "environment_tiles",
+      "loadingGroup": "biome_thanh_khe",
+      "src": "/assets/pixel/environment/animated_water_stream.png",
+      "tileSize": 32,
+      "isAnimated": true,
+      "fps": 4,
+      "frameCount": 4,
+      "tiles": {
+        "water_deep": [{ "x": 0, "y": 0 }, { "x": 32, "y": 0 }, { "x": 64, "y": 0 }, { "x": 96, "y": 0 }],
+        "water_lotus_pad": [{ "x": 0, "y": 32 }, { "x": 32, "y": 32 }, { "x": 64, "y": 32 }, { "x": 96, "y": 32 }]
+      }
+    }
+  },
+  "props": {
+    "building_thanh_khe_dinh": {
+      "id": "building_thanh_khe_dinh",
+      "name": "Thanh Khê Đình (Nhà Thôn Mái Ngói)",
+      "category": "environment_props",
+      "loadingGroup": "test_scene",
+      "src": "/assets/pixel/environment/building_thanh_khe_dinh.png",
+      "width": 128,
+      "height": 128,
+      "pivot": { "x": 0.5, "y": 0.90 },
+      "collision": { "type": "rect", "x": 16, "y": 64, "w": 96, "h": 52 },
+      "subLayers": {
+        "roofOverhead": { "x": 0, "y": 0, "w": 128, "h": 68, "layer": 3 },
+        "wallsAndBase": { "x": 0, "y": 68, "w": 128, "h": 60, "layer": 2 }
+      }
+    },
+    "tree_ancient_pine": {
+      "id": "tree_ancient_pine",
+      "name": "Cổ Tùng Thụ (Cây Lớn)",
+      "category": "environment_props",
+      "loadingGroup": "test_scene",
+      "src": "/assets/pixel/environment/tree_ancient_pine.png",
+      "width": 128,
+      "height": 160,
+      "pivot": { "x": 0.5, "y": 0.95 },
+      "collision": { "type": "circle", "radius": 16, "offsetX": 0, "offsetY": -8 },
+      "subLayers": {
+        "canopy": { "x": 0, "y": 0, "w": 128, "h": 120, "layer": 3 },
+        "trunk": { "x": 48, "y": 120, "w": 32, "h": 40, "layer": 2 }
+      }
+    },
+    "tree_bamboo_stalk": {
+      "id": "tree_bamboo_stalk",
+      "name": "Trúc Linh Mộc (Cây Nhỏ)",
+      "category": "environment_props",
+      "loadingGroup": "test_scene",
+      "src": "/assets/pixel/environment/tree_bamboo.png",
+      "width": 32,
+      "height": 96,
+      "pivot": { "x": 0.5, "y": 0.95 },
+      "collision": { "type": "circle", "radius": 8, "offsetX": 0, "offsetY": -4 },
+      "subLayers": {
+        "canopy": { "x": 0, "y": 0, "w": 32, "h": 60, "layer": 3 },
+        "stem": { "x": 12, "y": 60, "w": 8, "h": 36, "layer": 2 }
+      }
+    },
+    "bridge_rustic_wood": {
+      "id": "bridge_rustic_wood",
+      "name": "Cầu Gỗ Cổ Bắt Qua Suối",
+      "category": "environment_props",
+      "loadingGroup": "test_scene",
+      "src": "/assets/pixel/environment/bridge_rustic_wood.png",
+      "width": 112,
+      "height": 80,
+      "pivot": { "x": 0.5, "y": 0.5 },
+      "collision": { "type": "traversable_corridor", "x": 20, "y": 12, "w": 72, "h": 56 },
+      "layer": 1
+    },
+    "prop_chiseled_rock": {
+      "id": "prop_chiseled_rock",
+      "name": "Tảng Đá Góc Cạnh Đính Tinh Thể",
+      "category": "environment_props",
+      "loadingGroup": "test_scene",
+      "src": "/assets/pixel/environment/prop_chiseled_rock.png",
+      "width": 64,
+      "height": 48,
+      "pivot": { "x": 0.5, "y": 0.85 },
+      "collision": { "type": "rect", "x": 4, "y": 14, "w": 56, "h": 30 },
+      "layer": 2
+    },
+    "prop_hanging_lantern": {
+      "id": "prop_hanging_lantern",
+      "name": "Lồng Đèn Đỏ Cổ Phong",
+      "category": "environment_props",
+      "loadingGroup": "test_scene",
+      "src": "/assets/pixel/environment/prop_hanging_lantern.png",
+      "width": 16,
+      "height": 24,
+      "pivot": { "x": 0.5, "y": 0.1 },
+      "isAnimated": true,
+      "fps": 4,
+      "frameCount": 4,
+      "lightSource": { "radius": 48, "color": "rgba(239, 68, 68, 0.45)" }
+    }
+  },
+  "vfx": {
+    "vfx_sword_slash_wind": {
+      "id": "vfx_sword_slash_wind",
+      "name": "Thanh Phong Kiếm Khí Trảm",
+      "category": "combat_vfx",
+      "loadingGroup": "combat_vfx",
+      "src": "/assets/pixel/vfx/vfx_sword_slash_wind.png",
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "fps": 16,
+      "frameCount": 4,
+      "loop": false,
+      "pivot": { "x": 0.5, "y": 0.5 }
+    },
+    "vfx_fire_arc": {
+      "id": "vfx_fire_arc",
+      "name": "Hỏa Diễm Kiếm Trảm",
+      "category": "combat_vfx",
+      "loadingGroup": "combat_vfx",
+      "src": "/assets/pixel/vfx/vfx_fire_arc.png",
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "fps": 16,
+      "frameCount": 5,
+      "loop": false,
+      "pivot": { "x": 0.5, "y": 0.5 }
+    },
+    "vfx_lightning_strike": {
+      "id": "vfx_lightning_strike",
+      "name": "Lôi Đình Nhất Kích",
+      "category": "combat_vfx",
+      "loadingGroup": "combat_vfx",
+      "src": "/assets/pixel/vfx/vfx_lightning_strike.png",
+      "frameWidth": 48,
+      "frameHeight": 96,
+      "fps": 20,
+      "frameCount": 4,
+      "loop": false,
+      "pivot": { "x": 0.5, "y": 0.95 }
+    },
+    "vfx_impact_sparks": {
+      "id": "vfx_impact_sparks",
+      "name": "Điểm Va Chạm Kim Khí Lóe Sáng",
+      "category": "combat_vfx",
+      "loadingGroup": "combat_vfx",
+      "src": "/assets/pixel/vfx/vfx_impact_sparks.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "fps": 20,
+      "frameCount": 3,
+      "loop": false,
+      "pivot": { "x": 0.5, "y": 0.5 }
+    },
+    "vfx_magic_circle_eight_trigrams": {
+      "id": "vfx_magic_circle_eight_trigrams",
+      "name": "Bát Quái Trận Đồ",
+      "category": "combat_vfx",
+      "loadingGroup": "combat_vfx",
+      "atlas": "atlas_combat_vfx",
+      "frameWidth": 128,
+      "frameHeight": 128,
+      "fps": 10,
+      "frameCount": 8,
+      "loop": true,
+      "pivot": { "x": 0.5, "y": 0.5 }
+    },
+    "vfx_cultivator_aura": {
+      "id": "vfx_cultivator_aura",
+      "name": "Linh Khí Hộ Thể Hào Quang",
+      "category": "combat_vfx",
+      "loadingGroup": "combat_vfx",
+      "atlas": "atlas_combat_vfx",
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "fps": 8,
+      "frameCount": 6,
+      "loop": true,
+      "pivot": { "x": 0.5, "y": 0.85 }
+    }
+  },
+  "ui": {
+    "panel_parchment_9slice": {
+      "id": "panel_parchment_9slice",
+      "name": "Cổ Phong Giấy Da 9-Slice Panel",
+      "category": "ui",
+      "loadingGroup": "common_ui",
+      "atlas": "atlas_ui_pixel",
+      "width": 48,
+      "height": 48,
+      "nineSlice": { "top": 12, "right": 12, "bottom": 12, "left": 12 }
+    },
+    "panel_jade_border_9slice": {
+      "id": "panel_jade_border_9slice",
+      "name": "Khung Viền Bích Ngọc 9-Slice Panel",
+      "category": "ui",
+      "loadingGroup": "common_ui",
+      "atlas": "atlas_ui_pixel",
+      "width": 48,
+      "height": 48,
+      "nineSlice": { "top": 14, "right": 14, "bottom": 14, "left": 14 }
+    },
+    "bar_health_frame": {
+      "id": "bar_health_frame",
+      "name": "Khung Thanh Máu Viền Đồng Cổ",
+      "category": "ui",
+      "loadingGroup": "common_ui",
+      "atlas": "atlas_ui_pixel",
+      "width": 120,
+      "height": 18
+    },
+    "item_icons_32x32": {
+      "id": "item_icons_32x32",
+      "name": "Bộ Biểu Tượng Vật Phẩm & Bí Kíp",
+      "category": "ui",
+      "loadingGroup": "common_ui",
+      "atlas": "atlas_ui_pixel",
+      "gridSize": 32,
+      "items": {
+        "spirit_stone_low": { "col": 0, "row": 0 },
+        "spirit_stone_mid": { "col": 1, "row": 0 },
+        "healing_pill": { "col": 2, "row": 0 },
+        "qi_pill": { "col": 3, "row": 0 },
+        "blood_herb": { "col": 4, "row": 0 },
+        "iron_sword": { "col": 0, "row": 1 },
+        "spirit_sword": { "col": 1, "row": 1 },
+        "talisman_speed": { "col": 2, "row": 1 },
+        "talisman_shield": { "col": 3, "row": 1 },
+        "secret_manual_scroll": { "col": 4, "row": 1 }
+      }
+    }
+  }
+}

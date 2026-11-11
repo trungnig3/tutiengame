@@ -33,16 +33,20 @@ import { ChapterRewardModal } from './components/modals/ChapterRewardModal';
 import { MobileInstallModal } from './components/modals/MobileInstallModal';
 import { AchievementToast } from './components/AchievementToast';
 import { TouchControls } from './components/TouchControls';
+import { PixelArtSandbox } from './components/PixelArtSandbox';
+import { LamMacSpriteViewer } from './components/LamMacSpriteViewer';
 import { inputManager } from './engine/inputManager';
 import { AchievementDefinition } from './types/achievements';
 import { checkAllAchievements, recordEvent } from './engine/achievementEngine';
 import { ITEMS } from './data/items';
 import confetti from 'canvas-confetti';
-import { Play, BookOpen, Volume2, Sparkles, Compass, Smartphone } from 'lucide-react';
+import { Play, BookOpen, Volume2, Sparkles, Compass, Smartphone, Eye } from 'lucide-react';
 
 export default function App() {
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [hasSave, setHasSave] = useState<boolean>(false);
+  const [isSandboxMode, setIsSandboxMode] = useState<boolean>(false);
+  const [isSpriteViewerOpen, setIsSpriteViewerOpen] = useState<boolean>(false);
   const [player, setPlayer] = useState<PlayerStats>(() => {
     const autoSave = SaveManager.loadGame('auto');
     if (autoSave && autoSave.playerStats) {
@@ -451,9 +455,17 @@ export default function App() {
 
   return (
     <div className="relative w-screen h-screen bg-stone-950 text-stone-100 overflow-hidden font-sans">
-      {/* === TITLE SCREEN / MAIN MENU === */}
-      {!isPlaying ? (
-        <div className="relative w-full h-full flex flex-col items-center justify-center p-6 bg-radial from-stone-900 via-stone-950 to-black select-none">
+      {/* === PIXEL ART VISUAL SANDBOX (ISOLATED PHASE 1) === */}
+      {isSandboxMode ? (
+        <PixelArtSandbox
+          onExit={() => setIsSandboxMode(false)}
+          onOpenSpriteViewer={() => setIsSpriteViewerOpen(true)}
+        />
+      ) : (
+        <>
+          {/* === TITLE SCREEN / MAIN MENU === */}
+          {!isPlaying ? (
+            <div className="relative w-full h-full flex flex-col items-center justify-center p-6 bg-radial from-stone-900 via-stone-950 to-black select-none">
           {/* Subtle mist effect background */}
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(217,119,6,0.08)_0%,_transparent_70%)] pointer-events-none" />
 
@@ -478,6 +490,15 @@ export default function App() {
 
             {/* Menu Buttons */}
             <div className="space-y-3 pt-4 max-w-xs mx-auto">
+              {/* PRIMARY VISUAL DELIVERABLE BUTTON: LÂM MẶC SPRITE SHEET */}
+              <button
+                onClick={() => setIsSpriteViewerOpen(true)}
+                className="w-full py-3 rounded-xl bg-gradient-to-r from-cyan-600 via-amber-500 to-emerald-600 hover:from-cyan-500 hover:via-amber-400 hover:to-emerald-500 text-stone-950 font-black text-xs md:text-sm tracking-wide transition shadow-xl hover:scale-102 active:scale-98 cursor-pointer flex items-center justify-center gap-2 border border-amber-300"
+              >
+                <Eye className="w-4 h-4 fill-stone-950" />
+                👁️ Xem Sprite Sheet Lâm Mặc (11 Files PNG)
+              </button>
+
               {hasSave && (
                 <button
                   onClick={handleContinueGame}
@@ -498,6 +519,14 @@ export default function App() {
               >
                 <Compass className="w-4 h-4" />
                 Khởi Đầu Con Đường Tiên Lộ
+              </button>
+
+              <button
+                onClick={() => setIsSandboxMode(true)}
+                className="w-full py-2.5 rounded-xl bg-gradient-to-r from-emerald-800 to-teal-700 hover:from-emerald-700 hover:to-teal-600 text-amber-200 border border-emerald-500/60 font-bold text-xs tracking-wide transition shadow-lg hover:scale-102 active:scale-98 cursor-pointer flex items-center justify-center gap-2"
+              >
+                <Sparkles className="w-4 h-4 text-emerald-300" />
+                🎨 Trải Nghiệm Visual Sandbox (Pixel Art Phase 1)
               </button>
 
               <button
@@ -623,6 +652,7 @@ export default function App() {
             onToggleTouchControls={handleToggleTouchControls}
             renderMode={renderMode}
             onToggleRenderMode={() => setRenderMode(prev => (prev === '3d' ? '2d' : '3d'))}
+            onOpenSandbox={() => setIsSandboxMode(true)}
           />
 
           {/* Mobile Virtual Joystick & Touch Action Cluster */}
@@ -891,6 +921,13 @@ export default function App() {
       {/* Mobile Download & Installation Modal */}
       {isMobileInstallOpen && (
         <MobileInstallModal onClose={() => setIsMobileInstallOpen(false)} />
+      )}
+        </>
+      )}
+
+      {/* Lâm Mặc Sprite Sheet Inspector & Live Preview (Accessible anywhere) */}
+      {isSpriteViewerOpen && (
+        <LamMacSpriteViewer onClose={() => setIsSpriteViewerOpen(false)} />
       )}
     </div>
   );

@@ -10,6 +10,7 @@ export interface InputVector {
 
 export type UnifiedAction =
   | 'attack'
+  | 'attack_2'
   | 'dodge'
   | 'skill_q'
   | 'skill_e'

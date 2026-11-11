@@ -91,16 +91,22 @@ class InputManager {
     }
     if (key === 'i') { this.emitMenuAction('inventory'); return; }
     if (key === 'c') { this.emitMenuAction('character'); return; }
-    if (key === 'k') { this.emitMenuAction('cultivation'); return; }
-    if (key === 'j') { this.emitMenuAction('quests'); return; }
     if (key === 'm') { this.emitMenuAction('map'); return; }
     if (key === 'p') { this.emitMenuAction('alchemy'); return; }
     if (key === 'l') { this.emitMenuAction('forging'); return; }
     if (key === 'o') { this.emitMenuAction('war_room'); return; }
     if (key === 'y') { this.emitMenuAction('achievements'); return; }
 
-    // If paused, do not process gameplay actions
-    if (this.isPaused) return;
+    // If paused or modified (Ctrl/Alt), J and K open quests and cultivation menus
+    if (this.isPaused || e.ctrlKey || e.altKey) {
+      if (key === 'k') { this.emitMenuAction('cultivation'); return; }
+      if (key === 'j') { this.emitMenuAction('quests'); return; }
+      return;
+    }
+
+    // In active combat gameplay: J = Trảm Kiếm (Attack 1), K = Thứ Kiếm (Attack 2)
+    if (key === 'j') { this.triggerAction('attack'); return; }
+    if (key === 'k') { this.triggerAction('attack_2'); return; }
 
     // Movement keys
     if (['w', 'a', 's', 'd', 'arrowup', 'arrowleft', 'arrowdown', 'arrowright'].includes(key)) {

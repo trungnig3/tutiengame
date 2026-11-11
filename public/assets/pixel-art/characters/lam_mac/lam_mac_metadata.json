@@ -1,0 +1,290 @@
+{
+  "character": "Lâm Mặc",
+  "genre": "Chinese Xianxia Action RPG",
+  "perspective": "Top-down 3/4 Oblique",
+  "standardFrameWidth": 64,
+  "standardFrameHeight": 64,
+  "normalizedPivot": {
+    "x": 0.5,
+    "y": 0.875
+  },
+  "pixelPivot": {
+    "x": 32,
+    "y": 56
+  },
+  "directionOrder": [
+    "down",
+    "left",
+    "right",
+    "up"
+  ],
+  "directionRows": {
+    "down": 0,
+    "left": 1,
+    "right": 2,
+    "up": 3
+  },
+  "animations": {
+    "idle": {
+      "name": "Idle (Đứng Tĩnh Tọa)",
+      "sourcePng": "/assets/pixel-art/characters/lam_mac/lam_mac_idle.png",
+      "imageWidth": 384,
+      "imageHeight": 256,
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "frameCount": 6,
+      "fps": 6,
+      "loop": true,
+      "pivotX": 0.5,
+      "pivotY": 0.875,
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "separatedVfx": null
+    },
+    "walk": {
+      "name": "Walk (Đi Bộ Cẩn Trọng)",
+      "sourcePng": "/assets/pixel-art/characters/lam_mac/lam_mac_walk.png",
+      "imageWidth": 512,
+      "imageHeight": 256,
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "frameCount": 8,
+      "fps": 10,
+      "loop": true,
+      "pivotX": 0.5,
+      "pivotY": 0.875,
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "separatedVfx": null
+    },
+    "run": {
+      "name": "Run (Chạy Nhanh Ngự Phong)",
+      "sourcePng": "/assets/pixel-art/characters/lam_mac/lam_mac_run.png",
+      "imageWidth": 512,
+      "imageHeight": 256,
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "frameCount": 8,
+      "fps": 12,
+      "loop": true,
+      "pivotX": 0.5,
+      "pivotY": 0.875,
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "separatedVfx": null
+    },
+    "attack_1": {
+      "name": "Attack 1 (Trảm Kiếm)",
+      "sourcePng": "/assets/pixel-art/characters/lam_mac/lam_mac_attack_1.png",
+      "imageWidth": 320,
+      "imageHeight": 256,
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "frameCount": 5,
+      "fps": 12,
+      "loop": false,
+      "hitFrame": 2,
+      "pivotX": 0.5,
+      "pivotY": 0.875,
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "separatedVfx": {
+        "sourcePng": "/assets/pixel-art/vfx/vfx_sword_slash_wind.png",
+        "frameWidth": 64,
+        "frameHeight": 64,
+        "frameCount": 5,
+        "activeFrames": [
+          2,
+          3
+        ]
+      }
+    },
+    "attack_2": {
+      "name": "Attack 2 (Thứ Kiếm)",
+      "sourcePng": "/assets/pixel-art/characters/lam_mac/lam_mac_attack_2.png",
+      "imageWidth": 320,
+      "imageHeight": 256,
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "frameCount": 5,
+      "fps": 12,
+      "loop": false,
+      "hitFrame": 2,
+      "pivotX": 0.5,
+      "pivotY": 0.875,
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "separatedVfx": {
+        "sourcePng": "/assets/pixel-art/vfx/vfx_sword_thrust_golden.png",
+        "frameWidth": 64,
+        "frameHeight": 64,
+        "frameCount": 5,
+        "activeFrames": [
+          2,
+          3
+        ]
+      }
+    },
+    "attack_3": {
+      "name": "Attack 3 (Bổ Kiếm Oanh Địa)",
+      "sourcePng": "/assets/pixel-art/characters/lam_mac/lam_mac_attack_3.png",
+      "imageWidth": 384,
+      "imageHeight": 256,
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "frameCount": 6,
+      "fps": 12,
+      "loop": false,
+      "hitFrame": 3,
+      "pivotX": 0.5,
+      "pivotY": 0.875,
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "separatedVfx": {
+        "sourcePng": "/assets/pixel-art/vfx/vfx_ground_slam_shockwave.png",
+        "frameWidth": 64,
+        "frameHeight": 64,
+        "frameCount": 6,
+        "activeFrames": [
+          3,
+          4,
+          5
+        ]
+      }
+    },
+    "dodge": {
+      "name": "Dodge (Phi Thân Thiểm Tị)",
+      "sourcePng": "/assets/pixel-art/characters/lam_mac/lam_mac_dodge.png",
+      "imageWidth": 256,
+      "imageHeight": 256,
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "frameCount": 4,
+      "fps": 14,
+      "loop": false,
+      "invulnerableFrames": [
+        1,
+        2
+      ],
+      "pivotX": 0.5,
+      "pivotY": 0.875,
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "separatedVfx": {
+        "sourcePng": "/assets/pixel-art/vfx/vfx_dodge_phantom_trail.png",
+        "frameWidth": 64,
+        "frameHeight": 64,
+        "frameCount": 4,
+        "activeFrames": [
+          0,
+          1,
+          2,
+          3
+        ]
+      }
+    },
+    "skill": {
+      "name": "Skill (Ngự Kiếm Quyết)",
+      "sourcePng": "/assets/pixel-art/characters/lam_mac/lam_mac_skill.png",
+      "imageWidth": 512,
+      "imageHeight": 256,
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "frameCount": 8,
+      "fps": 10,
+      "loop": false,
+      "hitFrame": 4,
+      "pivotX": 0.5,
+      "pivotY": 0.875,
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "separatedVfx": {
+        "sourcePng": "/assets/pixel-art/vfx/vfx_celestial_sword_aura.png",
+        "frameWidth": 64,
+        "frameHeight": 64,
+        "frameCount": 8,
+        "activeFrames": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ]
+      }
+    },
+    "hit": {
+      "name": "Hit (Trúng Đòn Phản Chấn)",
+      "sourcePng": "/assets/pixel-art/characters/lam_mac/lam_mac_hit.png",
+      "imageWidth": 192,
+      "imageHeight": 256,
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "frameCount": 3,
+      "fps": 8,
+      "loop": false,
+      "pivotX": 0.5,
+      "pivotY": 0.875,
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "separatedVfx": null
+    },
+    "death": {
+      "name": "Death (Đạo Tiêu Thân Vong)",
+      "sourcePng": "/assets/pixel-art/characters/lam_mac/lam_mac_death.png",
+      "imageWidth": 512,
+      "imageHeight": 256,
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "frameCount": 8,
+      "fps": 8,
+      "loop": false,
+      "holdLastFrame": true,
+      "pivotX": 0.5,
+      "pivotY": 0.875,
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "separatedVfx": null
+    }
+  }
+}

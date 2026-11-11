@@ -384,6 +384,16 @@ export interface Enemy {
   bossPunishTimer?: number;
   bossImmuneTimer?: number;
   chargeTarget?: { x: number; y: number };
+  chargeState?: {
+    startX: number;
+    startY: number;
+    targetX: number;
+    targetY: number;
+    duration: number;
+    elapsed: number;
+    speed: number;
+    hasHitPlayer: boolean;
+  };
   hasGivenRewards?: boolean;
   projectile?: {
     active: boolean;

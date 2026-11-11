@@ -43,6 +43,7 @@ interface HUDProps {
   onToggleTouchControls?: () => void;
   renderMode?: '3d' | '2d';
   onToggleRenderMode?: () => void;
+  onOpenSandbox?: () => void;
 }
 
 export const HUD: React.FC<HUDProps> = ({
@@ -63,6 +64,7 @@ export const HUD: React.FC<HUDProps> = ({
   onToggleTouchControls,
   renderMode = '3d',
   onToggleRenderMode,
+  onOpenSandbox,
 }) => {
   const [isQuestCollapsed, setIsQuestCollapsed] = useState<boolean>(false);
   const currentRealm = REALMS[player.realmIndex] || REALMS[0];
@@ -208,6 +210,17 @@ export const HUD: React.FC<HUDProps> = ({
                   >
                     <Sparkles className="w-3 h-3 text-amber-400" />
                     <span>{renderMode === '3d' ? '3D' : '2D'}</span>
+                  </button>
+                )}
+
+                {/* Pixel Art Visual Sandbox Button */}
+                {onOpenSandbox && (
+                  <button
+                    onClick={onOpenSandbox}
+                    className="px-2 py-1 rounded-lg border border-emerald-500/80 bg-emerald-950/80 hover:bg-emerald-900 text-emerald-300 flex items-center gap-1 text-[10px] sm:text-[11px] font-semibold transition shadow-lg cursor-pointer"
+                    title="Mở Visual Sandbox (Pixel Art Phase 1)"
+                  >
+                    <span>🎨 Sandbox</span>
                   </button>
                 )}
 
