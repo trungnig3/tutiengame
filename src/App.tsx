@@ -263,6 +263,7 @@ export default function App() {
       const isBoss = enemyId.toLowerCase().includes('vương') ||
         enemyId.toLowerCase().includes('tôn') ||
         enemyId.toLowerCase().includes('mãng') ||
+        enemyId.toLowerCase().includes('viên hầu') ||
         enemyId.toLowerCase().includes('boss');
 
       return recordEvent(withQuests, {

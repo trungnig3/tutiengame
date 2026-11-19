@@ -113,3 +113,40 @@ Hiện tại dự án **hoàn toàn chưa có các file ảnh PNG Sprite Sheet t
 | **Duplicate Assets** | 25 tệp (trong thư mục android assets) | Giữ nguyên theo quy tắc an toàn, dọn dẹp sau khi release |
 | **Unused Assets** | 25 tệp (ảnh chụp lịch sử) | Giữ nguyên theo yêu cầu không xóa tài nguyên |
 | **Assets Requiring Replacement** | 100% hình ảnh gameplay hiện tại | Thay thế theo lộ trình được phê duyệt |
+
+---
+
+## 5. TÀI NGUYÊN ĐÃ HOÀN THÀNH THEO PHASE (PHASE 2.0 / 2.1 / 2.2 STATUS)
+
+### 5.3 Phase 2.2 – Boss Bạch Mao Viên Hầu (白毛猿猴) (Completed)
+- **Thư mục Boss Sprite Sheets**: `public/assets/pixel-art/bosses/bach_mao_vien_hau/`
+  - `idle.png` ($768 \times 512$, 6 frames $\times$ 4 hướng, 6 FPS)
+  - `walk.png` ($1024 \times 512$, 8 frames $\times$ 4 hướng, 8 FPS)
+  - `run.png` ($1024 \times 512$, 8 frames $\times$ 4 hướng, 12 FPS)
+  - `attack_1.png` ($896 \times 512$, 7 frames $\times$ 4 hướng, 12 FPS – Thiết Chưởng)
+  - `attack_2.png` ($1024 \times 512$, 8 frames $\times$ 4 hướng, 14 FPS – Cuồng Nộ Liên Kích)
+  - `attack_3.png` ($1024 \times 512$, 8 frames $\times$ 4 hướng, 14 FPS – Cuồng Bạo Xung Kích)
+  - `skill.png` ($1280 \times 512$, 10 frames $\times$ 4 hướng, 10 FPS – Bạch Viên Chấn Địa)
+  - `hit.png` ($512 \times 512$, 4 frames $\times$ 4 hướng, 10 FPS)
+  - `death.png` ($1280 \times 512$, 10 frames $\times$ 4 hướng, 8 FPS, holdLastFrame)
+  - `preview.png`, `metadata.json`
+- **Thư mục Boss VFX Sprite Sheets**: `public/assets/pixel-art/vfx/bach_mao_vien_hau/`
+  - `vfx_chuong_kich.png` ($768 \times 128$, 6f @ $128 \times 128$, 16 FPS)
+  - `vfx_dia_chan.png` ($960 \times 160$, 6f @ $160 \times 160$, 14 FPS)
+  - `vfx_yeu_khi_tu_luc.png` ($768 \times 128$, 6f @ $128 \times 128$, 12 FPS)
+  - `vfx_bach_vien_chan_dia.png` ($1280 \times 160$, 8f @ $160 \times 160$, 14 FPS)
+  - `vfx_cuong_no.png` ($768 \times 128$, 6f @ $128 \times 128$, 10 FPS, loop Phase 2 Enrage)
+  - `vfx_boss_death.png` ($1024 \times 128$, 8f @ $128 \times 128$, 10 FPS)
+
+### 5.4 Phase 2.3 – Environment Pixel Art (Completed)
+- **Thư mục Tileset**: `public/assets/pixel-art/environment/tilesets/`
+  - `ground_tiles.png` ($256 \times 256$, lưới $8 \times 8$ ô $32 \times 32\text{px}$: cỏ Thanh Khê, cỏ rừng Linh Vụ, cỏ khô Hắc Phong, đất, lối mòn, đá lát, đá rêu, cát, đá huyền vũ, di tích cổ, quảng trường Bích Ngọc, cầu gỗ, bậc đá, vách núi)
+  - `transition_tiles.png` ($512 \times 192$, lưới $16 \times 6$ ô $32 \times 32\text{px}$, 4-bit autotile mask `N=1, E=2, S=4, W=8` cho 6 lớp chuyển tiếp `grass_dirt`, `grass_stone`, `dirt_stone`, `grass_water`, `water_rock`, `ground_cliff`)
+  - `animated_water_tiles.png` ($256 \times 128$, 4 frame/hàng @ 6 FPS: suối trong, nước nông, nước sâu, đầm Hắc Sơn, thác đổ, bọt tung, lá sen nở, huyết đàm)
+- **Thư mục Vật thể Môi trường**: `public/assets/pixel-art/environment/objects/`
+  - `flora_sheet.png` ($512 \times 320$): Cổ Tùng Thụ (`ancient_tree`), Thông Xanh (`pine_tree`), Linh Thụ (`spirit_tree`), Khóm Trúc (`bamboo_cluster`), Cổ Mộc Khô (`dark_dead_tree`), 3 bụi cây, 4 khóm cỏ, 4 hoa dại, 3 nấm linh chi, rễ cây
+  - `rocks_nature_sheet.png` ($384 \times 192$): đá nhỏ, tảng đá, đá rêu, đá tinh thể lam, xương yêu thú (`beast_bones`), mỏm đá lớn/tối, cột đá, cột đổ nát
+  - `architecture_props.png` ($640 \times 352$): Nhà Thôn (`village_house`), Đình Các (`pavilion_hall`), Đại Điện Tông Môn (`sect_grand_hall`), Miếu Nhỏ (`small_shrine`), Tường Di Tích/Tông Môn, Cổng Gỗ, Cầu Gỗ (`wooden_bridge`), Bia Đá Cổ, Tượng Thạch Thú, Cờ Tông Môn, Đèn Đá & Lồng Đèn Đỏ (4-frame animated), Hàng rào, Bàn đá, Cột gỗ, Bậc thềm đá
+  - `resources_sheet.png` ($192 \times 64$): Linh Thảo, Quặng Huyền Thiết, Bảo Rương, Bia Đá Đạo Vận, Tế Đàn Cổ
+- **Metadata & Showcase**: `public/assets/pixel-art/environment/metadata.json`, `preview_showcase.png` ($1080 \times 660$)
+- **Tài nguyên cũ giữ nguyên không xóa (`Unused / Sandbox Only`)**: 8 tệp trong `public/assets/pixel/environment/` giữ nguyên vẹn cho `PixelArtSandbox.tsx`, không đưa vào gameplay chính của Phase 2.3.

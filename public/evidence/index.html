@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bằng Chứng Nghiệm Thu Animation Lâm Mặc – Phase 2.0</title>
+  <style>
+    :root {
+      --bg: #090d16;
+      --card-bg: #111827;
+      --card-border: #1e293b;
+      --accent: #38bdf8;
+      --gold: #f59e0b;
+      --green: #22c55e;
+      --red: #ef4444;
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.6;
+      padding: 24px;
+    }
+    header {
+      border-bottom: 1px solid var(--card-border);
+      padding-bottom: 20px;
+      margin-bottom: 32px;
+    }
+    h1 {
+      font-size: 26px;
+      color: var(--gold);
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .badge-pass { background: rgba(34, 197, 94, 0.2); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.4); }
+    .badge-warn { background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4); }
+    .meta-bar {
+      margin-top: 12px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .section-title {
+      font-size: 20px;
+      color: var(--accent);
+      margin: 36px 0 16px 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-title::before {
+      content: "";
+      display: inline-block;
+      width: 4px;
+      height: 20px;
+      background: var(--accent);
+      border-radius: 2px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 20px;
+    }
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .card-header {
+      padding: 12px 16px;
+      background: #172033;
+      border-bottom: 1px solid var(--card-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .card-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #e2e8f0;
+    }
+    .card-body {
+      padding: 16px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    video {
+      width: 100%;
+      height: auto;
+      border-radius: 6px;
+      background: #000;
+    }
+    img.timeline-preview {
+      width: 100%;
+      height: auto;
+      border-radius: 6px;
+      border: 1px solid #334155;
+      image-rendering: pixelated;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+    .btn-primary {
+      background: #0284c7;
+      color: #fff;
+    }
+    .btn-primary:hover { background: #0369a1; }
+    .btn-secondary {
+      background: #1e293b;
+      color: #cbd5e1;
+      border: 1px solid #334155;
+    }
+    .btn-secondary:hover { background: #334155; }
+    pre {
+      background: #0a0e17;
+      border: 1px solid #1e293b;
+      padding: 14px;
+      border-radius: 6px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 12px;
+      color: #a5f3fc;
+      overflow-x: auto;
+      max-height: 260px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      margin-top: 10px;
+    }
+    th, td {
+      border: 1px solid #1e293b;
+      padding: 10px 12px;
+      text-align: left;
+    }
+    th { background: #131d2e; color: #94a3b8; font-weight: 600; }
+    td { background: #0e1524; }
+    .callout {
+      padding: 16px;
+      border-radius: 8px;
+      margin: 16px 0;
+      font-size: 14px;
+    }
+    .callout-warn {
+      background: rgba(245, 158, 11, 0.1);
+      border-left: 4px solid var(--gold);
+      color: #fde68a;
+    }
+    .callout-info {
+      background: rgba(56, 189, 248, 0.1);
+      border-left: 4px solid var(--accent);
+      color: #bae6fd;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>CỔNG XÁC MINH & TẢI XUỐNG BẰNG CHỨNG NGHIỆM THU PHASE 2.0 – PHASE 2.3</h1>
+    <p style="color: #94a3b8; font-size: 15px; margin-top: 4px;">
+      Dự án: <strong>Phàm Trần Tiên Lộ (凡尘仙路)</strong> | Nhánh: <code>audit/android-performance</code> | Người thực hiện: Game Director & Tác giả Tiên hiệp
+    </p>
+    <div class="meta-bar">
+      <span>Phase 2.0 Lâm Mặc: <span class="badge badge-pass">10/10 PASS</span></span>
+      <span>Phase 2.1 Quái Thường (3x5): <span class="badge badge-pass">15/15 SHEETS PASS</span></span>
+      <span>Phase 2.2 Boss Bạch Mao Viên Hầu: <span class="badge badge-pass">9 ANIM + 6 VFX PASS</span></span>
+      <span>Phase 2.3 Môi Trường Pixel Art (8 Maps): <span class="badge badge-pass">7 SHEETS + 8 MAPS PASS</span></span>
+      <span>Biên dịch & Lint: <span class="badge badge-pass">0 LỖI</span></span>
+      <span>Đo đạc phần cứng di động: <span class="badge badge-warn">CHƯA ĐO TRÊN MÁY THẬT</span></span>
+    </div>
+  </header>
+
+  <!-- ========================================================= -->
+  <!-- PHASE 2.3 – ENVIRONMENT PIXEL ART (8 BẢN ĐỒ)              -->
+  <!-- ========================================================= -->
+  <h2 class="section-title">★ PHASE 2.3 – ĐỒ HỌA MÔI TRƯỜNG PIXEL ART (THANH KHÊ THÔN – LINH VỤ – HẮC PHONG SƠN &amp; 8 BẢN ĐỒ)</h2>
+  <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 16px;">
+    7 bộ PNG Pixel Art thương mại chuẩn Nearest-Neighbor (<code>ground_tiles.png</code> 256×256, <code>transition_tiles.png</code> 512×192, <code>animated_water_tiles.png</code> 256×128, <code>flora_sheet.png</code>, <code>rocks_nature_sheet.png</code>, <code>architecture_props.png</code>, <code>resources_sheet.png</code>) tích hợp Offscreen Static Cache, Frustum Culling &amp; 2-Pass Y-Sorting Layer 2/Layer 3.
+  </p>
+
+  <div class="grid" style="margin-bottom: 24px;">
+    <div class="card" style="border: 2px solid #22c55e;">
+      <div class="card-header" style="background: #052e16;">
+        <span class="card-title" style="color: #dcfce7;">★ THANH KHÊ THÔN – LIVE GAMEPLAY &amp; CẦU GỖ SUỐI CHẢY</span>
+        <span class="badge badge-pass">NEAREST-NEIGHBOR + Y-SORT</span>
+      </div>
+      <div class="card-body">
+        <a href="/evidence/phase2_3/thanh_khe_village.png" target="_blank"><img class="timeline-preview" src="/evidence/phase2_3/thanh_khe_village.png" alt="Thanh Khê Thôn Live Gameplay"></a>
+        <video controls poster="/evidence/phase2_3/thanh_khe_bridge.png">
+          <source src="/evidence/videos/environment/phase2_3_thanh_khe_gameplay.webm" type="video/webm">
+        </video>
+        <div style="display:flex; flex-wrap:wrap; gap:6px;">
+          <a class="btn btn-primary" href="/evidence/videos/environment/phase2_3_thanh_khe_gameplay.webm" download>📥 Thanh Khê Video WebM</a>
+          <a class="btn btn-secondary" href="/evidence/phase2_3/thanh_khe_bridge.png" target="_blank">Ảnh Cầu Gỗ</a>
+          <a class="btn btn-secondary" href="/assets/pixel-art/environment/preview_showcase.png" target="_blank">Preview Showcase</a>
+          <a class="btn btn-secondary" href="/assets/pixel-art/environment/metadata.json" target="_blank">metadata.json</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="border: 2px solid #38bdf8;">
+      <div class="card-header" style="background: #0c2638;">
+        <span class="card-title" style="color: #e0f2fe;">★ RỪNG LINH VỤ &amp; HẮC PHONG SƠN – BIOME &amp; BOSS ARENA</span>
+        <span class="badge badge-pass">8 MAPS INTEGRATED</span>
+      </div>
+      <div class="card-body">
+        <a href="/evidence/phase2_3/linh_vu_forest_boss.png" target="_blank"><img class="timeline-preview" src="/evidence/phase2_3/linh_vu_forest_boss.png" alt="Rừng Linh Vụ & Boss Bạch Mao Viên Hầu"></a>
+        <video controls poster="/evidence/phase2_3/hac_phong_son.png">
+          <source src="/evidence/videos/environment/phase2_3_biomes_walkthrough.webm" type="video/webm">
+        </video>
+        <div style="display:flex; flex-wrap:wrap; gap:6px;">
+          <a class="btn btn-primary" href="/evidence/videos/environment/phase2_3_biomes_walkthrough.webm" download>📥 Multi-Biome Video WebM</a>
+          <a class="btn btn-secondary" href="/evidence/phase2_3/hac_phong_son.png" target="_blank">Hắc Phong Sơn</a>
+          <a class="btn btn-secondary" href="/evidence/phase2_3/mobile_landscape_844x390.png" target="_blank">Mobile 844×390</a>
+          <a class="btn btn-secondary" href="/evidence/logs/phase_2_3_env_audit.json" target="_blank">Pixel Audit JSON</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid" style="margin-bottom: 32px;">
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Log Kiểm Thử Phase 2.3 + Toàn Bộ Hồi Quy (60/60 PASS)</span>
+        <a class="btn btn-primary" href="/evidence/logs/phase_2_3_test_output.txt" download="phase_2_3_test_output.txt">📥 Tải .txt</a>
+      </div>
+      <div class="card-body">
+        <pre id="p23-test-log">Đang tải log Phase 2.3...</pre>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Log Typecheck &amp; Build Phase 2.3 (0 Lỗi)</span>
+        <a class="btn btn-primary" href="/evidence/logs/phase_2_3_build_check.txt" download="phase_2_3_build_check.txt">📥 Tải .txt</a>
+      </div>
+      <div class="card-body">
+        <pre id="p23-build-log">Đang tải log build Phase 2.3...</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================= -->
+  <!-- PHASE 2.2 – BOSS BẠCH MAO VIÊN HẦU (白毛猿猴)              -->
+  <!-- ========================================================= -->
+  <h2 class="section-title">★ PHASE 2.2 – BOSS BẠCH MAO VIÊN HẦU (白毛猿猴) – RỪNG LINH VỤ</h2>
+  <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 16px;">
+    9 sprite sheet kích thước chuẩn Boss <code>128×128 px</code> (4 hướng <code>Down: 0, Left: 1, Right: 2, Up: 3</code>, pivot chân <code>(64, 115)</code>) kết hợp 6 bộ hiệu ứng Pixel Art VFX chuyên biệt (<code>vfx_chuong_kich</code>, <code>vfx_dia_chan</code>, <code>vfx_yeu_khi_tu_luc</code>, <code>vfx_bach_vien_chan_dia</code>, <code>vfx_cuong_no</code>, <code>vfx_boss_death</code>).
+  </p>
+
+  <div class="grid" style="margin-bottom: 24px;">
+    <div class="card" style="border: 2px solid #f59e0b;">
+      <div class="card-header" style="background: #451a03;">
+        <span class="card-title" style="color: #fef3c7;">★ 4 HƯỚNG NHÌN ĐỒNG BỘ (DOWN / LEFT / RIGHT / UP)</span>
+        <span class="badge badge-pass">128×128 @ PIVOT (64,115)</span>
+      </div>
+      <div class="card-body">
+        <a href="/assets/pixel-art/bosses/bach_mao_vien_hau/preview.png" target="_blank"><img class="timeline-preview" src="/assets/pixel-art/bosses/bach_mao_vien_hau/preview.png" alt="Bạch Mao Viên Hầu Sprite Preview"></a>
+        <video controls poster="/evidence/frames/boss_bach_mao/timeline_boss_idle.png">
+          <source src="/evidence/videos/boss_bach_mao/bach_mao_4_directions.webm" type="video/webm">
+        </video>
+        <div style="display:flex; flex-wrap:wrap; gap:6px;">
+          <a class="btn btn-primary" href="/evidence/videos/boss_bach_mao/bach_mao_4_directions.webm" download>📥 4 Hướng WebM</a>
+          <a class="btn btn-secondary" href="/assets/pixel-art/bosses/bach_mao_vien_hau/metadata.json" target="_blank">metadata.json</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="border: 2px solid #ef4444;">
+      <div class="card-header" style="background: #450a0a;">
+        <span class="card-title" style="color: #fee2e2;">★ COMBAT, PHASE 2 CUỒNG NỘ &amp; 6 BỘ PIXEL VFX</span>
+        <span class="badge badge-pass">SKILL + ENRAGE + DEATH VFX</span>
+      </div>
+      <div class="card-body">
+        <a href="/evidence/frames/boss_bach_mao/timeline_boss_skill.png" target="_blank"><img class="timeline-preview" src="/evidence/frames/boss_bach_mao/timeline_boss_skill.png" alt="Bạch Viên Chấn Địa Timeline"></a>
+        <video controls poster="/evidence/frames/boss_bach_mao/timeline_boss_attack_1.png">
+          <source src="/evidence/videos/boss_bach_mao/bach_mao_combat_vfx_showcase.webm" type="video/webm">
+        </video>
+        <div style="display:flex; flex-wrap:wrap; gap:6px;">
+          <a class="btn btn-primary" href="/evidence/videos/boss_bach_mao/bach_mao_combat_vfx_showcase.webm" download>📥 Combat &amp; VFX WebM</a>
+          <a class="btn btn-secondary" href="/evidence/videos/boss_bach_mao/gameplay_boss_live.webm" download>📥 Gameplay Live WebM</a>
+          <a class="btn btn-secondary" href="/evidence/logs/phase_2_2_vram_breakdown.json" target="_blank">VRAM JSON</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid" style="margin-bottom: 24px;">
+    <div class="card">
+      <div class="card-header"><span class="card-title">Boss 1. Idle &amp; Walk &amp; Run</span><span class="badge badge-pass">LOCOMOTION</span></div>
+      <div class="card-body">
+        <video controls><source src="/evidence/videos/boss_bach_mao/bach_mao_idle.webm" type="video/webm"></video>
+        <div style="display:flex; flex-wrap:wrap; gap:6px;">
+          <a class="btn btn-secondary" href="/evidence/videos/boss_bach_mao/bach_mao_idle.webm" download>Idle (6f)</a>
+          <a class="btn btn-secondary" href="/evidence/videos/boss_bach_mao/bach_mao_walk.webm" download>Walk (8f)</a>
+          <a class="btn btn-secondary" href="/evidence/videos/boss_bach_mao/bach_mao_run.webm" download>Run (8f)</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-title">Boss 2. Attack 1, 2, 3</span><span class="badge badge-pass">COMBAT PATTERNS</span></div>
+      <div class="card-body">
+        <video controls><source src="/evidence/videos/boss_bach_mao/bach_mao_attack_2.webm" type="video/webm"></video>
+        <div style="display:flex; flex-wrap:wrap; gap:6px;">
+          <a class="btn btn-secondary" href="/evidence/videos/boss_bach_mao/bach_mao_attack_1.webm" download>Attack 1 – Thiết Chưởng (7f)</a>
+          <a class="btn btn-secondary" href="/evidence/videos/boss_bach_mao/bach_mao_attack_2.webm" download>Attack 2 – Liên Kích (8f)</a>
+          <a class="btn btn-secondary" href="/evidence/videos/boss_bach_mao/bach_mao_attack_3.webm" download>Attack 3 – Xung Kích (8f)</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-title">Boss 3. Skill, Hit &amp; Death</span><span class="badge badge-pass">SPECIAL &amp; DEATH</span></div>
+      <div class="card-body">
+        <video controls><source src="/evidence/videos/boss_bach_mao/bach_mao_skill.webm" type="video/webm"></video>
+        <div style="display:flex; flex-wrap:wrap; gap:6px;">
+          <a class="btn btn-secondary" href="/evidence/videos/boss_bach_mao/bach_mao_skill.webm" download>Skill – Chấn Địa (10f)</a>
+          <a class="btn btn-secondary" href="/evidence/videos/boss_bach_mao/bach_mao_hit.webm" download>Hit / Stun (4f)</a>
+          <a class="btn btn-secondary" href="/evidence/videos/boss_bach_mao/bach_mao_death.webm" download>Death + Core Burst (10f)</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid" style="margin-bottom: 32px;">
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Log Kiểm Thử Phase 2.2 + Toàn Bộ Hồi Quy</span>
+        <a class="btn btn-primary" href="/evidence/logs/phase_2_2_test_output.txt" download="phase_2_2_test_output.txt">📥 Tải .txt</a>
+      </div>
+      <div class="card-body">
+        <pre id="p22-test-log">Đang tải log Phase 2.2...</pre>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Log Typecheck &amp; Build Phase 2.2 (0 Lỗi)</span>
+        <a class="btn btn-primary" href="/evidence/logs/phase_2_2_build_check.txt" download="phase_2_2_build_check.txt">📥 Tải .txt</a>
+      </div>
+      <div class="card-body">
+        <pre id="p22-build-log">Đang tải log build Phase 2.2...</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================= -->
+  <!-- PHASE 2.1 – NORMAL MONSTER SYSTEM (DÃ LANG, DÃ TRƯ, MA ĐỒ) -->
+  <!-- ========================================================= -->
+  <h2 class="section-title">★ PHASE 2.1 – HỆ THỐNG 3 QUÁI VẬT THƯỜNG (DÃ LANG, DÃ TRƯ, MA ĐỒ)</h2>
+  <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 16px;">
+    15 sprite sheet 64×64 chuẩn 4 hướng (<code>Down: 0, Left: 1, Right: 2, Up: 3</code>), pivot chân <code>(32, 56)</code>, không biến dạng chibi, không viền trắng, đồng bộ AI <code>idle / walk / attack / hit / death</code>.
+  </p>
+
+  <div class="grid" style="margin-bottom: 24px;">
+    <!-- 1. Dã Lang -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">1. Dã Lang (野狼) – shape: <code>wolf</code></span>
+        <span class="badge badge-pass">5 SHEETS + 4 HƯỚNG</span>
+      </div>
+      <div class="card-body">
+        <a href="/assets/pixel-art/monsters/da_lang/preview.png" target="_blank"><img class="timeline-preview" src="/assets/pixel-art/monsters/da_lang/preview.png" alt="Dã Lang Sprite Preview"></a>
+        <video controls poster="/evidence/frames/monsters/timeline_da_lang_attack.png">
+          <source src="/evidence/videos/monsters/da_lang_4_directions.webm" type="video/webm">
+        </video>
+        <div style="display:flex; flex-wrap:wrap; gap:6px;">
+          <a class="btn btn-primary" href="/evidence/videos/monsters/da_lang_4_directions.webm" download>📥 4 Hướng WebM</a>
+          <a class="btn btn-secondary" href="/evidence/videos/monsters/da_lang_idle.webm" download>Idle</a>
+          <a class="btn btn-secondary" href="/evidence/videos/monsters/da_lang_walk.webm" download>Walk</a>
+          <a class="btn btn-secondary" href="/evidence/videos/monsters/da_lang_attack.webm" download>Attack</a>
+          <a class="btn btn-secondary" href="/evidence/videos/monsters/da_lang_hit.webm" download>Hit</a>
+          <a class="btn btn-secondary" href="/evidence/videos/monsters/da_lang_death.webm" download>Death</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. Dã Trư -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">2. Dã Trư (野猪) – shape: <code>boar</code></span>
+        <span class="badge badge-pass">5 SHEETS + 4 HƯỚNG</span>
+      </div>
+      <div class="card-body">
+        <a href="/assets/pixel-art/monsters/da_tru/preview.png" target="_blank"><img class="timeline-preview" src="/assets/pixel-art/monsters/da_tru/preview.png" alt="Dã Trư Sprite Preview"></a>
+        <video controls poster="/evidence/frames/monsters/timeline_da_tru_attack.png">
+          <source src="/evidence/videos/monsters/da_tru_4_directions.webm" type="video/webm">
+        </video>
+        <div style="display:flex; flex-wrap:wrap; gap:6px;">
+          <a class="btn btn-primary" href="/evidence/videos/monsters/da_tru_4_directions.webm" download>📥 4 Hướng WebM</a>
+          <a class="btn btn-secondary" href="/evidence/videos/monsters/da_tru_idle.webm" download>Idle</a>
+          <a class="btn btn-secondary" href="/evidence/videos/monsters/da_tru_walk.webm" download>Walk</a>
+          <a class="btn btn-secondary" href="/evidence/videos/monsters/da_tru_attack.webm" download>Attack (Lao Húc)</a>
+          <a class="btn btn-secondary" href="/evidence/videos/monsters/da_tru_hit.webm" download>Hit</a>
+          <a class="btn btn-secondary" href="/evidence/videos/monsters/da_tru_death.webm" download>Death</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. Ma Đồ -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">3. Ma Đồ (魔徒) – shape: <code>cultist</code></span>
+        <span class="badge badge-pass">5 SHEETS + 4 HƯỚNG</span>
+      </div>
+      <div class="card-body">
+        <a href="/assets/pixel-art/monsters/ma_do/preview.png" target="_blank"><img class="timeline-preview" src="/assets/pixel-art/monsters/ma_do/preview.png" alt="Ma Đồ Sprite Preview"></a>
+        <video controls poster="/evidence/frames/monsters/timeline_ma_do_attack.png">
+          <source src="/evidence/videos/monsters/ma_do_4_directions.webm" type="video/webm">
+        </video>
+        <div style="display:flex; flex-wrap:wrap; gap:6px;">
+          <a class="btn btn-primary" href="/evidence/videos/monsters/ma_do_4_directions.webm" download>📥 4 Hướng WebM</a>
+          <a class="btn btn-secondary" href="/evidence/videos/monsters/ma_do_idle.webm" download>Idle</a>
+          <a class="btn btn-secondary" href="/evidence/videos/monsters/ma_do_walk.webm" download>Walk</a>
+          <a class="btn btn-secondary" href="/evidence/videos/monsters/ma_do_attack.webm" download>Attack (Ma Phù)</a>
+          <a class="btn btn-secondary" href="/evidence/videos/monsters/ma_do_hit.webm" download>Hit</a>
+          <a class="btn btn-secondary" href="/evidence/videos/monsters/ma_do_death.webm" download>Death</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid" style="margin-bottom: 32px;">
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Log Kiểm Thử Phase 2.1 + Toàn Bộ Hồi Quy (47/47 PASS)</span>
+        <a class="btn btn-primary" href="/evidence/logs/phase_2_1_test_output.log" download="phase_2_1_test_output.log">📥 Tải .log</a>
+      </div>
+      <div class="card-body">
+        <pre id="p21-test-log">Đang tải log Phase 2.1...</pre>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Log Typecheck & Build Phase 2.1 (0 Lỗi)</span>
+        <a class="btn btn-primary" href="/evidence/logs/phase_2_1_build_check.log" download="phase_2_1_build_check.log">📥 Tải .log</a>
+      </div>
+      <div class="card-body">
+        <pre id="p21-build-log">Đang tải log build Phase 2.1...</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- MỤC 1 & 3: VIDEO XÁC MINH HOẠT ẢNH -->
+  <h2 class="section-title">1. Bằng Chứng Video WebM Đầy Đủ Các Hoạt Ảnh & 4 Hướng Nhìn</h2>
+  <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 16px;">
+    Tất cả tệp video bên dưới là tệp thực tế độ phân giải gốc nằm tại <code>public/evidence/videos/</code>, có thể xem trực tiếp hoặc bấm <strong>Tải Xuống</strong>.
+  </p>
+
+  <div class="grid">
+    <!-- Video 4 Directions Special -->
+    <div class="card" style="grid-column: 1 / -1; border: 2px solid #0284c7;">
+      <div class="card-header" style="background: #0c4a6e;">
+        <span class="card-title" style="color: #e0f2fe; font-size: 16px;">★ VIDEO TỔNG HỢP: ĐỦ 4 HƯỚNG NHÌN ĐỒNG THỜI (NAM, TÂY, ĐÔNG, BẮC)</span>
+        <span class="badge badge-pass">ĐỦ 4 HƯỚNG CHUẨN ROW ORDER 0..3</span>
+      </div>
+      <div class="card-body">
+        <video controls poster="/evidence/frames/timeline_idle.png">
+          <source src="/evidence/videos/anim_4_directions.webm" type="video/webm">
+          Trình duyệt không hỗ trợ video WebM.
+        </video>
+        <p style="font-size: 13px; color: #94a3b8;">
+          Thể hiện Lâm Mặc trong 4 hướng nhìn độc lập: Hàng 0 (Nam - Down), Hàng 1 (Tây - Left), Hàng 2 (Đông - Right), Hàng 3 (Bắc - Up) qua 4 trạng thái: Tĩnh Tọa (Idle), Hành Tẩu (Walk), Trảm Kiếm (Attack 1) và Thiểm Tị (Dodge). Trọng tâm chân Y=56px cố định tuyệt đối.
+        </p>
+        <div>
+          <a class="btn btn-primary" href="/evidence/videos/anim_4_directions.webm" download="anim_4_directions.webm">📥 Tải video 4 hướng (376 KB)</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 1. Idle -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">1. Tĩnh Tọa (Idle) – 6 FPS</span>
+        <span class="badge badge-pass">PASS</span>
+      </div>
+      <div class="card-body">
+        <video controls><source src="/evidence/videos/anim_idle.webm" type="video/webm"></video>
+        <p style="font-size: 12px; color: #94a3b8;">File: <code>lam_mac_idle.png</code> (384x256, 6 frames). Phát tuần tự, lắc chân = 0px.</p>
+        <a class="btn btn-secondary" href="/evidence/videos/anim_idle.webm" download="anim_idle.webm">📥 Tải WebM (114 KB)</a>
+      </div>
+    </div>
+
+    <!-- 2. Walk -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">2. Hành Tẩu (Walk) – 10 FPS</span>
+        <span class="badge badge-pass">PASS</span>
+      </div>
+      <div class="card-body">
+        <video controls><source src="/evidence/videos/anim_walk.webm" type="video/webm"></video>
+        <p style="font-size: 12px; color: #94a3b8;">File: <code>lam_mac_walk.png</code> (512x256, 8 frames). Bước chân bám đất, v ≤ 160.</p>
+        <a class="btn btn-secondary" href="/evidence/videos/anim_walk.webm" download="anim_walk.webm">📥 Tải WebM (227 KB)</a>
+      </div>
+    </div>
+
+    <!-- 3. Run -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">3. Ngự Phong (Run) – 12 FPS</span>
+        <span class="badge badge-pass">PASS</span>
+      </div>
+      <div class="card-body">
+        <video controls><source src="/evidence/videos/anim_run.webm" type="video/webm"></video>
+        <p style="font-size: 12px; color: #94a3b8;">File: <code>lam_mac_run.png</code> (512x256, 8 frames). Thân người chúi gió, v > 160.</p>
+        <a class="btn btn-secondary" href="/evidence/videos/anim_run.webm" download="anim_run.webm">📥 Tải WebM (199 KB)</a>
+      </div>
+    </div>
+
+    <!-- 4. Attack 1 -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">4. Trảm Kiếm (Attack 1) – 12 FPS</span>
+        <span class="badge badge-pass">PASS</span>
+      </div>
+      <div class="card-body">
+        <video controls><source src="/evidence/videos/anim_attack_1.webm" type="video/webm"></video>
+        <p style="font-size: 12px; color: #94a3b8;">File: <code>lam_mac_attack_1.png</code> (320x256, 5 frames). Hit frame @ 2 + Lam Phong VFX.</p>
+        <a class="btn btn-secondary" href="/evidence/videos/anim_attack_1.webm" download="anim_attack_1.webm">📥 Tải WebM (91 KB)</a>
+      </div>
+    </div>
+
+    <!-- 5. Attack 2 -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">5. Thứ Kiếm (Attack 2) – 12 FPS</span>
+        <span class="badge badge-pass">PASS</span>
+      </div>
+      <div class="card-body">
+        <video controls><source src="/evidence/videos/anim_attack_2.webm" type="video/webm"></video>
+        <p style="font-size: 12px; color: #94a3b8;">File: <code>lam_mac_attack_2.png</code> (320x256, 5 frames). Hit frame @ 2 + Hoàng Kim Kiếm Quang.</p>
+        <a class="btn btn-secondary" href="/evidence/videos/anim_attack_2.webm" download="anim_attack_2.webm">📥 Tải WebM (92 KB)</a>
+      </div>
+    </div>
+
+    <!-- 6. Attack 3 -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">6. Bổ Kiếm (Attack 3) – 12 FPS</span>
+        <span class="badge badge-pass">PASS</span>
+      </div>
+      <div class="card-body">
+        <video controls><source src="/evidence/videos/anim_attack_3.webm" type="video/webm"></video>
+        <p style="font-size: 12px; color: #94a3b8;">File: <code>lam_mac_attack_3.png</code> (384x256, 6 frames). Bật nhảy, cắm kiếm slam @ 3.</p>
+        <a class="btn btn-secondary" href="/evidence/videos/anim_attack_3.webm" download="anim_attack_3.webm">📥 Tải WebM (94 KB)</a>
+      </div>
+    </div>
+
+    <!-- 7. Dodge -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">7. Thiểm Tị (Dodge) – 14 FPS</span>
+        <span class="badge badge-pass">PASS</span>
+      </div>
+      <div class="card-body">
+        <video controls><source src="/evidence/videos/anim_dodge.webm" type="video/webm"></video>
+        <p style="font-size: 12px; color: #94a3b8;">File: <code>lam_mac_dodge.png</code> (256x256, 4 frames). I-frame tại 1 & 2, tự mở khóa 0.285s.</p>
+        <a class="btn btn-secondary" href="/evidence/videos/anim_dodge.webm" download="anim_dodge.webm">📥 Tải WebM (82 KB)</a>
+      </div>
+    </div>
+
+    <!-- 8. Skill -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">8. Ngự Kiếm Quyết (Skill) – 10 FPS</span>
+        <span class="badge badge-pass">PASS</span>
+      </div>
+      <div class="card-body">
+        <video controls><source src="/evidence/videos/anim_skill.webm" type="video/webm"></video>
+        <p style="font-size: 12px; color: #94a3b8;">File: <code>lam_mac_skill.png</code> + <code>vfx_celestial_sword_aura.png</code>. Phóng kiếm @ 4.</p>
+        <a class="btn btn-secondary" href="/evidence/videos/anim_skill.webm" download="anim_skill.webm">📥 Tải WebM (93 KB)</a>
+      </div>
+    </div>
+
+    <!-- 9. Hit -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">9. Phản Vệ Trúng Đòn (Hit) – 12 FPS</span>
+        <span class="badge badge-pass">PASS</span>
+      </div>
+      <div class="card-body">
+        <video controls><source src="/evidence/videos/anim_hit.webm" type="video/webm"></video>
+        <p style="font-size: 12px; color: #94a3b8;">File: <code>lam_mac_hit.png</code> (192x256, 3 frames). Recoil giật lùi, hồi phục về Idle.</p>
+        <a class="btn btn-secondary" href="/evidence/videos/anim_hit.webm" download="anim_hit.webm">📥 Tải WebM (90 KB)</a>
+      </div>
+    </div>
+
+    <!-- 10. Death -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">10. Hóa Quang Ngã Xuống (Death) – 8 FPS</span>
+        <span class="badge badge-pass">PASS</span>
+      </div>
+      <div class="card-body">
+        <video controls><source src="/evidence/videos/anim_death.webm" type="video/webm"></video>
+        <p style="font-size: 12px; color: #94a3b8;">File: <code>lam_mac_death.png</code> (512x256, 8 frames). Giữ frame 7 vĩnh viễn (Priority 5).</p>
+        <a class="btn btn-secondary" href="/evidence/videos/anim_death.webm" download="anim_death.webm">📥 Tải WebM (82 KB)</a>
+      </div>
+    </div>
+
+    <!-- 11. Gameplay Combat -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">11. Thực Chiến Combo Gameplay</span>
+        <span class="badge badge-pass">PASS</span>
+      </div>
+      <div class="card-body">
+        <video controls><source src="/evidence/videos/anim_gameplay_combat.webm" type="video/webm"></video>
+        <p style="font-size: 12px; color: #94a3b8;">Quay trực tiếp trên màn chơi Thanh Khê thôn: Chuỗi đòn J -> K -> Thiểm tị.</p>
+        <a class="btn btn-secondary" href="/evidence/videos/anim_gameplay_combat.webm" download="anim_gameplay_combat.webm">📥 Tải WebM (86 KB)</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- MỤC 6: TIMELINE KHUNG HÌNH (FRAME INDEX & THỜI GIAN) -->
+  <h2 class="section-title">2. Minh Chứng Frame Index & Thời Gian Chuyển Động Thực Tế</h2>
+  <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 16px;">
+    Mỗi hình ảnh dưới đây bóc tách từng frame theo trục thời gian (tính bằng mili-giây), đánh dấu rõ Frame Index [0..N], tâm trọng lực chân (Feet Pivot Y=56) và các mốc sát thương/bất tử.
+  </p>
+
+  <div class="grid">
+    <div class="card">
+      <div class="card-header"><span class="card-title">Timeline: Tĩnh Tọa (Idle) [6 frames]</span></div>
+      <div class="card-body">
+        <a href="/evidence/frames/timeline_idle.png" target="_blank"><img class="timeline-preview" src="/evidence/frames/timeline_idle.png" alt="Timeline Idle"></a>
+        <a class="btn btn-secondary" href="/evidence/frames/timeline_idle.png" download="timeline_idle.png">📥 Tải ảnh timeline gốc</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-title">Timeline: Hành Tẩu (Walk) [8 frames]</span></div>
+      <div class="card-body">
+        <a href="/evidence/frames/timeline_walk.png" target="_blank"><img class="timeline-preview" src="/evidence/frames/timeline_walk.png" alt="Timeline Walk"></a>
+        <a class="btn btn-secondary" href="/evidence/frames/timeline_walk.png" download="timeline_walk.png">📥 Tải ảnh timeline gốc</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-title">Timeline: Ngự Phong (Run) [8 frames]</span></div>
+      <div class="card-body">
+        <a href="/evidence/frames/timeline_run.png" target="_blank"><img class="timeline-preview" src="/evidence/frames/timeline_run.png" alt="Timeline Run"></a>
+        <a class="btn btn-secondary" href="/evidence/frames/timeline_run.png" download="timeline_run.png">📥 Tải ảnh timeline gốc</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-title">Timeline: Trảm Kiếm (Attack 1) [5 frames – Hit @ 2]</span></div>
+      <div class="card-body">
+        <a href="/evidence/frames/timeline_attack_1.png" target="_blank"><img class="timeline-preview" src="/evidence/frames/timeline_attack_1.png" alt="Timeline Attack 1"></a>
+        <a class="btn btn-secondary" href="/evidence/frames/timeline_attack_1.png" download="timeline_attack_1.png">📥 Tải ảnh timeline gốc</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-title">Timeline: Thứ Kiếm (Attack 2) [5 frames – Hit @ 2]</span></div>
+      <div class="card-body">
+        <a href="/evidence/frames/timeline_attack_2.png" target="_blank"><img class="timeline-preview" src="/evidence/frames/timeline_attack_2.png" alt="Timeline Attack 2"></a>
+        <a class="btn btn-secondary" href="/evidence/frames/timeline_attack_2.png" download="timeline_attack_2.png">📥 Tải ảnh timeline gốc</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-title">Timeline: Bổ Kiếm (Attack 3) [6 frames – Hit @ 3]</span></div>
+      <div class="card-body">
+        <a href="/evidence/frames/timeline_attack_3.png" target="_blank"><img class="timeline-preview" src="/evidence/frames/timeline_attack_3.png" alt="Timeline Attack 3"></a>
+        <a class="btn btn-secondary" href="/evidence/frames/timeline_attack_3.png" download="timeline_attack_3.png">📥 Tải ảnh timeline gốc</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-title">Timeline: Thiểm Tị (Dodge) [4 frames – I-Frames @ 1..2]</span></div>
+      <div class="card-body">
+        <a href="/evidence/frames/timeline_dodge.png" target="_blank"><img class="timeline-preview" src="/evidence/frames/timeline_dodge.png" alt="Timeline Dodge"></a>
+        <a class="btn btn-secondary" href="/evidence/frames/timeline_dodge.png" download="timeline_dodge.png">📥 Tải ảnh timeline gốc</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-title">Timeline: Ngự Kiếm Quyết (Skill) [8 frames – Cast @ 4]</span></div>
+      <div class="card-body">
+        <a href="/evidence/frames/timeline_skill.png" target="_blank"><img class="timeline-preview" src="/evidence/frames/timeline_skill.png" alt="Timeline Skill"></a>
+        <a class="btn btn-secondary" href="/evidence/frames/timeline_skill.png" download="timeline_skill.png">📥 Tải ảnh timeline gốc</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-title">Timeline: Phản Vệ Trúng Đòn (Hit) [3 frames]</span></div>
+      <div class="card-body">
+        <a href="/evidence/frames/timeline_hit.png" target="_blank"><img class="timeline-preview" src="/evidence/frames/timeline_hit.png" alt="Timeline Hit"></a>
+        <a class="btn btn-secondary" href="/evidence/frames/timeline_hit.png" download="timeline_hit.png">📥 Tải ảnh timeline gốc</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-title">Timeline: Hóa Quang Ngã Xuống (Death) [8 frames – Hold @ 7]</span></div>
+      <div class="card-body">
+        <a href="/evidence/frames/timeline_death.png" target="_blank"><img class="timeline-preview" src="/evidence/frames/timeline_death.png" alt="Timeline Death"></a>
+        <a class="btn btn-secondary" href="/evidence/frames/timeline_death.png" download="timeline_death.png">📥 Tải ảnh timeline gốc</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- MỤC 4 & 5: LOG NGUYÊN BẢN CỦA TESTS & BUILD -->
+  <h2 class="section-title">3. Tệp Log Nguyên Bản Kiểm Thử & Biên Dịch (Raw Logs)</h2>
+
+  <div class="grid">
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Log Chạy 4 Bộ Kiểm Thử Hồi Quy (39/39 PASS)</span>
+        <a class="btn btn-primary" href="/evidence/logs/regression_test_output.log" download="regression_test_output.log">📥 Tải .log</a>
+      </div>
+      <div class="card-body">
+        <pre id="test-log-preview">Đang tải nội dung log kiểm thử...</pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Log Biên Dịch `npx tsc --noEmit` & `npm run build` (Exit code: 0)</span>
+        <a class="btn btn-primary" href="/evidence/logs/tsc_build_output.log" download="tsc_build_output.log">📥 Tải .log</a>
+      </div>
+      <div class="card-body">
+        <pre id="build-log-preview">Đang tải nội dung log biên dịch...</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- MỤC 7: GIẢI TRÌNH VRAM & BỘ NHỚ -->
+  <h2 class="section-title">4. Báo Cáo Hạch Toán Bộ Nhớ & VRAM GPU (VRAM Memory Breakdown)</h2>
+
+  <div class="callout callout-info">
+    <strong>Công thức quy chuẩn:</strong>
+    <ul style="margin-left: 20px; margin-top: 6px;">
+      <li><strong>Dung lượng tệp nén trên đĩa (Disk Storage):</strong> Tổng kích thước các tệp PNG nén lossless trên ổ cứng: <strong>177.69 KB</strong>.</li>
+      <li><strong>Bộ nhớ giải mã CPU RAM:</strong> Kích thước mảng pixel 32-bit (RGBA) khi nạp vào bộ nhớ tiến trình trình duyệt: $W \times H \times 4 \text{ bytes}$.</li>
+      <li><strong>VRAM GPU (Texture Backing Buffer):</strong> Khi Canvas 2D có tăng tốc phần cứng (GPU Accelerated) đẩy các sprite sheet lên bộ nhớ video: <strong>5.563 MB</strong>.</li>
+      <li><strong>Nguồn gốc con số 1.83 MB trước đây:</strong> Tính toán riêng nhóm 5 sprite sheet hiệu ứng VFX ($458,752 \text{ pixels} \times 4 \text{ bytes} = 1,835,008 \text{ bytes} \approx 1.835 \text{ MB}$).</li>
+    </ul>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Nhóm Tài Nguyên</th>
+        <th>Số Lượng Tệp</th>
+        <th>Tổng Số Khung Hình</th>
+        <th>Tổng Pixel</th>
+        <th>Dung Lượng Đĩa Nén</th>
+        <th>Dung Lượng VRAM (RGBA 32-bit)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>10 Sprite Sheet Nhân Vật (Lâm Mặc)</strong></td>
+        <td>10 tệp PNG</td>
+        <td>248 frames</td>
+        <td>999,424 px</td>
+        <td>159.20 KB</td>
+        <td><strong>3.998 MB</strong> (3,997,696 bytes)</td>
+      </tr>
+      <tr>
+        <td><strong>5 Sprite Sheet Hiệu Ứng (VFX Kiếm Khí)</strong></td>
+        <td>5 tệp PNG</td>
+        <td>40 frames</td>
+        <td>458,752 px</td>
+        <td>18.49 KB</td>
+        <td><strong>1.835 MB</strong> (1,835,008 bytes)</td>
+      </tr>
+      <tr style="font-weight: 700; background: #172554;">
+        <td>TỔNG CỘNG HỆ THỐNG PIXEL ART</td>
+        <td>15 tệp PNG</td>
+        <td>288 frames</td>
+        <td>1,458,176 px</td>
+        <td>177.69 KB</td>
+        <td><strong>5.563 MB</strong> (5,832,704 bytes)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div style="margin-top: 14px;">
+    <a class="btn btn-secondary" href="/evidence/logs/vram_memory_breakdown.json" download="vram_memory_breakdown.json">📥 Tải tệp dữ liệu chi tiết vram_memory_breakdown.json</a>
+  </div>
+
+  <!-- MỤC 8: MINH BẠCH VỀ ĐO ĐẠC ANDROID -->
+  <h2 class="section-title">5. Tuyên Bố Minh Bạch Về Hiệu Năng Android & Điều Kiện Đo</h2>
+
+  <div class="callout callout-warn">
+    <h3 style="color: #f59e0b; font-size: 16px; margin-bottom: 6px;">CHƯA ĐO TRÊN THIẾT BỊ ANDROID VẬT LÝ THỰC TẾ (NOT VERIFIED ON PHYSICAL HARDWARE)</h3>
+    <p>
+      Tuân thủ nguyên tắc trung thực tuyệt đối của Game Director:
+    </p>
+    <ul style="margin-left: 20px; margin-top: 8px;">
+      <li>Hiện tại trong môi trường ảo hóa Linux/Cloud Server, bài kiểm tra giả lập trình duyệt Playwright chạy bằng trình raster CPU (Google SwiftShader) không có GPU vật lý, cho ra tốc độ hiển thị từ 4–10 FPS.</li>
+      <li>Do đó, <strong>KHÔNG CÔNG BỐ hay xác nhận Android đạt 60 FPS</strong> khi chưa tiến hành đo trên thiết bị Android vật lý thực tế.</li>
+      <li>Chỉ số <strong>60 FPS</strong> chỉ được định vị là <strong>Mục Tiêu Thiết Kế (Target Budget)</strong> dựa trên phân tích ngân sách khung hình lý thuyết (thời gian tính toán CPU JavaScript của SpriteRenderer &lt; 0.8 ms/frame và Zero Heap Allocation trong vòng lặp <code>render()</code>).</li>
+      <li>Quy trình đo trên thiết bị thật (với model cụ thể như Samsung Galaxy A-series, Xiaomi Redmi, thông số CPU/GPU, FPS trung bình, 1% Low FPS và nhiệt độ qua Android GPU Profiler) sẽ chỉ được tiến hành sau khi được Game Director phê duyệt bắt đầu Phase đóng gói APK Capacitor.</li>
+    </ul>
+  </div>
+
+  <footer style="margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--card-border); color: #64748b; font-size: 13px; text-align: center;">
+    Dự Án Tu Tiên 2D: Phàm Trần Tiên Lộ (凡尘仙路) | Phiên Bản Bằng Chứng Nghiệm Thu Phase 2.0 | Ngày Tạo: 12/11/2026
+  </footer>
+
+  <script>
+    // Fetch and display snippet of raw logs
+    fetch('/evidence/logs/regression_test_output.log')
+      .then(res => res.text())
+      .then(text => {
+        const lines = text.trim().split('\n');
+        document.getElementById('test-log-preview').textContent = lines.slice(-25).join('\n');
+      })
+      .catch(err => {
+        document.getElementById('test-log-preview').textContent = 'Không thể tải preview log. Vui lòng bấm Tải .log để xem.';
+      });
+
+    fetch('/evidence/logs/tsc_build_output.log')
+      .then(res => res.text())
+      .then(text => {
+        document.getElementById('build-log-preview').textContent = text;
+      })
+      .catch(err => {
+        document.getElementById('build-log-preview').textContent = 'Không thể tải preview log. Vui lòng bấm Tải .log để xem.';
+      });
+
+    fetch('/evidence/logs/phase_2_1_test_output.txt')
+      .then(res => res.text())
+      .then(text => {
+        const lines = text.trim().split('\n');
+        document.getElementById('p21-test-log').textContent = lines.slice(-30).join('\n');
+      })
+      .catch(() => {});
+
+    fetch('/evidence/logs/phase_2_1_build_check.txt')
+      .then(res => res.text())
+      .then(text => {
+        document.getElementById('p21-build-log').textContent = text;
+      })
+      .catch(() => {});
+
+    fetch('/evidence/logs/phase_2_2_test_output.txt')
+      .then(res => res.text())
+      .then(text => {
+        const lines = text.trim().split('\n');
+        document.getElementById('p22-test-log').textContent = lines.slice(-30).join('\n');
+      })
+      .catch(() => {});
+
+    fetch('/evidence/logs/phase_2_2_build_check.txt')
+      .then(res => res.text())
+      .then(text => {
+        document.getElementById('p22-build-log').textContent = text;
+      })
+      .catch(() => {});
+
+    fetch('/evidence/logs/phase_2_3_test_output.txt')
+      .then(res => res.text())
+      .then(text => {
+        const lines = text.trim().split('\n');
+        document.getElementById('p23-test-log').textContent = lines.slice(-30).join('\n');
+      })
+      .catch(() => {});
+
+    fetch('/evidence/logs/phase_2_3_build_check.txt')
+      .then(res => res.text())
+      .then(text => {
+        document.getElementById('p23-build-log').textContent = text;
+      })
+      .catch(() => {});
+  </script>
+</body>
+</html>

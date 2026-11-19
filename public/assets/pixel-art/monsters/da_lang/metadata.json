@@ -1,0 +1,148 @@
+{
+  "monsterId": "da_lang",
+  "shape": "wolf",
+  "name": "Dã Lang (野狼)",
+  "style": "Premium HD Pixel Art – Chinese Xianxia Action RPG",
+  "perspective": "Top-down 3/4 Oblique",
+  "standardFrameWidth": 64,
+  "standardFrameHeight": 64,
+  "normalizedPivot": {
+    "x": 0.5,
+    "y": 0.875
+  },
+  "pixelPivot": {
+    "x": 32,
+    "y": 56
+  },
+  "directionOrder": [
+    "down",
+    "left",
+    "right",
+    "up"
+  ],
+  "directionRows": {
+    "down": 0,
+    "left": 1,
+    "right": 2,
+    "up": 3
+  },
+  "animations": {
+    "idle": {
+      "name": "Idle (Đứng Thở)",
+      "sourcePng": "/assets/pixel-art/monsters/da_lang/idle.png",
+      "imageWidth": 256,
+      "imageHeight": 256,
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "columns": 4,
+      "rows": 4,
+      "frameCount": 4,
+      "fps": 6,
+      "durationMs": 667,
+      "loop": true,
+      "endState": "loop",
+      "pivotX": 0.5,
+      "pivotY": 0.875,
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ]
+    },
+    "walk": {
+      "name": "Walk (Di Chuyển)",
+      "sourcePng": "/assets/pixel-art/monsters/da_lang/walk.png",
+      "imageWidth": 384,
+      "imageHeight": 256,
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "columns": 6,
+      "rows": 4,
+      "frameCount": 6,
+      "fps": 10,
+      "durationMs": 600,
+      "loop": true,
+      "endState": "loop",
+      "pivotX": 0.5,
+      "pivotY": 0.875,
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ]
+    },
+    "attack": {
+      "name": "Attack (Công Kích)",
+      "sourcePng": "/assets/pixel-art/monsters/da_lang/attack.png",
+      "imageWidth": 384,
+      "imageHeight": 256,
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "columns": 6,
+      "rows": 4,
+      "frameCount": 6,
+      "fps": 12,
+      "durationMs": 500,
+      "loop": false,
+      "hitFrame": 3,
+      "endState": "return_to_locomotion",
+      "pivotX": 0.5,
+      "pivotY": 0.875,
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ]
+    },
+    "hit": {
+      "name": "Hit (Bị Trúng Đòn)",
+      "sourcePng": "/assets/pixel-art/monsters/da_lang/hit.png",
+      "imageWidth": 192,
+      "imageHeight": 256,
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "columns": 3,
+      "rows": 4,
+      "frameCount": 3,
+      "fps": 10,
+      "durationMs": 300,
+      "loop": false,
+      "endState": "return_to_locomotion",
+      "pivotX": 0.5,
+      "pivotY": 0.875,
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ]
+    },
+    "death": {
+      "name": "Death (Ngã Gục)",
+      "sourcePng": "/assets/pixel-art/monsters/da_lang/death.png",
+      "imageWidth": 384,
+      "imageHeight": 256,
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "columns": 6,
+      "rows": 4,
+      "frameCount": 6,
+      "fps": 10,
+      "durationMs": 600,
+      "loop": false,
+      "holdLastFrame": true,
+      "endState": "hold_last_frame",
+      "pivotX": 0.5,
+      "pivotY": 0.875,
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ]
+    }
+  }
+}

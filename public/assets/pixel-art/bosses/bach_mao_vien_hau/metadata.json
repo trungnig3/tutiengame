@@ -1,0 +1,362 @@
+{
+  "bossId": "bach_mao_vien_hau",
+  "shape": "ape_boss",
+  "name": "Bạch Mao Viên Hầu (白毛猿猴)",
+  "style": "Premium HD Pixel Art – Chinese Xianxia Action RPG",
+  "perspective": "Top-down 3/4 Oblique",
+  "standardFrameWidth": 128,
+  "standardFrameHeight": 128,
+  "logicalBodySize": {
+    "width": 88,
+    "height": 96
+  },
+  "normalizedPivot": {
+    "x": 0.5,
+    "y": 0.9
+  },
+  "pixelPivot": {
+    "x": 64,
+    "y": 115
+  },
+  "hitbox": {
+    "type": "circle",
+    "radius": 38,
+    "offsetX": 0,
+    "offsetY": -8
+  },
+  "directionOrder": [
+    "down",
+    "left",
+    "right",
+    "up"
+  ],
+  "directionRows": {
+    "down": 0,
+    "left": 1,
+    "right": 2,
+    "up": 3
+  },
+  "animations": {
+    "idle": {
+      "name": "Idle (Đứng Thở Uy Nghi)",
+      "sourcePng": "/assets/pixel-art/bosses/bach_mao_vien_hau/idle.png",
+      "imageWidth": 768,
+      "imageHeight": 512,
+      "frameWidth": 128,
+      "frameHeight": 128,
+      "columns": 6,
+      "rows": 4,
+      "frameCount": 6,
+      "fps": 6,
+      "durationMs": 1000,
+      "loop": true,
+      "endState": "loop",
+      "pivotX": 0.5,
+      "pivotY": 0.9,
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "vfxBinding": null
+    },
+    "walk": {
+      "name": "Walk (Bước Nặng Trầm Ổn)",
+      "sourcePng": "/assets/pixel-art/bosses/bach_mao_vien_hau/walk.png",
+      "imageWidth": 1024,
+      "imageHeight": 512,
+      "frameWidth": 128,
+      "frameHeight": 128,
+      "columns": 8,
+      "rows": 4,
+      "frameCount": 8,
+      "fps": 8,
+      "durationMs": 1000,
+      "loop": true,
+      "endState": "loop",
+      "pivotX": 0.5,
+      "pivotY": 0.9,
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "vfxBinding": null
+    },
+    "run": {
+      "name": "Run (Cuồng Bạo Truy Kích)",
+      "sourcePng": "/assets/pixel-art/bosses/bach_mao_vien_hau/run.png",
+      "imageWidth": 1024,
+      "imageHeight": 512,
+      "frameWidth": 128,
+      "frameHeight": 128,
+      "columns": 8,
+      "rows": 4,
+      "frameCount": 8,
+      "fps": 12,
+      "durationMs": 667,
+      "loop": true,
+      "endState": "loop",
+      "pivotX": 0.5,
+      "pivotY": 0.9,
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "vfxBinding": null
+    },
+    "attack_1": {
+      "name": "Attack 1 – Thiết Chưởng",
+      "sourcePng": "/assets/pixel-art/bosses/bach_mao_vien_hau/attack_1.png",
+      "imageWidth": 896,
+      "imageHeight": 512,
+      "frameWidth": 128,
+      "frameHeight": 128,
+      "columns": 7,
+      "rows": 4,
+      "frameCount": 7,
+      "fps": 12,
+      "durationMs": 583,
+      "loop": false,
+      "hitFrame": 4,
+      "endState": "return_to_locomotion",
+      "pivotX": 0.5,
+      "pivotY": 0.9,
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "vfxBinding": "vfx_chuong_kich"
+    },
+    "attack_2": {
+      "name": "Attack 2 – Cuồng Nộ Liên Kích",
+      "sourcePng": "/assets/pixel-art/bosses/bach_mao_vien_hau/attack_2.png",
+      "imageWidth": 1024,
+      "imageHeight": 512,
+      "frameWidth": 128,
+      "frameHeight": 128,
+      "columns": 8,
+      "rows": 4,
+      "frameCount": 8,
+      "fps": 14,
+      "durationMs": 571,
+      "loop": false,
+      "hitFrame": 3,
+      "secondaryHitFrame": 6,
+      "endState": "return_to_locomotion",
+      "pivotX": 0.5,
+      "pivotY": 0.9,
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "vfxBinding": "vfx_chuong_kich"
+    },
+    "attack_3": {
+      "name": "Attack 3 – Cuồng Bạo Xung Kích",
+      "sourcePng": "/assets/pixel-art/bosses/bach_mao_vien_hau/attack_3.png",
+      "imageWidth": 1024,
+      "imageHeight": 512,
+      "frameWidth": 128,
+      "frameHeight": 128,
+      "columns": 8,
+      "rows": 4,
+      "frameCount": 8,
+      "fps": 14,
+      "durationMs": 571,
+      "loop": false,
+      "hitFrame": 4,
+      "endState": "return_to_locomotion",
+      "pivotX": 0.5,
+      "pivotY": 0.9,
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "vfxBinding": "vfx_dia_chan"
+    },
+    "skill": {
+      "name": "Skill – Bạch Viên Chấn Địa",
+      "sourcePng": "/assets/pixel-art/bosses/bach_mao_vien_hau/skill.png",
+      "imageWidth": 1280,
+      "imageHeight": 512,
+      "frameWidth": 128,
+      "frameHeight": 128,
+      "columns": 10,
+      "rows": 4,
+      "frameCount": 10,
+      "fps": 10,
+      "durationMs": 1000,
+      "loop": false,
+      "hitFrame": 6,
+      "endState": "return_to_locomotion",
+      "pivotX": 0.5,
+      "pivotY": 0.9,
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "vfxBinding": "vfx_bach_vien_chan_dia",
+      "chargeVfxBinding": "vfx_yeu_khi_tu_luc"
+    },
+    "hit": {
+      "name": "Hit (Chịu Đòn / Choáng)",
+      "sourcePng": "/assets/pixel-art/bosses/bach_mao_vien_hau/hit.png",
+      "imageWidth": 512,
+      "imageHeight": 512,
+      "frameWidth": 128,
+      "frameHeight": 128,
+      "columns": 4,
+      "rows": 4,
+      "frameCount": 4,
+      "fps": 10,
+      "durationMs": 400,
+      "loop": false,
+      "endState": "return_to_locomotion",
+      "pivotX": 0.5,
+      "pivotY": 0.9,
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "vfxBinding": null
+    },
+    "death": {
+      "name": "Death (Trọng Thương Ngã Gục)",
+      "sourcePng": "/assets/pixel-art/bosses/bach_mao_vien_hau/death.png",
+      "imageWidth": 1280,
+      "imageHeight": 512,
+      "frameWidth": 128,
+      "frameHeight": 128,
+      "columns": 10,
+      "rows": 4,
+      "frameCount": 10,
+      "fps": 8,
+      "durationMs": 1250,
+      "loop": false,
+      "holdLastFrame": true,
+      "endState": "hold_last_frame",
+      "pivotX": 0.5,
+      "pivotY": 0.9,
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "vfxBinding": "vfx_boss_death"
+    }
+  },
+  "vfx": {
+    "vfx_chuong_kich": {
+      "name": "Bạch Viên Chưởng Kích",
+      "file": "vfx_chuong_kich.png",
+      "frameWidth": 128,
+      "frameHeight": 128,
+      "frameCount": 6,
+      "fps": 16,
+      "loop": false,
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "sourcePng": "/assets/pixel-art/vfx/bach_mao_vien_hau/vfx_chuong_kich.png",
+      "imageWidth": 768,
+      "imageHeight": 128
+    },
+    "vfx_dia_chan": {
+      "name": "Địa Chấn",
+      "file": "vfx_dia_chan.png",
+      "frameWidth": 160,
+      "frameHeight": 160,
+      "frameCount": 6,
+      "fps": 14,
+      "loop": false,
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "sourcePng": "/assets/pixel-art/vfx/bach_mao_vien_hau/vfx_dia_chan.png",
+      "imageWidth": 960,
+      "imageHeight": 160
+    },
+    "vfx_yeu_khi_tu_luc": {
+      "name": "Yêu Khí Tụ Lực",
+      "file": "vfx_yeu_khi_tu_luc.png",
+      "frameWidth": 128,
+      "frameHeight": 128,
+      "frameCount": 6,
+      "fps": 12,
+      "loop": false,
+      "pivot": {
+        "x": 0.5,
+        "y": 0.55
+      },
+      "sourcePng": "/assets/pixel-art/vfx/bach_mao_vien_hau/vfx_yeu_khi_tu_luc.png",
+      "imageWidth": 768,
+      "imageHeight": 128
+    },
+    "vfx_bach_vien_chan_dia": {
+      "name": "Bạch Viên Chấn Địa",
+      "file": "vfx_bach_vien_chan_dia.png",
+      "frameWidth": 160,
+      "frameHeight": 160,
+      "frameCount": 8,
+      "fps": 14,
+      "loop": false,
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "sourcePng": "/assets/pixel-art/vfx/bach_mao_vien_hau/vfx_bach_vien_chan_dia.png",
+      "imageWidth": 1280,
+      "imageHeight": 160
+    },
+    "vfx_cuong_no": {
+      "name": "Cuồng Nộ (Phase 2)",
+      "file": "vfx_cuong_no.png",
+      "frameWidth": 128,
+      "frameHeight": 128,
+      "frameCount": 6,
+      "fps": 10,
+      "loop": true,
+      "pivot": {
+        "x": 0.5,
+        "y": 0.75
+      },
+      "sourcePng": "/assets/pixel-art/vfx/bach_mao_vien_hau/vfx_cuong_no.png",
+      "imageWidth": 768,
+      "imageHeight": 128
+    },
+    "vfx_boss_death": {
+      "name": "Hiệu Ứng Tiêu Diệt Boss",
+      "file": "vfx_boss_death.png",
+      "frameWidth": 128,
+      "frameHeight": 128,
+      "frameCount": 8,
+      "fps": 10,
+      "loop": false,
+      "pivot": {
+        "x": 0.5,
+        "y": 0.6
+      },
+      "sourcePng": "/assets/pixel-art/vfx/bach_mao_vien_hau/vfx_boss_death.png",
+      "imageWidth": 1024,
+      "imageHeight": 128
+    }
+  }
+}

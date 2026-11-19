@@ -380,9 +380,15 @@ export interface Enemy {
   specialCooldown?: number;
   specialTimer?: number;
   rageMode?: boolean;
-  bossAttackPattern?: 'melee' | 'slam' | 'charge' | 'roar';
+  bossAttackPattern?: 'melee' | 'slam' | 'charge' | 'roar' | 'combo' | 'skill';
   bossPunishTimer?: number;
   bossImmuneTimer?: number;
+  bossComboFollowup?: {
+    timer: number;
+    damage: number;
+    range: number;
+    triggered: boolean;
+  };
   chargeTarget?: { x: number; y: number };
   chargeState?: {
     startX: number;

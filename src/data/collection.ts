@@ -42,6 +42,17 @@ export const BOSS_COLLECTION: BossLoreEntry[] = [
     signatureDrops: ['yeu_dan_tinh_anh', 'thiet_khoang', 'kim_sang_dan'],
   },
   {
+    id: 'boss_bach_mao_vien_hau',
+    name: 'Bạch Mao Viên Hầu',
+    title: 'Linh Vụ Yêu Tôn (Lĩnh Chủ)',
+    realmName: 'Luyện Khí Tầng 5 (Lĩnh Chủ)',
+    location: 'Rừng Linh Vụ (Đông Bắc)',
+    mapId: 'map_linh_vu',
+    avatarIcon: '🐒',
+    description: 'Linh viên lông trắng như tuyết sống trăm năm trong Rừng Linh Vụ, cổ đeo tràng hạt cổ ngọc, thân mang thanh quang yêu khí. Quyền chưởng nặng tựa núi Thái Sơn, khi cuồng nộ có thể chấn nứt mặt đất.',
+    signatureDrops: ['yeu_dan_tinh_anh', 'bach_nien_linh_chi', 'thanh_phong_kiem', 'boi_nguyen_dan'],
+  },
+  {
     id: 'boss_thanh_phong_cu_mang',
     name: 'Thanh Phong Cự Mãng',
     title: 'Thanh Phong Độc Xà Vương (Lĩnh Chủ)',

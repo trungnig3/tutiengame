@@ -1,0 +1,123 @@
+{
+  "phase": "2.2",
+  "bossId": "bach_mao_vien_hau",
+  "formula": "RGBA 32-bit uncompressed texture: Width * Height * 4 bytes",
+  "bossSheets": [
+    {
+      "animation": "idle",
+      "dimensions": "768x512",
+      "frames": 24,
+      "diskBytes": 92605,
+      "vramBytes": 1572864
+    },
+    {
+      "animation": "walk",
+      "dimensions": "1024x512",
+      "frames": 32,
+      "diskBytes": 82257,
+      "vramBytes": 2097152
+    },
+    {
+      "animation": "run",
+      "dimensions": "1024x512",
+      "frames": 32,
+      "diskBytes": 88151,
+      "vramBytes": 2097152
+    },
+    {
+      "animation": "attack_1",
+      "dimensions": "896x512",
+      "frames": 28,
+      "diskBytes": 207322,
+      "vramBytes": 1835008
+    },
+    {
+      "animation": "attack_2",
+      "dimensions": "1024x512",
+      "frames": 32,
+      "diskBytes": 266054,
+      "vramBytes": 2097152
+    },
+    {
+      "animation": "attack_3",
+      "dimensions": "1024x512",
+      "frames": 32,
+      "diskBytes": 154408,
+      "vramBytes": 2097152
+    },
+    {
+      "animation": "skill",
+      "dimensions": "1280x512",
+      "frames": 40,
+      "diskBytes": 219048,
+      "vramBytes": 2621440
+    },
+    {
+      "animation": "hit",
+      "dimensions": "512x512",
+      "frames": 16,
+      "diskBytes": 172828,
+      "vramBytes": 1048576
+    },
+    {
+      "animation": "death",
+      "dimensions": "1280x512",
+      "frames": 40,
+      "diskBytes": 396964,
+      "vramBytes": 2621440
+    }
+  ],
+  "vfxSheets": [
+    {
+      "vfx": "vfx_chuong_kich",
+      "dimensions": "768x128",
+      "frames": 6,
+      "diskBytes": 9964,
+      "vramBytes": 393216
+    },
+    {
+      "vfx": "vfx_dia_chan",
+      "dimensions": "960x160",
+      "frames": 6,
+      "diskBytes": 14379,
+      "vramBytes": 614400
+    },
+    {
+      "vfx": "vfx_yeu_khi_tu_luc",
+      "dimensions": "768x128",
+      "frames": 6,
+      "diskBytes": 7143,
+      "vramBytes": 393216
+    },
+    {
+      "vfx": "vfx_bach_vien_chan_dia",
+      "dimensions": "1280x160",
+      "frames": 8,
+      "diskBytes": 25832,
+      "vramBytes": 819200
+    },
+    {
+      "vfx": "vfx_cuong_no",
+      "dimensions": "768x128",
+      "frames": 6,
+      "diskBytes": 6807,
+      "vramBytes": 393216
+    },
+    {
+      "vfx": "vfx_boss_death",
+      "dimensions": "1024x128",
+      "frames": 8,
+      "diskBytes": 2781,
+      "vramBytes": 524288
+    }
+  ],
+  "totals": {
+    "files": 15,
+    "frames": 316,
+    "pixels": 5306368,
+    "diskBytes": 1746543,
+    "vramBytes": 21225472,
+    "vramMb": "20.242",
+    "diskKb": "1705.61"
+  }
+}

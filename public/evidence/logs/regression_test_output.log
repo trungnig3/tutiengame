@@ -1,0 +1,258 @@
+TAP version 13
+# Subtest: Dash in open space travels full 150px without obstacle
+ok 1 - Dash in open space travels full 150px without obstacle
+  ---
+  duration_ms: 2.341841
+  type: 'test'
+  ...
+# Subtest: Dash starting flush against a wall (2px away facing wall) stops safely without penetrating
+ok 2 - Dash starting flush against a wall (2px away facing wall) stops safely without penetrating
+  ---
+  duration_ms: 0.470967
+  type: 'test'
+  ...
+# Subtest: Dash heading into an obstacle corner stops safely with margin
+ok 3 - Dash heading into an obstacle corner stops safely with margin
+  ---
+  duration_ms: 0.475566
+  type: 'test'
+  ...
+# Subtest: Exponential smoothing reaches equivalent distance at 60 FPS and 30 FPS over 1 second
+ok 4 - Exponential smoothing reaches equivalent distance at 60 FPS and 30 FPS over 1 second
+  ---
+  duration_ms: 0.377268
+  type: 'test'
+  ...
+# Subtest: Exponential smoothing does not overshoot on sudden delta time step
+ok 5 - Exponential smoothing does not overshoot on sudden delta time step
+  ---
+  duration_ms: 0.330543
+  type: 'test'
+  ...
+# Subtest: Boss Charge multi-frame progress, obstacle stop and non-contradictory text
+ok 6 - Boss Charge multi-frame progress, obstacle stop and non-contradictory text
+  ---
+  duration_ms: 1.191374
+  type: 'test'
+  ...
+# Subtest: Boss Charge hitting player displays SƠ HỞ TRỪNG PHẠT instead of HÚC TRƯỢT
+ok 7 - Boss Charge hitting player displays SƠ HỞ TRỪNG PHẠT instead of HÚC TRƯỢT
+  ---
+  duration_ms: 0.52455
+  type: 'test'
+  ...
+# Subtest: InputManager normalizes touch movement vector properly within [-1, 1]
+ok 8 - InputManager normalizes touch movement vector properly within [-1, 1]
+  ---
+  duration_ms: 0.678
+  type: 'test'
+  ...
+# Subtest: LÂM MẶC PHASE 1.3 SPRITE VALIDATION
+    # Subtest: 1. Metadata JSON is valid and all 10 character + 5 VFX source PNGs exist on disk
+    ok 1 - 1. Metadata JSON is valid and all 10 character + 5 VFX source PNGs exist on disk
+      ---
+      duration_ms: 6.147688
+      type: 'test'
+      ...
+    # Subtest: 2. Pixel Audit: All character sheets have 0 border overflow pixels and Alpha channel integrity
+    ok 2 - 2. Pixel Audit: All character sheets have 0 border overflow pixels and Alpha channel integrity
+      ---
+      duration_ms: 0.698453
+      type: 'test'
+      ...
+    # Subtest: 3. Idle Animation: Loops indefinitely across all 4 directions without position jitter
+    ok 3 - 3. Idle Animation: Loops indefinitely across all 4 directions without position jitter
+      ---
+      duration_ms: 0.49344
+      type: 'test'
+      ...
+    # Subtest: 4. Walk Animation: Loops smoothly across all 4 directions
+    ok 4 - 4. Walk Animation: Loops smoothly across all 4 directions
+      ---
+      duration_ms: 0.434859
+      type: 'test'
+      ...
+    # Subtest: 5. Run Animation: Loops smoothly at 12 FPS across all 4 directions
+    ok 5 - 5. Run Animation: Loops smoothly at 12 FPS across all 4 directions
+      ---
+      duration_ms: 0.269882
+      type: 'test'
+      ...
+    # Subtest: 6. Attack 1 Animation: Triggers hitFrame at frame 2 and terminates (loop=false)
+    ok 6 - 6. Attack 1 Animation: Triggers hitFrame at frame 2 and terminates (loop=false)
+      ---
+      duration_ms: 0.406068
+      type: 'test'
+      ...
+    # Subtest: 7. Attack 2 Animation: Triggers hitFrame at frame 2 and terminates (loop=false)
+    ok 7 - 7. Attack 2 Animation: Triggers hitFrame at frame 2 and terminates (loop=false)
+      ---
+      duration_ms: 0.310629
+      type: 'test'
+      ...
+    # Subtest: 8. Attack 3 Animation: Triggers hitFrame at frame 3 on slam plunge
+    ok 8 - 8. Attack 3 Animation: Triggers hitFrame at frame 3 on slam plunge
+      ---
+      duration_ms: 0.347867
+      type: 'test'
+      ...
+    # Subtest: 9. Dodge Animation: Completes 4 frames swiftly and does not loop
+    ok 9 - 9. Dodge Animation: Completes 4 frames swiftly and does not loop
+      ---
+      duration_ms: 0.43245
+      type: 'test'
+      ...
+    # Subtest: 10. Skill Animation: Cast release occurs at frame 4 and completes
+    ok 10 - 10. Skill Animation: Cast release occurs at frame 4 and completes
+      ---
+      duration_ms: 0.590709
+      type: 'test'
+      ...
+    # Subtest: 11. Hit Animation: Plays 3 recoil frames and recovers without looping
+    ok 11 - 11. Hit Animation: Plays 3 recoil frames and recovers without looping
+      ---
+      duration_ms: 0.406498
+      type: 'test'
+      ...
+    # Subtest: 12. Death Animation: Holds last frame (frame 7) indefinitely across all 4 directions
+    ok 12 - 12. Death Animation: Holds last frame (frame 7) indefinitely across all 4 directions
+      ---
+      duration_ms: 0.303902
+      type: 'test'
+      ...
+    1..12
+ok 9 - LÂM MẶC PHASE 1.3 SPRITE VALIDATION
+  ---
+  duration_ms: 13.449692
+  type: 'suite'
+  ...
+# Subtest: PHASE 2.0: LÂM MẶC SPRITE RENDERER INTEGRATION
+    # Subtest: 1. Load all 10 sprite sheets and 5 VFX PNGs from disk
+    ok 1 - 1. Load all 10 sprite sheets and 5 VFX PNGs from disk
+      ---
+      duration_ms: 3.36222
+      type: 'test'
+      ...
+    # Subtest: 2. Exact 64x64 frame slicing standard
+    ok 2 - 2. Exact 64x64 frame slicing standard
+      ---
+      duration_ms: 0.234485
+      type: 'test'
+      ...
+    # Subtest: 3. Exact 4-direction row order and angle mapping
+    ok 3 - 3. Exact 4-direction row order and angle mapping
+      ---
+      duration_ms: 0.275021
+      type: 'test'
+      ...
+    # Subtest: 4. Exact feet pivot anchors at (0.5, 0.875) -> Y=56
+    ok 4 - 4. Exact feet pivot anchors at (0.5, 0.875) -> Y=56
+      ---
+      duration_ms: 0.542754
+      type: 'test'
+      ...
+    # Subtest: 5. Transitions between Idle, Walk, and Run based on movement and velocity
+    ok 5 - 5. Transitions between Idle, Walk, and Run based on movement and velocity
+      ---
+      duration_ms: 0.941055
+      type: 'test'
+      ...
+    # Subtest: 6. Attack combo transitions correctly and faces aim direction
+    ok 6 - 6. Attack combo transitions correctly and faces aim direction
+      ---
+      duration_ms: 0.516203
+      type: 'test'
+      ...
+    # Subtest: 7. Dodge and Skill activation
+    ok 7 - 7. Dodge and Skill activation
+      ---
+      duration_ms: 0.635554
+      type: 'test'
+      ...
+    # Subtest: 8. Hit reaction and Death with holdLastFrame
+    ok 8 - 8. Hit reaction and Death with holdLastFrame
+      ---
+      duration_ms: 0.532168
+      type: 'test'
+      ...
+    # Subtest: 9. Active attack cannot be prematurely overridden by Idle or Walk
+    ok 9 - 9. Active attack cannot be prematurely overridden by Idle or Walk
+      ---
+      duration_ms: 0.595707
+      type: 'test'
+      ...
+    # Subtest: 10. Separated VFX configs and independent enable/disable toggles
+    ok 10 - 10. Separated VFX configs and independent enable/disable toggles
+      ---
+      duration_ms: 1.446591
+      type: 'test'
+      ...
+    # Subtest: 11. Player physical coordinates are strictly preserved
+    ok 11 - 11. Player physical coordinates are strictly preserved
+      ---
+      duration_ms: 1.017311
+      type: 'test'
+      ...
+    # Subtest: 12. Player combat stats, hitbox, and cooldowns are unaffected
+    ok 12 - 12. Player combat stats, hitbox, and cooldowns are unaffected
+      ---
+      duration_ms: 0.405528
+      type: 'test'
+      ...
+    # Subtest: 13. Player serialization for save/load is completely untouched
+    ok 13 - 13. Player serialization for save/load is completely untouched
+      ---
+      duration_ms: 0.433769
+      type: 'test'
+      ...
+    # Subtest: 14. Preload cache reuse and clean lifecycle
+    ok 14 - 14. Preload cache reuse and clean lifecycle
+      ---
+      duration_ms: 39.936291
+      type: 'test'
+      ...
+    1..14
+ok 10 - PHASE 2.0: LÂM MẶC SPRITE RENDERER INTEGRATION
+  ---
+  duration_ms: 53.602543
+  type: 'suite'
+  ...
+# Subtest: AnimationController loops properly when loop=true
+ok 11 - AnimationController loops properly when loop=true
+  ---
+  duration_ms: 1.787601
+  type: 'test'
+  ...
+# Subtest: AnimationController holds last frame on death when holdLastFrame=true
+ok 12 - AnimationController holds last frame on death when holdLastFrame=true
+  ---
+  duration_ms: 0.258556
+  type: 'test'
+  ...
+# Subtest: AnimationController triggers hit callback exactly on hitFrame
+ok 13 - AnimationController triggers hit callback exactly on hitFrame
+  ---
+  duration_ms: 0.254938
+  type: 'test'
+  ...
+# Subtest: PixelDepthSorter strictly sorts Layer 2 entities by ascending feetY
+ok 14 - PixelDepthSorter strictly sorts Layer 2 entities by ascending feetY
+  ---
+  duration_ms: 2.215602
+  type: 'test'
+  ...
+# Subtest: PixelDepthSorter renders layers in strict chronological order 0 -> 1 -> 2 -> 3 -> 4
+ok 15 - PixelDepthSorter renders layers in strict chronological order 0 -> 1 -> 2 -> 3 -> 4
+  ---
+  duration_ms: 0.453203
+  type: 'test'
+  ...
+1..15
+# tests 39
+# suites 2
+# pass 39
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1069.054019

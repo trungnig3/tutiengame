@@ -1,0 +1,147 @@
+{
+  "phase": "2.1",
+  "formula": "RGBA 32-bit uncompressed texture: Width * Height * 4 bytes",
+  "monsters": {
+    "da_lang": {
+      "name": "Dã Lang (野狼)",
+      "sheets": [
+        {
+          "animation": "idle",
+          "dimensions": "256x256",
+          "frames": 16,
+          "diskBytes": 11523,
+          "vramBytes": 262144
+        },
+        {
+          "animation": "walk",
+          "dimensions": "384x256",
+          "frames": 24,
+          "diskBytes": 12401,
+          "vramBytes": 393216
+        },
+        {
+          "animation": "attack",
+          "dimensions": "384x256",
+          "frames": 24,
+          "diskBytes": 14576,
+          "vramBytes": 393216
+        },
+        {
+          "animation": "hit",
+          "dimensions": "192x256",
+          "frames": 12,
+          "diskBytes": 29237,
+          "vramBytes": 196608
+        },
+        {
+          "animation": "death",
+          "dimensions": "384x256",
+          "frames": 24,
+          "diskBytes": 35178,
+          "vramBytes": 393216
+        }
+      ],
+      "totalFrames": 100,
+      "totalPixels": 409600,
+      "diskKb": "100.50",
+      "vramMb": "1.563"
+    },
+    "da_tru": {
+      "name": "Dã Trư (野猪)",
+      "sheets": [
+        {
+          "animation": "idle",
+          "dimensions": "256x256",
+          "frames": 16,
+          "diskBytes": 15383,
+          "vramBytes": 262144
+        },
+        {
+          "animation": "walk",
+          "dimensions": "384x256",
+          "frames": 24,
+          "diskBytes": 16110,
+          "vramBytes": 393216
+        },
+        {
+          "animation": "attack",
+          "dimensions": "384x256",
+          "frames": 24,
+          "diskBytes": 19880,
+          "vramBytes": 393216
+        },
+        {
+          "animation": "hit",
+          "dimensions": "192x256",
+          "frames": 12,
+          "diskBytes": 38330,
+          "vramBytes": 196608
+        },
+        {
+          "animation": "death",
+          "dimensions": "384x256",
+          "frames": 24,
+          "diskBytes": 46475,
+          "vramBytes": 393216
+        }
+      ],
+      "totalFrames": 100,
+      "totalPixels": 409600,
+      "diskKb": "132.99",
+      "vramMb": "1.563"
+    },
+    "ma_do": {
+      "name": "Ma Đồ (魔徒)",
+      "sheets": [
+        {
+          "animation": "idle",
+          "dimensions": "256x256",
+          "frames": 16,
+          "diskBytes": 11401,
+          "vramBytes": 262144
+        },
+        {
+          "animation": "walk",
+          "dimensions": "384x256",
+          "frames": 24,
+          "diskBytes": 12730,
+          "vramBytes": 393216
+        },
+        {
+          "animation": "attack",
+          "dimensions": "384x256",
+          "frames": 24,
+          "diskBytes": 15406,
+          "vramBytes": 393216
+        },
+        {
+          "animation": "hit",
+          "dimensions": "192x256",
+          "frames": 12,
+          "diskBytes": 28988,
+          "vramBytes": 196608
+        },
+        {
+          "animation": "death",
+          "dimensions": "384x256",
+          "frames": 24,
+          "diskBytes": 42316,
+          "vramBytes": 393216
+        }
+      ],
+      "totalFrames": 100,
+      "totalPixels": 409600,
+      "diskKb": "108.24",
+      "vramMb": "1.563"
+    }
+  },
+  "totals": {
+    "files": 15,
+    "frames": 300,
+    "pixels": 1228800,
+    "diskBytes": 349934,
+    "vramBytes": 4915200,
+    "vramMb": "4.688",
+    "diskKb": "341.73"
+  }
+}

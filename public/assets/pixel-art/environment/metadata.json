@@ -1,0 +1,57 @@
+{
+  "version": "2.3.0",
+  "standard": "Premium HD Pixel Art - Chinese Xianxia ARPG",
+  "baseTileSize": 32,
+  "nearestNeighborOnly": true,
+  "tilesets": {
+    "ground_tiles": {
+      "src": "/assets/pixel-art/environment/tilesets/ground_tiles.png",
+      "width": 256,
+      "height": 256,
+      "tileSize": 32,
+      "cols": 8,
+      "rows": 8
+    },
+    "transition_tiles": {
+      "src": "/assets/pixel-art/environment/tilesets/transition_tiles.png",
+      "width": 512,
+      "height": 192,
+      "tileSize": 32,
+      "cols": 16,
+      "rows": 6,
+      "bitmask": "N=1, E=2, S=4, W=8"
+    },
+    "animated_water_tiles": {
+      "src": "/assets/pixel-art/environment/tilesets/animated_water_tiles.png",
+      "width": 256,
+      "height": 128,
+      "tileSize": 32,
+      "cols": 8,
+      "rows": 4,
+      "frameCount": 4,
+      "fps": 6
+    }
+  },
+  "objects": {
+    "flora_sheet": {
+      "src": "/assets/pixel-art/environment/objects/flora_sheet.png",
+      "width": 512,
+      "height": 320
+    },
+    "rocks_nature_sheet": {
+      "src": "/assets/pixel-art/environment/objects/rocks_nature_sheet.png",
+      "width": 384,
+      "height": 192
+    },
+    "architecture_props": {
+      "src": "/assets/pixel-art/environment/objects/architecture_props.png",
+      "width": 640,
+      "height": 352
+    },
+    "resources_sheet": {
+      "src": "/assets/pixel-art/environment/objects/resources_sheet.png",
+      "width": 192,
+      "height": 64
+    }
+  }
+}

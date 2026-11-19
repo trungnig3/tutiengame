@@ -259,24 +259,40 @@
       "id": "boss_white_ape",
       "name": "Bạch Mao Viên Hầu",
       "category": "bosses",
-      "loadingGroup": "test_scene",
-      "src": "/assets/pixel/bosses/boss_white_ape.png",
+      "loadingGroup": "biome_thanh_khe",
+      "src": "/assets/pixel-art/bosses/bach_mao_vien_hau/idle.png",
+      "preview": "/assets/pixel-art/bosses/bach_mao_vien_hau/preview.png",
+      "metadata": "/assets/pixel-art/bosses/bach_mao_vien_hau/metadata.json",
+      "directionalSheets": {
+        "idle": "/assets/pixel-art/bosses/bach_mao_vien_hau/idle.png",
+        "walk": "/assets/pixel-art/bosses/bach_mao_vien_hau/walk.png",
+        "run": "/assets/pixel-art/bosses/bach_mao_vien_hau/run.png",
+        "attack_1": "/assets/pixel-art/bosses/bach_mao_vien_hau/attack_1.png",
+        "attack_2": "/assets/pixel-art/bosses/bach_mao_vien_hau/attack_2.png",
+        "attack_3": "/assets/pixel-art/bosses/bach_mao_vien_hau/attack_3.png",
+        "skill": "/assets/pixel-art/bosses/bach_mao_vien_hau/skill.png",
+        "hit": "/assets/pixel-art/bosses/bach_mao_vien_hau/hit.png",
+        "death": "/assets/pixel-art/bosses/bach_mao_vien_hau/death.png"
+      },
       "frameWidth": 128,
       "frameHeight": 128,
-      "logicalWidth": 80,
-      "logicalHeight": 96,
+      "logicalWidth": 84,
+      "logicalHeight": 92,
       "pivot": { "x": 0.5, "y": 0.90 },
-      "hitbox": { "type": "circle", "radius": 36, "offsetX": 0, "offsetY": -8 },
-      "directions": ["down", "right"],
-      "allowFlipX": true,
+      "hitbox": { "type": "circle", "radius": 38, "offsetX": 0, "offsetY": -8 },
+      "directions": ["down", "left", "right", "up"],
+      "directionOrder": ["down", "left", "right", "up"],
+      "allowFlipX": false,
       "animations": {
         "idle": { "fps": 6, "loop": true, "frameCount": 6, "frames": [0, 1, 2, 3, 4, 5] },
         "walk": { "fps": 8, "loop": true, "frameCount": 8, "frames": [0, 1, 2, 3, 4, 5, 6, 7] },
-        "charge": { "fps": 14, "loop": true, "frameCount": 6, "frames": [0, 1, 2, 3, 4, 5] },
-        "attack": { "fps": 12, "loop": false, "frameCount": 8, "frames": [0, 1, 2, 3, 4, 5, 6, 7], "hitFrame": 4 },
-        "special": { "fps": 10, "loop": false, "frameCount": 10, "frames": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], "shockwaveFrame": 5 },
-        "hit": { "fps": 8, "loop": true, "frameCount": 4, "frames": [0, 1, 2, 3] },
-        "death": { "fps": 8, "loop": false, "holdLastFrame": true, "frameCount": 12, "frames": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11] }
+        "run": { "fps": 12, "loop": true, "frameCount": 8, "frames": [0, 1, 2, 3, 4, 5, 6, 7] },
+        "attack_1": { "fps": 12, "loop": false, "frameCount": 7, "frames": [0, 1, 2, 3, 4, 5, 6], "hitFrame": 4 },
+        "attack_2": { "fps": 14, "loop": false, "frameCount": 8, "frames": [0, 1, 2, 3, 4, 5, 6, 7], "hitFrame": 3, "secondaryHitFrame": 6 },
+        "attack_3": { "fps": 14, "loop": false, "frameCount": 8, "frames": [0, 1, 2, 3, 4, 5, 6, 7], "hitFrame": 4 },
+        "skill": { "fps": 10, "loop": false, "frameCount": 10, "frames": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], "hitFrame": 6 },
+        "hit": { "fps": 10, "loop": false, "frameCount": 4, "frames": [0, 1, 2, 3] },
+        "death": { "fps": 8, "loop": false, "holdLastFrame": true, "frameCount": 10, "frames": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] }
       }
     },
     "npc_elder_ly_duc": {
@@ -495,6 +511,84 @@
       "frameCount": 6,
       "loop": true,
       "pivot": { "x": 0.5, "y": 0.85 }
+    },
+    "vfx_chuong_kich": {
+      "id": "vfx_chuong_kich",
+      "name": "Bạch Viên Chưởng Kích",
+      "category": "boss_combat_vfx",
+      "loadingGroup": "combat_vfx",
+      "src": "/assets/pixel-art/vfx/bach_mao_vien_hau/vfx_chuong_kich.png",
+      "frameWidth": 128,
+      "frameHeight": 128,
+      "fps": 16,
+      "frameCount": 6,
+      "loop": false,
+      "pivot": { "x": 0.5, "y": 0.5 }
+    },
+    "vfx_dia_chan": {
+      "id": "vfx_dia_chan",
+      "name": "Địa Chấn Nứt Đá",
+      "category": "boss_combat_vfx",
+      "loadingGroup": "combat_vfx",
+      "src": "/assets/pixel-art/vfx/bach_mao_vien_hau/vfx_dia_chan.png",
+      "frameWidth": 160,
+      "frameHeight": 160,
+      "fps": 14,
+      "frameCount": 6,
+      "loop": false,
+      "pivot": { "x": 0.5, "y": 0.5 }
+    },
+    "vfx_yeu_khi_tu_luc": {
+      "id": "vfx_yeu_khi_tu_luc",
+      "name": "Yêu Khí Tụ Lực",
+      "category": "boss_combat_vfx",
+      "loadingGroup": "combat_vfx",
+      "src": "/assets/pixel-art/vfx/bach_mao_vien_hau/vfx_yeu_khi_tu_luc.png",
+      "frameWidth": 128,
+      "frameHeight": 128,
+      "fps": 12,
+      "frameCount": 6,
+      "loop": false,
+      "pivot": { "x": 0.5, "y": 0.55 }
+    },
+    "vfx_bach_vien_chan_dia": {
+      "id": "vfx_bach_vien_chan_dia",
+      "name": "Bạch Viên Chấn Địa",
+      "category": "boss_combat_vfx",
+      "loadingGroup": "combat_vfx",
+      "src": "/assets/pixel-art/vfx/bach_mao_vien_hau/vfx_bach_vien_chan_dia.png",
+      "frameWidth": 160,
+      "frameHeight": 160,
+      "fps": 14,
+      "frameCount": 8,
+      "loop": false,
+      "pivot": { "x": 0.5, "y": 0.5 }
+    },
+    "vfx_cuong_no": {
+      "id": "vfx_cuong_no",
+      "name": "Cuồng Nộ Yêu Khí (Phase 2)",
+      "category": "boss_combat_vfx",
+      "loadingGroup": "combat_vfx",
+      "src": "/assets/pixel-art/vfx/bach_mao_vien_hau/vfx_cuong_no.png",
+      "frameWidth": 128,
+      "frameHeight": 128,
+      "fps": 10,
+      "frameCount": 6,
+      "loop": true,
+      "pivot": { "x": 0.5, "y": 0.75 }
+    },
+    "vfx_boss_death": {
+      "id": "vfx_boss_death",
+      "name": "Yêu Đan Vỡ Tan (Boss Death)",
+      "category": "boss_combat_vfx",
+      "loadingGroup": "combat_vfx",
+      "src": "/assets/pixel-art/vfx/bach_mao_vien_hau/vfx_boss_death.png",
+      "frameWidth": 128,
+      "frameHeight": 128,
+      "fps": 10,
+      "frameCount": 8,
+      "loop": false,
+      "pivot": { "x": 0.5, "y": 0.6 }
     }
   },
   "ui": {
@@ -545,6 +639,62 @@
         "talisman_speed": { "col": 2, "row": 1 },
         "talisman_shield": { "col": 3, "row": 1 },
         "secret_manual_scroll": { "col": 4, "row": 1 }
+      }
+    }
+  },
+  "environment_phase2_3": {
+    "version": "2.3.0",
+    "baseTileSize": 32,
+    "nearestNeighbor": true,
+    "metadata": "/assets/pixel-art/environment/metadata.json",
+    "previewShowcase": "/assets/pixel-art/environment/preview_showcase.png",
+    "tilesets": {
+      "ground_tiles": {
+        "src": "/assets/pixel-art/environment/tilesets/ground_tiles.png",
+        "width": 256,
+        "height": 256,
+        "tileSize": 32,
+        "cols": 8,
+        "rows": 8
+      },
+      "transition_tiles": {
+        "src": "/assets/pixel-art/environment/tilesets/transition_tiles.png",
+        "width": 512,
+        "height": 192,
+        "tileSize": 32,
+        "cols": 16,
+        "rows": 6,
+        "bitmask": "N=1, E=2, S=4, W=8"
+      },
+      "animated_water_tiles": {
+        "src": "/assets/pixel-art/environment/tilesets/animated_water_tiles.png",
+        "width": 256,
+        "height": 128,
+        "tileSize": 32,
+        "frameCount": 4,
+        "fps": 6
+      }
+    },
+    "objectSheets": {
+      "flora_sheet": {
+        "src": "/assets/pixel-art/environment/objects/flora_sheet.png",
+        "width": 512,
+        "height": 320
+      },
+      "rocks_nature_sheet": {
+        "src": "/assets/pixel-art/environment/objects/rocks_nature_sheet.png",
+        "width": 384,
+        "height": 192
+      },
+      "architecture_props": {
+        "src": "/assets/pixel-art/environment/objects/architecture_props.png",
+        "width": 640,
+        "height": 352
+      },
+      "resources_sheet": {
+        "src": "/assets/pixel-art/environment/objects/resources_sheet.png",
+        "width": 192,
+        "height": 64
       }
     }
   }

@@ -1,0 +1,183 @@
+{
+  "methodology": {
+    "explanation": "Cách tính VRAM thực tế dựa trên chuẩn Canvas 2D / WebGL Texture Backing Store:",
+    "disk_formula": "Kích thước tệp PNG nén lưu trữ trên đĩa (Byte stream).",
+    "decoded_cpu_ram_formula": "Width x Height x 4 bytes (RGBA 32-bit không nén) trong bộ nhớ heap trình duyệt khi đối tượng Image() được giải mã.",
+    "gpu_vram_formula": "Width x Height x 4 bytes (GL_RGBA8 texture buffer) khi Canvas 2D hardware-accelerated đưa con trỏ bitmap lên GPU VRAM.",
+    "historical_note": "Báo cáo sơ bộ Phase 2.0 trước đây ghi 1.83 MB là tính riêng pixel thô ban đầu (458,752 pixels x 4 = ~1.83 MB). Dưới đây là bảng hạch toán chi tiết toàn diện 15 tệp (10 nhân vật + 5 VFX)."
+  },
+  "character_sheets": [
+    {
+      "animation": "idle",
+      "file": "lam_mac_idle.png",
+      "dimensions": "384x256",
+      "frames": "6 cols x 4 rows = 24 frames",
+      "pixels": 98304,
+      "uncompressed_vram_bytes": 393216,
+      "uncompressed_vram_kb": "384.00",
+      "disk_bytes": 12849,
+      "disk_kb": "12.55"
+    },
+    {
+      "animation": "walk",
+      "file": "lam_mac_walk.png",
+      "dimensions": "512x256",
+      "frames": "8 cols x 4 rows = 32 frames",
+      "pixels": 131072,
+      "uncompressed_vram_bytes": 524288,
+      "uncompressed_vram_kb": "512.00",
+      "disk_bytes": 14204,
+      "disk_kb": "13.87"
+    },
+    {
+      "animation": "run",
+      "file": "lam_mac_run.png",
+      "dimensions": "512x256",
+      "frames": "8 cols x 4 rows = 32 frames",
+      "pixels": 131072,
+      "uncompressed_vram_bytes": 524288,
+      "uncompressed_vram_kb": "512.00",
+      "disk_bytes": 13985,
+      "disk_kb": "13.66"
+    },
+    {
+      "animation": "attack_1",
+      "file": "lam_mac_attack_1.png",
+      "dimensions": "320x256",
+      "frames": "5 cols x 4 rows = 20 frames",
+      "pixels": 81920,
+      "uncompressed_vram_bytes": 327680,
+      "uncompressed_vram_kb": "320.00",
+      "disk_bytes": 13077,
+      "disk_kb": "12.77"
+    },
+    {
+      "animation": "attack_2",
+      "file": "lam_mac_attack_2.png",
+      "dimensions": "320x256",
+      "frames": "5 cols x 4 rows = 20 frames",
+      "pixels": 81920,
+      "uncompressed_vram_bytes": 327680,
+      "uncompressed_vram_kb": "320.00",
+      "disk_bytes": 12989,
+      "disk_kb": "12.68"
+    },
+    {
+      "animation": "attack_3",
+      "file": "lam_mac_attack_3.png",
+      "dimensions": "384x256",
+      "frames": "6 cols x 4 rows = 24 frames",
+      "pixels": 98304,
+      "uncompressed_vram_bytes": 393216,
+      "uncompressed_vram_kb": "384.00",
+      "disk_bytes": 13663,
+      "disk_kb": "13.34"
+    },
+    {
+      "animation": "dodge",
+      "file": "lam_mac_dodge.png",
+      "dimensions": "256x256",
+      "frames": "4 cols x 4 rows = 16 frames",
+      "pixels": 65536,
+      "uncompressed_vram_bytes": 262144,
+      "uncompressed_vram_kb": "256.00",
+      "disk_bytes": 11933,
+      "disk_kb": "11.65"
+    },
+    {
+      "animation": "skill",
+      "file": "lam_mac_skill.png",
+      "dimensions": "512x256",
+      "frames": "8 cols x 4 rows = 32 frames",
+      "pixels": 131072,
+      "uncompressed_vram_bytes": 524288,
+      "uncompressed_vram_kb": "512.00",
+      "disk_bytes": 14414,
+      "disk_kb": "14.08"
+    },
+    {
+      "animation": "hit",
+      "file": "lam_mac_hit.png",
+      "dimensions": "192x256",
+      "frames": "3 cols x 4 rows = 12 frames",
+      "pixels": 49152,
+      "uncompressed_vram_bytes": 196608,
+      "uncompressed_vram_kb": "192.00",
+      "disk_bytes": 11669,
+      "disk_kb": "11.40"
+    },
+    {
+      "animation": "death",
+      "file": "lam_mac_death.png",
+      "dimensions": "512x256",
+      "frames": "8 cols x 4 rows = 32 frames",
+      "pixels": 131072,
+      "uncompressed_vram_bytes": 524288,
+      "uncompressed_vram_kb": "512.00",
+      "disk_bytes": 45027,
+      "disk_kb": "43.97"
+    }
+  ],
+  "vfx_sheets": [
+    {
+      "vfx_name": "vfx_sword_slash_wind",
+      "file": "vfx_sword_slash_wind.png",
+      "dimensions": "320x256",
+      "pixels": 81920,
+      "uncompressed_vram_bytes": 327680,
+      "uncompressed_vram_kb": "320.00",
+      "disk_bytes": 929,
+      "disk_kb": "0.91"
+    },
+    {
+      "vfx_name": "vfx_sword_thrust_golden",
+      "file": "vfx_sword_thrust_golden.png",
+      "dimensions": "320x256",
+      "pixels": 81920,
+      "uncompressed_vram_bytes": 327680,
+      "uncompressed_vram_kb": "320.00",
+      "disk_bytes": 513,
+      "disk_kb": "0.50"
+    },
+    {
+      "vfx_name": "vfx_ground_slam_shockwave",
+      "file": "vfx_ground_slam_shockwave.png",
+      "dimensions": "384x256",
+      "pixels": 98304,
+      "uncompressed_vram_bytes": 393216,
+      "uncompressed_vram_kb": "384.00",
+      "disk_bytes": 1782,
+      "disk_kb": "1.74"
+    },
+    {
+      "vfx_name": "vfx_celestial_sword_aura",
+      "file": "vfx_celestial_sword_aura.png",
+      "dimensions": "512x256",
+      "pixels": 131072,
+      "uncompressed_vram_bytes": 524288,
+      "uncompressed_vram_kb": "512.00",
+      "disk_bytes": 3288,
+      "disk_kb": "3.21"
+    },
+    {
+      "vfx_name": "vfx_dodge_phantom_trail",
+      "file": "vfx_dodge_phantom_trail.png",
+      "dimensions": "256x256",
+      "pixels": 65536,
+      "uncompressed_vram_bytes": 262144,
+      "uncompressed_vram_kb": "256.00",
+      "disk_bytes": 11631,
+      "disk_kb": "11.36"
+    }
+  ],
+  "totals": {
+    "total_character_pixels": 999424,
+    "total_character_vram_bytes": 3997696,
+    "total_vfx_pixels": 458752,
+    "total_vfx_vram_bytes": 1835008,
+    "total_uncompressed_vram_bytes": 5832704,
+    "total_uncompressed_vram_mb": "5.563",
+    "total_disk_compressed_bytes": 181953,
+    "total_disk_compressed_kb": "177.69"
+  }
+}

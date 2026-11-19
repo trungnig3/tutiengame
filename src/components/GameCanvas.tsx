@@ -29,6 +29,9 @@ import {
   renderAoEZones,
 } from '../engine/proceduralRenderer';
 import { lamMacSpriteRenderer } from '../engine/pixelArt/LamMacSpriteRenderer';
+import { monsterSpriteRenderer } from '../engine/pixelArt/MonsterSpriteRenderer';
+import { bossSpriteRenderer, BossSpriteRenderer } from '../engine/pixelArt/BossSpriteRenderer';
+import { environmentRenderer } from '../engine/pixelArt/EnvironmentRenderer';
 import { checkArtCompatibility } from '../data/spiritualRoots';
 import { BossLootData } from './modals/BossLootModal';
 
@@ -197,6 +200,7 @@ export const GameCanvas: React.FC<GameCanvasProps> = ({
   useEffect(() => {
     if (player.currentMapId !== currentMapIdRef.current) {
       clearMapBackgroundCache(player.currentMapId);
+      environmentRenderer.clearCache(currentMapIdRef.current);
       currentMapIdRef.current = player.currentMapId;
       localPosRef.current.x = player.x;
       localPosRef.current.y = player.y;
@@ -304,6 +308,11 @@ export const GameCanvas: React.FC<GameCanvasProps> = ({
       }
     });
     enemiesRef.current = spawnedEnemies;
+    monsterSpriteRenderer.clearInstances();
+    bossSpriteRenderer.clearInstances();
+    if (currentMap.enemySpawners.some(s => BossSpriteRenderer.supportsEnemy(s.enemyPrototype))) {
+      void bossSpriteRenderer.preloadAll();
+    }
     resourcesRef.current = currentMap.resources.map(r => ({ ...r, collected: false, currentRespawnTimer: 0 }));
     groundDropsRef.current = [];
     projectilesRef.current = [];
@@ -346,6 +355,8 @@ export const GameCanvas: React.FC<GameCanvasProps> = ({
   // Input listeners: Register unified inputManager and canvas mouse listeners
   useEffect(() => {
     lamMacSpriteRenderer.preloadAll();
+    monsterSpriteRenderer.preloadAll();
+    void environmentRenderer.preloadAll();
     inputManager.attachListeners();
 
     // Subscribe to unified combat & interaction actions
@@ -985,11 +996,19 @@ export const GameCanvas: React.FC<GameCanvasProps> = ({
     // Boss Phase 2 Enrage check
     if (enemy.isBoss && enemy.bossPhase === 1 && enemy.hp <= enemy.maxHp * 0.5) {
       enemy.bossPhase = 2;
-      enemy.speed = Math.floor(enemy.speed * 1.25);
-      enemy.attackCooldown = Math.max(1.2, enemy.attackCooldown * 0.7);
+      if (BossSpriteRenderer.supportsEnemy(enemy)) {
+        enemy.speed = Math.floor(enemy.speed * 1.35);
+        enemy.atk = Math.floor(enemy.atk * 1.25);
+        enemy.attackCooldown = Math.max(1.2, enemy.attackCooldown * 0.72);
+        bossSpriteRenderer.triggerVfx(enemy.id, 'vfx_dia_chan', enemy.x, enemy.y + 12, true);
+        addFloatingText(enemy.x, enemy.y - 55, 'BẠCH MAO VIÊN HẦU CUỒNG NỘ (PHASE 2)!', '#ef4444', 20);
+      } else {
+        enemy.speed = Math.floor(enemy.speed * 1.25);
+        enemy.attackCooldown = Math.max(1.2, enemy.attackCooldown * 0.7);
+        addFloatingText(enemy.x, enemy.y - 55, 'CUỒNG BẠO HÓA THẦN!', '#ef4444', 20);
+      }
       soundManager.playRoar();
       screenShakeRef.current = 10;
-      addFloatingText(enemy.x, enemy.y - 55, 'CUỒNG BẠO HÓA THẦN!', '#ef4444', 20);
     }
 
     // Floating combat text with clear distinction
@@ -1861,6 +1880,46 @@ export const GameCanvas: React.FC<GameCanvasProps> = ({
           }
         }
 
+        // Bạch Mao Viên Hầu Attack 2 (Cuồng Nộ Liên Kích) second strike followup
+        if (enemy.bossComboFollowup && !enemy.bossComboFollowup.triggered) {
+          enemy.bossComboFollowup.timer -= dt;
+          if (enemy.bossComboFollowup.timer <= 0) {
+            enemy.bossComboFollowup.triggered = true;
+            const followup = enemy.bossComboFollowup;
+            enemy.bossComboFollowup = undefined;
+            const angle = Math.atan2(p.y - enemy.y, p.x - enemy.x);
+            bossSpriteRenderer.triggerVfx(
+              enemy.id,
+              'vfx_chuong_kich',
+              enemy.x + Math.cos(angle) * 50,
+              enemy.y + Math.sin(angle) * 50
+            );
+            soundManager.playSlash();
+            screenShakeRef.current = Math.max(screenShakeRef.current, 6);
+            const distNow = Math.hypot(p.x - enemy.x, p.y - enemy.y);
+            const losNow = hasLineOfSight(enemy.x, enemy.y, p.x, p.y, currentMap.obstacles);
+            if (distNow <= followup.range && losNow) {
+              if (p.isDodging || (p.invulnerableTimer || 0) > 0) {
+                addFloatingText(p.x, p.y - 30, 'Né tránh Liên Kích!', '#38bdf8', 14);
+              } else {
+                let incomingDmg = Math.max(1, Math.floor(followup.damage - p.def * 0.45));
+                if (activeSkillsAnimRef.current.shieldActive) {
+                  incomingDmg = Math.floor(incomingDmg * 0.4);
+                  addFloatingText(p.x, p.y - 25, 'Kim Chung Chắn Đỡ!', '#eab308', 13);
+                }
+                soundManager.playHit();
+                addFloatingText(p.x, p.y - 25, `Liên Kích! -${incomingDmg}`, '#ef4444', 17);
+                onUpdatePlayer(prev => ({
+                  ...prev,
+                  hp: Math.max(0, prev.hp - incomingDmg),
+                  invulnerableTimer: 0.45,
+                  hurtFlashTimer: 0.2,
+                }));
+              }
+            }
+          }
+        }
+
         // Active Boss Charge Attack multi-frame glide & continuous collision
         if (enemy.state === 'attacking' && enemy.chargeState) {
           const cs = enemy.chargeState;
@@ -1964,7 +2023,13 @@ export const GameCanvas: React.FC<GameCanvasProps> = ({
           enemy.atk = Math.floor(enemy.atk * 1.25);
           soundManager.playRoar();
           screenShakeRef.current = 10;
-          addFloatingText(enemy.x, enemy.y - 45, 'HẮC HUYẾT CUỒNG NỘ (PHASE 2)!', '#ef4444', 20);
+          if (BossSpriteRenderer.supportsEnemy(enemy)) {
+            enemy.attackCooldown = Math.max(1.2, enemy.attackCooldown * 0.72);
+            bossSpriteRenderer.triggerVfx(enemy.id, 'vfx_dia_chan', enemy.x, enemy.y + 12, true);
+            addFloatingText(enemy.x, enemy.y - 45, 'BẠCH MAO VIÊN HẦU CUỒNG NỘ (PHASE 2)!', '#ef4444', 20);
+          } else {
+            addFloatingText(enemy.x, enemy.y - 45, 'HẮC HUYẾT CUỒNG NỘ (PHASE 2)!', '#ef4444', 20);
+          }
         }
 
         const distToPlayer = Math.hypot(p.x - enemy.x, p.y - enemy.y);
@@ -1999,17 +2064,42 @@ export const GameCanvas: React.FC<GameCanvasProps> = ({
             enemy.state = 'attack_windup';
             if (enemy.isBoss) {
               const rand = Math.random();
-              if (rand < 0.35) {
-                enemy.bossAttackPattern = 'slam';
-                enemy.windupTimer = 0.85;
-                enemy.telegraphRadius = 140;
-              } else if (rand < 0.70) {
-                enemy.bossAttackPattern = 'charge';
-                enemy.windupTimer = 0.75;
-                enemy.chargeTarget = { x: p.x, y: p.y };
+              if (BossSpriteRenderer.supportsEnemy(enemy)) {
+                const enrageBonus = enemy.bossPhase === 2;
+                if (distToPlayer > enemy.attackRange + 35 && rand < 0.55) {
+                  enemy.bossAttackPattern = 'charge';
+                  enemy.windupTimer = 0.72;
+                  enemy.chargeTarget = { x: p.x, y: p.y };
+                } else if (rand < (enrageBonus ? 0.34 : 0.28)) {
+                  enemy.bossAttackPattern = 'slam';
+                  enemy.windupTimer = 0.95;
+                  enemy.telegraphRadius = enrageBonus ? 180 : 150;
+                } else if (rand < (enrageBonus ? 0.68 : 0.56)) {
+                  enemy.bossAttackPattern = 'combo';
+                  enemy.windupTimer = 0.55;
+                  enemy.telegraphRadius = 125;
+                } else if (rand < 0.82) {
+                  enemy.bossAttackPattern = 'melee';
+                  enemy.windupTimer = 0.62;
+                  enemy.telegraphRadius = 115;
+                } else {
+                  enemy.bossAttackPattern = 'charge';
+                  enemy.windupTimer = 0.72;
+                  enemy.chargeTarget = { x: p.x, y: p.y };
+                }
               } else {
-                enemy.bossAttackPattern = 'roar';
-                enemy.windupTimer = 0.65;
+                if (rand < 0.35) {
+                  enemy.bossAttackPattern = 'slam';
+                  enemy.windupTimer = 0.85;
+                  enemy.telegraphRadius = 140;
+                } else if (rand < 0.70) {
+                  enemy.bossAttackPattern = 'charge';
+                  enemy.windupTimer = 0.75;
+                  enemy.chargeTarget = { x: p.x, y: p.y };
+                } else {
+                  enemy.bossAttackPattern = 'roar';
+                  enemy.windupTimer = 0.65;
+                }
               }
             } else {
               enemy.windupTimer = 0.38;
@@ -2094,92 +2184,205 @@ export const GameCanvas: React.FC<GameCanvasProps> = ({
             enemy.state = 'chase';
 
             if (enemy.isBoss) {
-              // Boss Attack Patterns with Punish Windows
-              if (enemy.bossAttackPattern === 'slam') {
-                // 1. Ground Slam AoE
-                soundManager.playRoar();
-                screenShakeRef.current = 10;
-                const slamRadius = enemy.telegraphRadius || 140;
-                if (distToPlayer <= slamRadius) {
-                  if (p.isDodging || (p.invulnerableTimer || 0) > 0) {
-                    addFloatingText(p.x, p.y - 30, 'Né tránh Địa Chấn!', '#38bdf8', 14);
-                  } else {
-                    let incomingDmg = Math.max(1, Math.floor(enemy.atk * 1.3 - p.def * 0.45));
-                    if (activeSkillsAnimRef.current.shieldActive) {
-                      incomingDmg = Math.floor(incomingDmg * 0.4);
-                      addFloatingText(p.x, p.y - 25, 'Kim Chung Chắn Đỡ!', '#eab308', 13);
+              // Dedicated Boss Bạch Mao Viên Hầu Skill & Attack Execution
+              if (BossSpriteRenderer.supportsEnemy(enemy)) {
+                const strikeAngle = Math.atan2(p.y - enemy.y, p.x - enemy.x);
+                if (enemy.bossAttackPattern === 'slam' || enemy.bossAttackPattern === 'skill') {
+                  soundManager.playRoar();
+                  screenShakeRef.current = 11;
+                  bossSpriteRenderer.triggerVfx(enemy.id, 'vfx_bach_vien_chan_dia', enemy.x, enemy.y + 8, false);
+                  bossSpriteRenderer.triggerVfx(enemy.id, 'vfx_dia_chan', enemy.x, enemy.y + 12, true);
+                  const slamRadius = enemy.telegraphRadius || (enemy.bossPhase === 2 ? 180 : 150);
+                  if (distToPlayer <= slamRadius) {
+                    if (p.isDodging || (p.invulnerableTimer || 0) > 0) {
+                      addFloatingText(p.x, p.y - 30, 'Né tránh Chấn Địa!', '#38bdf8', 14);
+                    } else {
+                      let incomingDmg = Math.max(1, Math.floor(enemy.atk * 1.4 - p.def * 0.45));
+                      if (activeSkillsAnimRef.current.shieldActive) {
+                        incomingDmg = Math.floor(incomingDmg * 0.4);
+                        addFloatingText(p.x, p.y - 25, 'Kim Chung Chắn Đỡ!', '#eab308', 13);
+                      }
+                      soundManager.playHit();
+                      addFloatingText(p.x, p.y - 25, `Bạch Viên Chấn Địa! -${incomingDmg}`, '#ef4444', 18);
+                      onUpdatePlayer(prev => ({
+                        ...prev,
+                        hp: Math.max(0, prev.hp - incomingDmg),
+                        invulnerableTimer: 0.5,
+                        hurtFlashTimer: 0.2,
+                      }));
                     }
-                    soundManager.playHit();
-                    addFloatingText(p.x, p.y - 25, `Địa Chấn! -${incomingDmg}`, '#ef4444', 18);
-                    onUpdatePlayer(prev => ({
-                      ...prev,
-                      hp: Math.max(0, prev.hp - incomingDmg),
-                      invulnerableTimer: 0.5,
-                      hurtFlashTimer: 0.2,
-                    }));
+                  }
+                  enemy.bossPunishTimer = 1.4;
+                  addFloatingText(enemy.x, enemy.y - 45, '⚡ SƠ HỞ! TRỪNG PHẠT +35%', '#38bdf8', 16);
+                } else if (enemy.bossAttackPattern === 'combo') {
+                  soundManager.playSlash();
+                  screenShakeRef.current = 6;
+                  bossSpriteRenderer.triggerVfx(
+                    enemy.id,
+                    'vfx_chuong_kich',
+                    enemy.x + Math.cos(strikeAngle) * 46,
+                    enemy.y + Math.sin(strikeAngle) * 46
+                  );
+                  if (distToPlayer <= enemy.attackRange + 35 && clearLoS) {
+                    if (p.isDodging || (p.invulnerableTimer || 0) > 0) {
+                      addFloatingText(p.x, p.y - 30, 'Né tránh!', '#38bdf8', 14);
+                    } else {
+                      let incomingDmg = Math.max(1, Math.floor(enemy.atk * 0.85 - p.def * 0.45));
+                      if (activeSkillsAnimRef.current.shieldActive) {
+                        incomingDmg = Math.floor(incomingDmg * 0.4);
+                      }
+                      soundManager.playHit();
+                      addFloatingText(p.x, p.y - 25, `-${incomingDmg}`, '#ef4444', 16);
+                      onUpdatePlayer(prev => ({
+                        ...prev,
+                        hp: Math.max(0, prev.hp - incomingDmg),
+                        invulnerableTimer: 0.22,
+                        hurtFlashTimer: 0.16,
+                      }));
+                    }
+                  }
+                  enemy.bossComboFollowup = {
+                    timer: 0.28,
+                    damage: Math.floor(enemy.atk * 1.05),
+                    range: enemy.attackRange + 38,
+                    triggered: false,
+                  };
+                } else if (enemy.bossAttackPattern === 'charge') {
+                  soundManager.playSlash();
+                  screenShakeRef.current = 6;
+                  const chargeAngle = Math.atan2(
+                    (enemy.chargeTarget?.y || p.y) - enemy.y,
+                    (enemy.chargeTarget?.x || p.x) - enemy.x
+                  );
+                  const chargeDistance = enemy.bossPhase === 2 ? 190 : 165;
+                  const chargeDuration = 0.36;
+                  enemy.state = 'attacking';
+                  enemy.chargeState = {
+                    startX: enemy.x,
+                    startY: enemy.y,
+                    targetX: enemy.x + Math.cos(chargeAngle) * chargeDistance,
+                    targetY: enemy.y + Math.sin(chargeAngle) * chargeDistance,
+                    duration: chargeDuration,
+                    elapsed: 0,
+                    speed: chargeDistance / chargeDuration,
+                    hasHitPlayer: false,
+                  };
+                } else {
+                  soundManager.playHit();
+                  screenShakeRef.current = 6;
+                  bossSpriteRenderer.triggerVfx(
+                    enemy.id,
+                    'vfx_chuong_kich',
+                    enemy.x + Math.cos(strikeAngle) * 48,
+                    enemy.y + Math.sin(strikeAngle) * 48
+                  );
+                  if (distToPlayer <= enemy.attackRange + 35 && clearLoS) {
+                    if (p.isDodging || (p.invulnerableTimer || 0) > 0) {
+                      addFloatingText(p.x, p.y - 30, 'Né tránh!', '#38bdf8', 14);
+                    } else {
+                      let incomingDmg = Math.max(1, Math.floor(enemy.atk * 1.1 - p.def * 0.45));
+                      if (activeSkillsAnimRef.current.shieldActive) {
+                        incomingDmg = Math.floor(incomingDmg * 0.4);
+                        addFloatingText(p.x, p.y - 25, 'Kim Chung Chắn Đỡ!', '#eab308', 13);
+                      }
+                      addFloatingText(p.x, p.y - 25, `Thiết Chưởng! -${incomingDmg}`, '#ef4444', 17);
+                      onUpdatePlayer(prev => ({
+                        ...prev,
+                        hp: Math.max(0, prev.hp - incomingDmg),
+                        invulnerableTimer: 0.45,
+                        hurtFlashTimer: 0.2,
+                      }));
+                    }
                   }
                 }
-                // Enter Punish Window
-                enemy.bossPunishTimer = 1.4;
-                addFloatingText(enemy.x, enemy.y - 45, '⚡ SƠ HỞ! TRỪNG PHẠT +35%', '#38bdf8', 16);
-              } else if (enemy.bossAttackPattern === 'charge') {
-                // 2. Multi-frame Charge Attack initialization
-                soundManager.playSlash();
-                screenShakeRef.current = 5;
-                const chargeAngle = Math.atan2(
-                  (enemy.chargeTarget?.y || p.y) - enemy.y,
-                  (enemy.chargeTarget?.x || p.x) - enemy.x
-                );
-                const chargeDistance = 160;
-                const chargeDuration = 0.35; // 350ms multi-frame glide (~460 px/sec)
-                enemy.state = 'attacking';
-                enemy.chargeState = {
-                  startX: enemy.x,
-                  startY: enemy.y,
-                  targetX: enemy.x + Math.cos(chargeAngle) * chargeDistance,
-                  targetY: enemy.y + Math.sin(chargeAngle) * chargeDistance,
-                  duration: chargeDuration,
-                  elapsed: 0,
-                  speed: chargeDistance / chargeDuration,
-                  hasHitPlayer: false,
-                };
-              } else if (enemy.bossAttackPattern === 'roar') {
-                // 3. Roar Wave: fires 3 ma khí projectiles in cone
-                soundManager.playRoar();
-                screenShakeRef.current = 6;
-                const baseA = Math.atan2(p.y - enemy.y, p.x - enemy.x);
-                [-0.25, 0, 0.25].forEach((offsetA, idx) => {
-                  const a = baseA + offsetA;
-                  projectilesRef.current.push({
-                    id: `proj_boss_${Date.now()}_${idx}`,
-                    x: enemy.x,
-                    y: enemy.y,
-                    vx: Math.cos(a) * 300,
-                    vy: Math.sin(a) * 300,
-                    damage: Math.floor(enemy.atk * 0.85),
-                    fromPlayer: false,
-                    element: enemy.element,
-                    life: 1.5,
-                    radius: 14,
-                  });
-                });
-                addFloatingText(enemy.x, enemy.y - 40, 'CUỒNG HỐNG MA KHÍ!', '#f43f5e', 15);
               } else {
-                // Melee strike
-                if (distToPlayer <= enemy.attackRange + 25 && clearLoS) {
-                  if (p.isDodging || (p.invulnerableTimer || 0) > 0) {
-                    addFloatingText(p.x, p.y - 30, 'Né tránh!', '#38bdf8', 14);
-                  } else {
-                    let incomingDmg = Math.max(1, Math.floor(enemy.atk - p.def * 0.45));
-                    soundManager.playHit();
-                    screenShakeRef.current = 6;
-                    addFloatingText(p.x, p.y - 25, `-${incomingDmg}`, '#ef4444', 16);
-                    onUpdatePlayer(prev => ({
-                      ...prev,
-                      hp: Math.max(0, prev.hp - incomingDmg),
-                      invulnerableTimer: 0.45,
-                      hurtFlashTimer: 0.2,
-                    }));
+                // Legacy Boss Attack Patterns (unchanged for existing bosses)
+                if (enemy.bossAttackPattern === 'slam') {
+                  // 1. Ground Slam AoE
+                  soundManager.playRoar();
+                  screenShakeRef.current = 10;
+                  const slamRadius = enemy.telegraphRadius || 140;
+                  if (distToPlayer <= slamRadius) {
+                    if (p.isDodging || (p.invulnerableTimer || 0) > 0) {
+                      addFloatingText(p.x, p.y - 30, 'Né tránh Địa Chấn!', '#38bdf8', 14);
+                    } else {
+                      let incomingDmg = Math.max(1, Math.floor(enemy.atk * 1.3 - p.def * 0.45));
+                      if (activeSkillsAnimRef.current.shieldActive) {
+                        incomingDmg = Math.floor(incomingDmg * 0.4);
+                        addFloatingText(p.x, p.y - 25, 'Kim Chung Chắn Đỡ!', '#eab308', 13);
+                      }
+                      soundManager.playHit();
+                      addFloatingText(p.x, p.y - 25, `Địa Chấn! -${incomingDmg}`, '#ef4444', 18);
+                      onUpdatePlayer(prev => ({
+                        ...prev,
+                        hp: Math.max(0, prev.hp - incomingDmg),
+                        invulnerableTimer: 0.5,
+                        hurtFlashTimer: 0.2,
+                      }));
+                    }
+                  }
+                  // Enter Punish Window
+                  enemy.bossPunishTimer = 1.4;
+                  addFloatingText(enemy.x, enemy.y - 45, '⚡ SƠ HỞ! TRỪNG PHẠT +35%', '#38bdf8', 16);
+                } else if (enemy.bossAttackPattern === 'charge') {
+                  // 2. Multi-frame Charge Attack initialization
+                  soundManager.playSlash();
+                  screenShakeRef.current = 5;
+                  const chargeAngle = Math.atan2(
+                    (enemy.chargeTarget?.y || p.y) - enemy.y,
+                    (enemy.chargeTarget?.x || p.x) - enemy.x
+                  );
+                  const chargeDistance = 160;
+                  const chargeDuration = 0.35; // 350ms multi-frame glide (~460 px/sec)
+                  enemy.state = 'attacking';
+                  enemy.chargeState = {
+                    startX: enemy.x,
+                    startY: enemy.y,
+                    targetX: enemy.x + Math.cos(chargeAngle) * chargeDistance,
+                    targetY: enemy.y + Math.sin(chargeAngle) * chargeDistance,
+                    duration: chargeDuration,
+                    elapsed: 0,
+                    speed: chargeDistance / chargeDuration,
+                    hasHitPlayer: false,
+                  };
+                } else if (enemy.bossAttackPattern === 'roar') {
+                  // 3. Roar Wave: fires 3 ma khí projectiles in cone
+                  soundManager.playRoar();
+                  screenShakeRef.current = 6;
+                  const baseA = Math.atan2(p.y - enemy.y, p.x - enemy.x);
+                  [-0.25, 0, 0.25].forEach((offsetA, idx) => {
+                    const a = baseA + offsetA;
+                    projectilesRef.current.push({
+                      id: `proj_boss_${Date.now()}_${idx}`,
+                      x: enemy.x,
+                      y: enemy.y,
+                      vx: Math.cos(a) * 300,
+                      vy: Math.sin(a) * 300,
+                      damage: Math.floor(enemy.atk * 0.85),
+                      fromPlayer: false,
+                      element: enemy.element,
+                      life: 1.5,
+                      radius: 14,
+                    });
+                  });
+                  addFloatingText(enemy.x, enemy.y - 40, 'CUỒNG HỐNG MA KHÍ!', '#f43f5e', 15);
+                } else {
+                  // Melee strike
+                  if (distToPlayer <= enemy.attackRange + 25 && clearLoS) {
+                    if (p.isDodging || (p.invulnerableTimer || 0) > 0) {
+                      addFloatingText(p.x, p.y - 30, 'Né tránh!', '#38bdf8', 14);
+                    } else {
+                      let incomingDmg = Math.max(1, Math.floor(enemy.atk - p.def * 0.45));
+                      soundManager.playHit();
+                      screenShakeRef.current = 6;
+                      addFloatingText(p.x, p.y - 25, `-${incomingDmg}`, '#ef4444', 16);
+                      onUpdatePlayer(prev => ({
+                        ...prev,
+                        hp: Math.max(0, prev.hp - incomingDmg),
+                        invulnerableTimer: 0.45,
+                        hurtFlashTimer: 0.2,
+                      }));
+                    }
                   }
                 }
               }
@@ -2397,7 +2600,7 @@ export const GameCanvas: React.FC<GameCanvasProps> = ({
       ctx.translate(viewW / 2 - cameraRef.current.x + shakeX, viewH / 2 - cameraRef.current.y + shakeY);
 
       // 1. GROUND PLANE & DECAL LAYERS (Rendered first beneath all entities)
-      renderGround(ctx, currentMap);
+      renderGround(ctx, currentMap, viewW, viewH, currentTime);
       renderAoEZones(ctx, aoeZonesRef.current, currentTime);
       renderPortals(ctx, currentMap.portals, currentTime);
       renderStrongholds(ctx, currentMap, p);
@@ -2412,32 +2615,67 @@ export const GameCanvas: React.FC<GameCanvasProps> = ({
         facing: localPosRef.current.facing,
       };
 
+      const camLeft = cameraRef.current.x - viewW / 2 - 180;
+      const camRight = cameraRef.current.x + viewW / 2 + 180;
+      const camTop = cameraRef.current.y - viewH / 2 - 200;
+      const camBottom = cameraRef.current.y + viewH / 2 + 200;
+
       type RenderItem = { y: number; render: () => void };
       const depthEntities: RenderItem[] = [];
+      const visibleObstacles: typeof currentMap.obstacles = [];
 
-      // Obstacles (Buildings, Trees, Rocks sorted by ground contact line)
+      // Obstacles (Buildings, Trees, Rocks sorted by ground contact line, frustum-culled)
       currentMap.obstacles.forEach(obs => {
+        if (obs.x + obs.width < camLeft || obs.x > camRight || obs.y + obs.height < camTop || obs.y > camBottom) {
+          return;
+        }
+        visibleObstacles.push(obs);
         depthEntities.push({
           y: obs.y + obs.height,
-          render: () => drawXianxiaObstacle(ctx, obs, currentTime, { x: renderP.x, y: renderP.y }),
+          render: () => {
+            if (!environmentRenderer.renderObstacleBase(ctx, currentMap.id, obs, currentTime, { x: renderP.x, y: renderP.y })) {
+              drawXianxiaObstacle(ctx, obs, currentTime, { x: renderP.x, y: renderP.y });
+            }
+          },
         });
       });
 
-      // Decorations (Lamps, Statues, Flags, Flowers)
+      // Layer 2 Ambient Scatter Props (bushes & ground accents, non-blocking & frustum-culled)
+      const envLayout = environmentRenderer.getLayout(currentMap);
+      envLayout.scatterProps.forEach(sp => {
+        if (sp.layer !== 2) return;
+        if (sp.x < camLeft || sp.x > camRight || sp.y < camTop || sp.y > camBottom) return;
+        depthEntities.push({
+          y: sp.y,
+          render: () => environmentRenderer.renderScatterProp(ctx, sp),
+        });
+      });
+
+      // Decorations (Lamps, Statues, Flags, Flowers, frustum-culled)
       if (currentMap.decorations) {
         currentMap.decorations.forEach(dec => {
+          if (dec.x < camLeft || dec.x > camRight || dec.y < camTop || dec.y > camBottom) return;
           depthEntities.push({
             y: dec.y,
-            render: () => renderDecoration(ctx, dec, currentTime),
+            render: () => {
+              if (!environmentRenderer.renderDecorationPixel(ctx, dec, currentTime)) {
+                renderDecoration(ctx, dec, currentTime);
+              }
+            },
           });
         });
       }
 
-      // Collectible Resources
+      // Collectible Resources (frustum-culled)
       resourcesRef.current.forEach(res => {
+        if (res.x < camLeft || res.x > camRight || res.y < camTop || res.y > camBottom) return;
         depthEntities.push({
           y: res.y + 10,
-          render: () => drawXianxiaResource(ctx, res, currentTime),
+          render: () => {
+            if (!environmentRenderer.renderResourcePixel(ctx, res, currentTime)) {
+              drawXianxiaResource(ctx, res, currentTime);
+            }
+          },
         });
       });
 
@@ -2450,11 +2688,19 @@ export const GameCanvas: React.FC<GameCanvasProps> = ({
       });
 
       // Enemies
+      monsterSpriteRenderer.beginFrame();
+      bossSpriteRenderer.beginFrame();
       enemiesRef.current.forEach(enemy => {
-        if (enemy.hp <= 0) return;
+        if (enemy.hp <= 0 && !monsterSpriteRenderer.shouldRenderDead(enemy) && !bossSpriteRenderer.shouldRenderDead(enemy)) return;
         depthEntities.push({
           y: enemy.y + (enemy.height ? enemy.height * 0.4 : 14),
-          render: () => renderXianxiaEnemy(ctx, enemy, currentTime, playerRef.current.x),
+          render: () => {
+            if (!bossSpriteRenderer.render(ctx, enemy, dt, currentTime, renderP.x, renderP.y)) {
+              if (!monsterSpriteRenderer.render(ctx, enemy, dt, currentTime, renderP.x, renderP.y)) {
+                renderXianxiaEnemy(ctx, enemy, currentTime, playerRef.current.x);
+              }
+            }
+          },
         });
       });
 
@@ -2493,6 +2739,11 @@ export const GameCanvas: React.FC<GameCanvasProps> = ({
       // Sort all entities by ascending Y (back to front in 2.5D perspective)
       depthEntities.sort((a, b) => a.y - b.y);
       depthEntities.forEach(item => item.render());
+
+      // Layer 3: Overhead Roof Eaves & Tree Canopies (true walk-behind occlusion)
+      visibleObstacles.forEach(obs => {
+        environmentRenderer.renderObstacleOverhead(ctx, currentMap.id, obs, { x: renderP.x, y: renderP.y });
+      });
 
       // 3. FOREGROUND COMBAT FX, PROJECTILES & FLOATING TEXTS (Rendered above entities)
       renderProjectiles(ctx, projectilesRef.current);
@@ -2567,9 +2818,16 @@ export const GameCanvas: React.FC<GameCanvasProps> = ({
   // RENDER HELPERS
   // ==========================================
 
-  const renderGround = (ctx: CanvasRenderingContext2D, map: GameMap) => {
-    const bg = getMapBackground(map);
-    ctx.drawImage(bg, 0, 0);
+  const renderGround = (ctx: CanvasRenderingContext2D, map: GameMap, viewW: number, viewH: number, timeMs: number) => {
+    environmentRenderer.renderGroundViewport(
+      ctx,
+      map,
+      cameraRef.current.x,
+      cameraRef.current.y,
+      viewW,
+      viewH,
+      timeMs
+    );
   };
 
   const renderDecoration = (ctx: CanvasRenderingContext2D, dec: any, time: number) => {
@@ -3021,7 +3279,9 @@ export const GameCanvas: React.FC<GameCanvasProps> = ({
 
   // Dedicated Boss Bar rendered on UI screen space
   const renderBossHealthBar = (ctx: CanvasRenderingContext2D, enemies: Enemy[], screenW: number) => {
-    const activeBoss = enemies.find(e => e.isBoss && e.hp > 0 && (e.state === 'chase' || e.state === 'attack_windup' || e.state === 'hurt'));
+    const activeBoss = enemies.find(
+      e => e.isBoss && e.hp > 0 && (e.state === 'chase' || e.state === 'attack_windup' || e.state === 'attacking' || e.state === 'hurt')
+    );
     if (!activeBoss) return;
 
     const barW = Math.min(screenW - 60, 480);
